@@ -11,7 +11,7 @@ import SwiftUI
 struct TodaySpaceApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            MainTabView()
         }
     }
 }
