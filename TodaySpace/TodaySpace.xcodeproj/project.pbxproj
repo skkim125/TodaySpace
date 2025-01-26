@@ -7,6 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		045705532D466DB5000C4CBA /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045705522D466DB5000C4CBA /* API.swift */; };
+		045705562D466E31000C4CBA /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045705552D466E31000C4CBA /* NetworkManager.swift */; };
+		045705582D466E85000C4CBA /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045705572D466E85000C4CBA /* NetworkError.swift */; };
+		0457055A2D466F89000C4CBA /* ErrorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045705592D466F89000C4CBA /* ErrorType.swift */; };
+		0457055D2D467245000C4CBA /* TargetType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0457055C2D467245000C4CBA /* TargetType.swift */; };
+		0457055F2D467261000C4CBA /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0457055E2D467261000C4CBA /* HTTPMethod.swift */; };
+		0457056C2D467C4B000C4CBA /* AuthTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0457056B2D467C4B000C4CBA /* AuthTarget.swift */; };
+		0457056E2D467C5F000C4CBA /* ChatTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0457056D2D467C5F000C4CBA /* ChatTarget.swift */; };
+		045705702D467C6E000C4CBA /* PostTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0457056F2D467C6E000C4CBA /* PostTarget.swift */; };
+		045705722D467C81000C4CBA /* UserTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045705712D467C81000C4CBA /* UserTarget.swift */; };
 		04A39E4A2D4114E5007E3616 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04A39E442D4114E5007E3616 /* Preview Assets.xcassets */; };
 		04A39E4B2D4114E5007E3616 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04A39E462D4114E5007E3616 /* Assets.xcassets */; };
 		04A39E4C2D4114E5007E3616 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A39E472D4114E5007E3616 /* ContentView.swift */; };
@@ -15,6 +25,18 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		045705502D46656C000C4CBA /* API.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = API.xcconfig; sourceTree = "<group>"; };
+		045705512D4666C4000C4CBA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		045705522D466DB5000C4CBA /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
+		045705552D466E31000C4CBA /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		045705572D466E85000C4CBA /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
+		045705592D466F89000C4CBA /* ErrorType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorType.swift; sourceTree = "<group>"; };
+		0457055C2D467245000C4CBA /* TargetType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetType.swift; sourceTree = "<group>"; };
+		0457055E2D467261000C4CBA /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
+		0457056B2D467C4B000C4CBA /* AuthTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthTarget.swift; sourceTree = "<group>"; };
+		0457056D2D467C5F000C4CBA /* ChatTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatTarget.swift; sourceTree = "<group>"; };
+		0457056F2D467C6E000C4CBA /* PostTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostTarget.swift; sourceTree = "<group>"; };
+		045705712D467C81000C4CBA /* UserTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTarget.swift; sourceTree = "<group>"; };
 		04A39E332D4114DE007E3616 /* TodaySpace.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TodaySpace.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		04A39E442D4114E5007E3616 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		04A39E462D4114E5007E3616 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -34,9 +56,51 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		045705542D466E26000C4CBA /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				045705552D466E31000C4CBA /* NetworkManager.swift */,
+				045705732D467CA5000C4CBA /* Chore */,
+				045705602D46769F000C4CBA /* TargetType */,
+				0457055B2D4671DE000C4CBA /* Error */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		0457055B2D4671DE000C4CBA /* Error */ = {
+			isa = PBXGroup;
+			children = (
+				045705572D466E85000C4CBA /* NetworkError.swift */,
+				045705592D466F89000C4CBA /* ErrorType.swift */,
+			);
+			path = Error;
+			sourceTree = "<group>";
+		};
+		045705602D46769F000C4CBA /* TargetType */ = {
+			isa = PBXGroup;
+			children = (
+				0457056B2D467C4B000C4CBA /* AuthTarget.swift */,
+				045705712D467C81000C4CBA /* UserTarget.swift */,
+				0457056F2D467C6E000C4CBA /* PostTarget.swift */,
+				0457056D2D467C5F000C4CBA /* ChatTarget.swift */,
+			);
+			path = TargetType;
+			sourceTree = "<group>";
+		};
+		045705732D467CA5000C4CBA /* Chore */ = {
+			isa = PBXGroup;
+			children = (
+				045705522D466DB5000C4CBA /* API.swift */,
+				0457055E2D467261000C4CBA /* HTTPMethod.swift */,
+				0457055C2D467245000C4CBA /* TargetType.swift */,
+			);
+			path = Chore;
+			sourceTree = "<group>";
+		};
 		04A39E2A2D4114DE007E3616 = {
 			isa = PBXGroup;
 			children = (
+				045705502D46656C000C4CBA /* API.xcconfig */,
 				04A39E492D4114E5007E3616 /* TodaySpace */,
 				04A39E342D4114DE007E3616 /* Products */,
 			);
@@ -61,6 +125,8 @@
 		04A39E492D4114E5007E3616 /* TodaySpace */ = {
 			isa = PBXGroup;
 			children = (
+				045705512D4666C4000C4CBA /* Info.plist */,
+				045705542D466E26000C4CBA /* Network */,
 				04A39E482D4114E5007E3616 /* TodaySpaceApp.swift */,
 				04A39E472D4114E5007E3616 /* ContentView.swift */,
 				04A39E452D4114E5007E3616 /* Preview Content */,
@@ -146,8 +212,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				045705722D467C81000C4CBA /* UserTarget.swift in Sources */,
+				045705562D466E31000C4CBA /* NetworkManager.swift in Sources */,
+				045705702D467C6E000C4CBA /* PostTarget.swift in Sources */,
 				04A39E4C2D4114E5007E3616 /* ContentView.swift in Sources */,
+				045705532D466DB5000C4CBA /* API.swift in Sources */,
+				0457056C2D467C4B000C4CBA /* AuthTarget.swift in Sources */,
 				04A39E4D2D4114E5007E3616 /* TodaySpaceApp.swift in Sources */,
+				0457055F2D467261000C4CBA /* HTTPMethod.swift in Sources */,
+				0457055A2D466F89000C4CBA /* ErrorType.swift in Sources */,
+				045705582D466E85000C4CBA /* NetworkError.swift in Sources */,
+				0457055D2D467245000C4CBA /* TargetType.swift in Sources */,
+				0457056E2D467C5F000C4CBA /* ChatTarget.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -156,6 +232,7 @@
 /* Begin XCBuildConfiguration section */
 		04A39E3F2D4114E0007E3616 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 045705502D46656C000C4CBA /* API.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -275,6 +352,7 @@
 		};
 		04A39E422D4114E0007E3616 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 045705502D46656C000C4CBA /* API.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -283,6 +361,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"TodaySpace/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = TodaySpace/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "오늘의 공간";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -316,6 +395,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"TodaySpace/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = TodaySpace/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "오늘의 공간";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
