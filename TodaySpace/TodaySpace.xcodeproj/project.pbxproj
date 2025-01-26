@@ -11,6 +11,7 @@
 		04A39E4B2D4114E5007E3616 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04A39E462D4114E5007E3616 /* Assets.xcassets */; };
 		04A39E4C2D4114E5007E3616 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A39E472D4114E5007E3616 /* ContentView.swift */; };
 		04A39E4D2D4114E5007E3616 /* TodaySpaceApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A39E482D4114E5007E3616 /* TodaySpaceApp.swift */; };
+		04A39E502D41157D007E3616 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 04A39E4F2D41157D007E3616 /* ComposableArchitecture */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04A39E502D41157D007E3616 /* ComposableArchitecture in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -84,6 +86,7 @@
 			);
 			name = TodaySpace;
 			packageProductDependencies = (
+				04A39E4F2D41157D007E3616 /* ComposableArchitecture */,
 			);
 			productName = TodaySpace;
 			productReference = 04A39E332D4114DE007E3616 /* TodaySpace.app */;
@@ -114,6 +117,9 @@
 			);
 			mainGroup = 04A39E2A2D4114DE007E3616;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				04A39E4E2D41157D007E3616 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
+			);
 			productRefGroup = 04A39E342D4114DE007E3616 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -355,6 +361,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		04A39E4E2D41157D007E3616 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swift-composable-architecture.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.17.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		04A39E4F2D41157D007E3616 /* ComposableArchitecture */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 04A39E4E2D41157D007E3616 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
+			productName = ComposableArchitecture;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 04A39E2B2D4114DE007E3616 /* Project object */;
 }
