@@ -6,11 +6,13 @@
 //
 
 import SwiftUI
+import ComposableArchitecture
 
 struct MainTabView: View {
-    @State private var selectedTab: TabInfo = .home
+    @Bindable var store: StoreOf<MainTabFeature>
+    
     var body: some View {
-        TabView(selection: $selectedTab) {
+        TabView(selection: $store.selectedTab) {
             
             ContentView()
                 .tabItem {

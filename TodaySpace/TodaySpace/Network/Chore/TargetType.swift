@@ -18,16 +18,22 @@ protocol TargetType {
 
 extension TargetType {
     func asURLRequest() throws -> URLRequest {
-        var components = URLComponents()
-        components.scheme = "https"
-        components.host = baseURL
-        components.path = path
-        components.queryItems = query
+        guard let baseURL = URL(string: baseURL) else { throw NetworkError.invalidURL }
+        var components = URLComponents(
+            url: baseURL.appending(path: path),
+            resolvingAgainstBaseURL: false
+        )
+        components?.queryItems = query
         
-        guard let url = components.url else {
-            throw NetworkError.invalidURL
+        guard let url = components?.url else { throw NetworkError.invalidURL }
+        var request = URLRequest(url: url)
+        
+        request.allHTTPHeaderFields = header
+        request.httpMethod = method.rawValue
+        if let body = body {
+            request.httpBody = body
         }
         
-        return URLRequest(url: url)
+        return request
     }
 }

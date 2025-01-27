@@ -13,7 +13,7 @@ enum API {
     ) as? String ?? ""
     
     static let apiKey = Bundle.main.object(
-        forInfoDictionaryKey: "API_Key"
+        forInfoDictionaryKey: "API_KEY"
     ) as? String ?? ""
     
     static let productId = Bundle.main.object(

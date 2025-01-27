@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import ComposableArchitecture
 
 enum TabInfo: String {
     case home = "홈"
@@ -25,17 +26,28 @@ enum TabInfo: String {
             return "person.crop.circle"
         }
     }
+}
+
+@Reducer
+struct MainTabFeature {
+
+    @ObservableState
+    struct State: Equatable {
+        var selectedTab: TabInfo = .home
+    }
     
-    var selectedImage: String {
-        switch self {
-        case .home:
-            return "house.fill"
-        case .search:
-            return "magnifyingglass"
-        case .dm:
-            return "message.fill"
-        case .myPage:
-            return "person.crop.circle.fill"
+    enum Action: BindableAction {
+        case binding(BindingAction<State>)
+    }
+    
+    var body: some ReducerOf<Self> {
+        
+        BindingReducer()
+        Reduce { state, action in
+            switch action {
+            case .binding:
+                return .none
+            }
         }
     }
 }

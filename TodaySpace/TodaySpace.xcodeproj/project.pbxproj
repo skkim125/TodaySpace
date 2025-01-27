@@ -19,6 +19,14 @@
 		045705722D467C81000C4CBA /* UserTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045705712D467C81000C4CBA /* UserTarget.swift */; };
 		045705752D467DFA000C4CBA /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045705742D467DFA000C4CBA /* MainTabView.swift */; };
 		045705772D467EFF000C4CBA /* MainTabFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045705762D467EFF000C4CBA /* MainTabFeature.swift */; };
+		0457057A2D475235000C4CBA /* EmailLoginBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045705792D475235000C4CBA /* EmailLoginBody.swift */; };
+		0457057C2D4752EA000C4CBA /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0457057B2D4752EA000C4CBA /* LoginView.swift */; };
+		045705802D475397000C4CBA /* LoginFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0457057F2D475397000C4CBA /* LoginFeature.swift */; };
+		045705872D4753FD000C4CBA /* RoundButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045705862D4753FD000C4CBA /* RoundButton.swift */; };
+		0457058B2D4754E1000C4CBA /* UserClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0457058A2D4754E1000C4CBA /* UserClient.swift */; };
+		0457058D2D47561A000C4CBA /* EmailLoginResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0457058C2D47561A000C4CBA /* EmailLoginResponse.swift */; };
+		0457058F2D476219000C4CBA /* RoundButtonModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0457058E2D476219000C4CBA /* RoundButtonModifier.swift */; };
+		045705912D476374000C4CBA /* AppFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045705902D476374000C4CBA /* AppFeature.swift */; };
 		04A39E4A2D4114E5007E3616 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04A39E442D4114E5007E3616 /* Preview Assets.xcassets */; };
 		04A39E4B2D4114E5007E3616 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04A39E462D4114E5007E3616 /* Assets.xcassets */; };
 		04A39E4C2D4114E5007E3616 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A39E472D4114E5007E3616 /* ContentView.swift */; };
@@ -41,6 +49,14 @@
 		045705712D467C81000C4CBA /* UserTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTarget.swift; sourceTree = "<group>"; };
 		045705742D467DFA000C4CBA /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
 		045705762D467EFF000C4CBA /* MainTabFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabFeature.swift; sourceTree = "<group>"; };
+		045705792D475235000C4CBA /* EmailLoginBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailLoginBody.swift; sourceTree = "<group>"; };
+		0457057B2D4752EA000C4CBA /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		0457057F2D475397000C4CBA /* LoginFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginFeature.swift; sourceTree = "<group>"; };
+		045705862D4753FD000C4CBA /* RoundButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundButton.swift; sourceTree = "<group>"; };
+		0457058A2D4754E1000C4CBA /* UserClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserClient.swift; sourceTree = "<group>"; };
+		0457058C2D47561A000C4CBA /* EmailLoginResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailLoginResponse.swift; sourceTree = "<group>"; };
+		0457058E2D476219000C4CBA /* RoundButtonModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundButtonModifier.swift; sourceTree = "<group>"; };
+		045705902D476374000C4CBA /* AppFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFeature.swift; sourceTree = "<group>"; };
 		04A39E332D4114DE007E3616 /* TodaySpace.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TodaySpace.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		04A39E442D4114E5007E3616 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		04A39E462D4114E5007E3616 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -64,6 +80,7 @@
 			isa = PBXGroup;
 			children = (
 				045705552D466E31000C4CBA /* NetworkManager.swift */,
+				045705892D4754DA000C4CBA /* Client */,
 				045705732D467CA5000C4CBA /* Chore */,
 				045705602D46769F000C4CBA /* TargetType */,
 				0457055B2D4671DE000C4CBA /* Error */,
@@ -101,6 +118,60 @@
 			path = Chore;
 			sourceTree = "<group>";
 		};
+		045705782D47521D000C4CBA /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				045705792D475235000C4CBA /* EmailLoginBody.swift */,
+				0457058C2D47561A000C4CBA /* EmailLoginResponse.swift */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		0457057D2D475304000C4CBA /* App */ = {
+			isa = PBXGroup;
+			children = (
+				04A39E482D4114E5007E3616 /* TodaySpaceApp.swift */,
+				045705902D476374000C4CBA /* AppFeature.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		0457057E2D47530F000C4CBA /* View */ = {
+			isa = PBXGroup;
+			children = (
+				0457057B2D4752EA000C4CBA /* LoginView.swift */,
+				0457057F2D475397000C4CBA /* LoginFeature.swift */,
+				045705742D467DFA000C4CBA /* MainTabView.swift */,
+				045705762D467EFF000C4CBA /* MainTabFeature.swift */,
+				04A39E472D4114E5007E3616 /* ContentView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		045705812D4753C3000C4CBA /* Modifier */ = {
+			isa = PBXGroup;
+			children = (
+				0457058E2D476219000C4CBA /* RoundButtonModifier.swift */,
+			);
+			path = Modifier;
+			sourceTree = "<group>";
+		};
+		045705882D475406000C4CBA /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				045705862D4753FD000C4CBA /* RoundButton.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		045705892D4754DA000C4CBA /* Client */ = {
+			isa = PBXGroup;
+			children = (
+				0457058A2D4754E1000C4CBA /* UserClient.swift */,
+			);
+			path = Client;
+			sourceTree = "<group>";
+		};
 		04A39E2A2D4114DE007E3616 = {
 			isa = PBXGroup;
 			children = (
@@ -130,11 +201,12 @@
 			isa = PBXGroup;
 			children = (
 				045705512D4666C4000C4CBA /* Info.plist */,
+				045705812D4753C3000C4CBA /* Modifier */,
+				045705882D475406000C4CBA /* Components */,
+				045705782D47521D000C4CBA /* Data */,
 				045705542D466E26000C4CBA /* Network */,
-				04A39E482D4114E5007E3616 /* TodaySpaceApp.swift */,
-				04A39E472D4114E5007E3616 /* ContentView.swift */,
-				045705742D467DFA000C4CBA /* MainTabView.swift */,
-				045705762D467EFF000C4CBA /* MainTabFeature.swift */,
+				0457057D2D475304000C4CBA /* App */,
+				0457057E2D47530F000C4CBA /* View */,
 				04A39E452D4114E5007E3616 /* Preview Content */,
 				04A39E462D4114E5007E3616 /* Assets.xcassets */,
 			);
@@ -219,9 +291,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				045705722D467C81000C4CBA /* UserTarget.swift in Sources */,
+				0457058F2D476219000C4CBA /* RoundButtonModifier.swift in Sources */,
+				045705912D476374000C4CBA /* AppFeature.swift in Sources */,
 				045705562D466E31000C4CBA /* NetworkManager.swift in Sources */,
 				045705702D467C6E000C4CBA /* PostTarget.swift in Sources */,
 				04A39E4C2D4114E5007E3616 /* ContentView.swift in Sources */,
+				045705872D4753FD000C4CBA /* RoundButton.swift in Sources */,
 				045705532D466DB5000C4CBA /* API.swift in Sources */,
 				0457056C2D467C4B000C4CBA /* AuthTarget.swift in Sources */,
 				04A39E4D2D4114E5007E3616 /* TodaySpaceApp.swift in Sources */,
@@ -229,8 +304,13 @@
 				045705752D467DFA000C4CBA /* MainTabView.swift in Sources */,
 				0457055F2D467261000C4CBA /* HTTPMethod.swift in Sources */,
 				0457055A2D466F89000C4CBA /* ErrorType.swift in Sources */,
+				0457058B2D4754E1000C4CBA /* UserClient.swift in Sources */,
+				0457057A2D475235000C4CBA /* EmailLoginBody.swift in Sources */,
 				045705582D466E85000C4CBA /* NetworkError.swift in Sources */,
+				0457058D2D47561A000C4CBA /* EmailLoginResponse.swift in Sources */,
+				045705802D475397000C4CBA /* LoginFeature.swift in Sources */,
 				0457055D2D467245000C4CBA /* TargetType.swift in Sources */,
+				0457057C2D4752EA000C4CBA /* LoginView.swift in Sources */,
 				0457056E2D467C5F000C4CBA /* ChatTarget.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
