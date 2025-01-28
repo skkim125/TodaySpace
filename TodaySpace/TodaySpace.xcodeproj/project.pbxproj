@@ -32,6 +32,15 @@
 		04A39E4C2D4114E5007E3616 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A39E472D4114E5007E3616 /* ContentView.swift */; };
 		04A39E4D2D4114E5007E3616 /* TodaySpaceApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A39E482D4114E5007E3616 /* TodaySpaceApp.swift */; };
 		04A39E502D41157D007E3616 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 04A39E4F2D41157D007E3616 /* ComposableArchitecture */; };
+		04FBE0182D47714D004CCCE6 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FBE0172D47714D004CCCE6 /* HomeView.swift */; };
+		04FBE01D2D477181004CCCE6 /* HomeFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FBE01C2D477181004CCCE6 /* HomeFeature.swift */; };
+		04FBE0202D4777E2004CCCE6 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FBE01F2D4777E2004CCCE6 /* MapView.swift */; };
+		04FBE0232D47782A004CCCE6 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FBE0222D47782A004CCCE6 /* LocationManager.swift */; };
+		04FBE0252D477A59004CCCE6 /* MapMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FBE0242D477A59004CCCE6 /* MapMarker.swift */; };
+		04FBE0272D477A73004CCCE6 /* Triangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FBE0262D477A73004CCCE6 /* Triangle.swift */; };
+		04FBE0322D48A4CD004CCCE6 /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FBE0312D48A4CD004CCCE6 /* UserDefaultsManager.swift */; };
+		04FBE0382D48A993004CCCE6 /* TokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FBE0372D48A993004CCCE6 /* TokenResponse.swift */; };
+		04FBE03A2D48AB38004CCCE6 /* AuthClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FBE0392D48AB38004CCCE6 /* AuthClient.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -62,6 +71,15 @@
 		04A39E462D4114E5007E3616 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		04A39E472D4114E5007E3616 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		04A39E482D4114E5007E3616 /* TodaySpaceApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodaySpaceApp.swift; sourceTree = "<group>"; };
+		04FBE0172D47714D004CCCE6 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		04FBE01C2D477181004CCCE6 /* HomeFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeFeature.swift; sourceTree = "<group>"; };
+		04FBE01F2D4777E2004CCCE6 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		04FBE0222D47782A004CCCE6 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		04FBE0242D477A59004CCCE6 /* MapMarker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapMarker.swift; sourceTree = "<group>"; };
+		04FBE0262D477A73004CCCE6 /* Triangle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Triangle.swift; sourceTree = "<group>"; };
+		04FBE0312D48A4CD004CCCE6 /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
+		04FBE0372D48A993004CCCE6 /* TokenResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenResponse.swift; sourceTree = "<group>"; };
+		04FBE0392D48AB38004CCCE6 /* AuthClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthClient.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -123,6 +141,7 @@
 			children = (
 				045705792D475235000C4CBA /* EmailLoginBody.swift */,
 				0457058C2D47561A000C4CBA /* EmailLoginResponse.swift */,
+				04FBE0372D48A993004CCCE6 /* TokenResponse.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -139,11 +158,11 @@
 		0457057E2D47530F000C4CBA /* View */ = {
 			isa = PBXGroup;
 			children = (
-				0457057B2D4752EA000C4CBA /* LoginView.swift */,
-				0457057F2D475397000C4CBA /* LoginFeature.swift */,
-				045705742D467DFA000C4CBA /* MainTabView.swift */,
-				045705762D467EFF000C4CBA /* MainTabFeature.swift */,
+				04FBE0192D477166004CCCE6 /* Auth */,
+				04FBE01A2D477170004CCCE6 /* Main */,
+				04FBE01B2D477179004CCCE6 /* Home */,
 				04A39E472D4114E5007E3616 /* ContentView.swift */,
+				04FBE01E2D4777D8004CCCE6 /* Map */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -160,6 +179,8 @@
 			isa = PBXGroup;
 			children = (
 				045705862D4753FD000C4CBA /* RoundButton.swift */,
+				04FBE0242D477A59004CCCE6 /* MapMarker.swift */,
+				04FBE0262D477A73004CCCE6 /* Triangle.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -168,6 +189,7 @@
 			isa = PBXGroup;
 			children = (
 				0457058A2D4754E1000C4CBA /* UserClient.swift */,
+				04FBE0392D48AB38004CCCE6 /* AuthClient.swift */,
 			);
 			path = Client;
 			sourceTree = "<group>";
@@ -201,6 +223,7 @@
 			isa = PBXGroup;
 			children = (
 				045705512D4666C4000C4CBA /* Info.plist */,
+				04FBE0312D48A4CD004CCCE6 /* UserDefaultsManager.swift */,
 				045705812D4753C3000C4CBA /* Modifier */,
 				045705882D475406000C4CBA /* Components */,
 				045705782D47521D000C4CBA /* Data */,
@@ -211,6 +234,42 @@
 				04A39E462D4114E5007E3616 /* Assets.xcassets */,
 			);
 			path = TodaySpace;
+			sourceTree = "<group>";
+		};
+		04FBE0192D477166004CCCE6 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				0457057B2D4752EA000C4CBA /* LoginView.swift */,
+				0457057F2D475397000C4CBA /* LoginFeature.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
+		04FBE01A2D477170004CCCE6 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				045705742D467DFA000C4CBA /* MainTabView.swift */,
+				045705762D467EFF000C4CBA /* MainTabFeature.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		04FBE01B2D477179004CCCE6 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				04FBE0172D47714D004CCCE6 /* HomeView.swift */,
+				04FBE01C2D477181004CCCE6 /* HomeFeature.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		04FBE01E2D4777D8004CCCE6 /* Map */ = {
+			isa = PBXGroup;
+			children = (
+				04FBE01F2D4777E2004CCCE6 /* MapView.swift */,
+				04FBE0222D47782A004CCCE6 /* LocationManager.swift */,
+			);
+			path = Map;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -296,21 +355,30 @@
 				045705562D466E31000C4CBA /* NetworkManager.swift in Sources */,
 				045705702D467C6E000C4CBA /* PostTarget.swift in Sources */,
 				04A39E4C2D4114E5007E3616 /* ContentView.swift in Sources */,
+				04FBE0382D48A993004CCCE6 /* TokenResponse.swift in Sources */,
 				045705872D4753FD000C4CBA /* RoundButton.swift in Sources */,
 				045705532D466DB5000C4CBA /* API.swift in Sources */,
 				0457056C2D467C4B000C4CBA /* AuthTarget.swift in Sources */,
+				04FBE01D2D477181004CCCE6 /* HomeFeature.swift in Sources */,
 				04A39E4D2D4114E5007E3616 /* TodaySpaceApp.swift in Sources */,
 				045705772D467EFF000C4CBA /* MainTabFeature.swift in Sources */,
+				04FBE0232D47782A004CCCE6 /* LocationManager.swift in Sources */,
+				04FBE0202D4777E2004CCCE6 /* MapView.swift in Sources */,
 				045705752D467DFA000C4CBA /* MainTabView.swift in Sources */,
 				0457055F2D467261000C4CBA /* HTTPMethod.swift in Sources */,
 				0457055A2D466F89000C4CBA /* ErrorType.swift in Sources */,
 				0457058B2D4754E1000C4CBA /* UserClient.swift in Sources */,
 				0457057A2D475235000C4CBA /* EmailLoginBody.swift in Sources */,
+				04FBE0272D477A73004CCCE6 /* Triangle.swift in Sources */,
 				045705582D466E85000C4CBA /* NetworkError.swift in Sources */,
 				0457058D2D47561A000C4CBA /* EmailLoginResponse.swift in Sources */,
 				045705802D475397000C4CBA /* LoginFeature.swift in Sources */,
+				04FBE0322D48A4CD004CCCE6 /* UserDefaultsManager.swift in Sources */,
 				0457055D2D467245000C4CBA /* TargetType.swift in Sources */,
+				04FBE03A2D48AB38004CCCE6 /* AuthClient.swift in Sources */,
+				04FBE0252D477A59004CCCE6 /* MapMarker.swift in Sources */,
 				0457057C2D4752EA000C4CBA /* LoginView.swift in Sources */,
+				04FBE0182D47714D004CCCE6 /* HomeView.swift in Sources */,
 				0457056E2D467C5F000C4CBA /* ChatTarget.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -451,6 +519,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TodaySpace/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "오늘의 공간";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "유저 위치 주변의 게시물을 검색하기 위해 위치정보를 사용합니다.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -485,6 +554,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TodaySpace/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "오늘의 공간";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "유저 위치 주변의 게시물을 검색하기 위해 위치정보를 사용합니다.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

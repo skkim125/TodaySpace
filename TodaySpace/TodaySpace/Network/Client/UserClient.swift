@@ -9,7 +9,7 @@ import Foundation
 import ComposableArchitecture
 
 struct UserClient {
-    var emailLogin: (EmailLoginBody) async throws-> EmailLoginResponse
+    var emailLogin: (EmailLoginBody) async throws -> EmailLoginResponse
 }
 
 extension UserClient: DependencyKey {

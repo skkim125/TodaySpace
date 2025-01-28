@@ -19,6 +19,12 @@ final class NetworkManager {
             guard let httpResponse = response as? HTTPURLResponse else { throw NetworkError.invalidResponse }
 
             guard httpResponse.statusCode == 200 else {
+                if httpResponse.statusCode == 401 || httpResponse.statusCode == 419 {
+                    do {
+                        try await tokenRefresh()
+                        return try await callRequest(targetType: targetType)
+                    }
+                }
                 do {
                     // 서버에서 온 에러 메시지를 ErrorType으로 디코딩
                     let errorResponse = try JSONDecoder().decode(ErrorType.self, from: data)
@@ -36,6 +42,30 @@ final class NetworkManager {
             } catch {
                 throw NetworkError.decodingError
             }
+        }
+    }
+    
+    func tokenRefresh() async throws {
+        do {
+            let request = try AuthTarget.refresh.asURLRequest()
+            let (data, response) = try await URLSession.shared.data(for: request)
+            
+            guard let httpURLResponse = response as? HTTPURLResponse, httpURLResponse.statusCode == 200 else {
+                throw NetworkError.invalidResponse
+            }
+            
+            do {
+                let decodedData = try JSONDecoder().decode(TokenResponse.self, from: data)
+                UserDefaultsManager.refresh(decodedData.accessToken, decodedData.refreshToken)
+                return 
+            } catch {
+                print("Decoding Error: \(error)")
+                throw NetworkError.decodingError
+            }
+            
+        } catch {
+            print("🚨 토큰 갱신 요청 실패: \(error)")
+            throw error
         }
     }
 }

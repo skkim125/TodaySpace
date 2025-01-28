@@ -20,7 +20,7 @@ extension ChatTarget: TargetType {
         return [
             Header.contentType: ContentType.json,
             Header.productId: API.productId,
-            Header.authorization: "",
+            Header.authorization: UserDefaultsManager.accessToken,
             Header.sesacKey: API.apiKey,
         ]
     }

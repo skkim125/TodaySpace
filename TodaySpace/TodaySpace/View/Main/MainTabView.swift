@@ -14,7 +14,7 @@ struct MainTabView: View {
     var body: some View {
         TabView(selection: $store.selectedTab) {
             
-            ContentView()
+            HomeView(store: store.scope(state: \.home, action: \.home))
                 .tabItem {
                     Image(systemName: TabInfo.home.image)
                 }
@@ -38,6 +38,6 @@ struct MainTabView: View {
                 }
                 .tag(TabInfo.myPage)
         }
-        .tint(.purple)
+        .tint(.cyan)
     }
 }

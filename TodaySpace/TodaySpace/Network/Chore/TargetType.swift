@@ -18,7 +18,7 @@ protocol TargetType {
 
 extension TargetType {
     func asURLRequest() throws -> URLRequest {
-        guard let baseURL = URL(string: baseURL) else { throw NetworkError.invalidURL }
+        guard let baseURL = URL(string: baseURL + "/v1") else { throw NetworkError.invalidURL }
         var components = URLComponents(
             url: baseURL.appending(path: path),
             resolvingAgainstBaseURL: false

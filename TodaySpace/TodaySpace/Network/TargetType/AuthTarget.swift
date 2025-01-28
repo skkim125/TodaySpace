@@ -8,7 +8,7 @@
 import Foundation
 
 enum AuthTarget {
-    
+    case refresh
 }
 
 extension AuthTarget: TargetType {
@@ -20,13 +20,14 @@ extension AuthTarget: TargetType {
         return [
             Header.contentType: ContentType.json,
             Header.productId: API.productId,
-            Header.authorization: "",
-            Header.sesacKey: API.apiKey,
+            Header.refreshToken: UserDefaultsManager.refreshToken,
+            Header.authorization: UserDefaultsManager.accessToken,
+            Header.sesacKey: API.apiKey
         ]
     }
     
     var path: String {
-        return ""
+        return "auth/refresh"
     }
     
     var method: HTTPMethod {

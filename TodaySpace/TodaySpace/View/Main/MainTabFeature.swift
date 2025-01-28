@@ -32,20 +32,27 @@ enum TabInfo: String {
 struct MainTabFeature {
 
     @ObservableState
-    struct State: Equatable {
+    struct State {
         var selectedTab: TabInfo = .home
+        var home = HomeFeature.State()
     }
     
     enum Action: BindableAction {
         case binding(BindingAction<State>)
+        case home(HomeFeature.Action)
     }
     
     var body: some ReducerOf<Self> {
+        Scope(state: \.home, action: \.home) {
+            HomeFeature()
+        }
         
         BindingReducer()
         Reduce { state, action in
             switch action {
             case .binding:
+                return .none
+            case .home:
                 return .none
             }
         }

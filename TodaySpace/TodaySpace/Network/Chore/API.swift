@@ -26,6 +26,7 @@ enum Header {
     static let authorization = "Authorization"
     static let productId = "ProductId"
     static let sesacKey = "SesacKey"
+    static let refreshToken = "RefreshToken"
     static let contentType = "Content-Type"
 }
 

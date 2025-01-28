@@ -32,9 +32,8 @@ struct LoginFeature {
         case binding(BindingAction<State>)
         case clickBackButton
         case buttonTap
-        case loginResponse(TaskResult<EmailLoginResponse>)
-        case loginSuccess
-        case loginFailure
+        case loginSuccess(EmailLoginResponse)
+        case loginFailure(Error)
     }
     
     var body: some ReducerOf<Self> {
@@ -54,35 +53,27 @@ struct LoginFeature {
                 
                 return .run { [state] send in
                     let request = EmailLoginBody(email: state.emailText, password: state.passwordText)
-                    await send(.loginResponse(TaskResult {
-                        return try await userClient.emailLogin(request)
-                    }))
-                    
-//                    do {
-//                        let result = try await userClient.emailLogin(request)
-//                        print(result)
-//                        await send(.loginResponse(result))
-//                    } catch {
-//                        await send(.loginFailure(error))
-//                    }
+                    do {
+                        let result: EmailLoginResponse = try await userClient.emailLogin(request)
+                        await send(.loginSuccess(result))
+                    } catch {
+                        await send(.loginFailure(error))
+                    }
                 }
                 
-            case .loginResponse(.success(let response)):
-                print("result: \(response)")
+            case .loginSuccess(let response):
+                UserDefaultsManager.logIn(response.accessToken, response.refreshToken, response.user_id)
+                print(UserDefaultsManager.accessToken)
+                print(UserDefaultsManager.refreshToken)
+                print(UserDefaultsManager.userID)
                 state.showProgressView = false
                 state.scenePhase = .loginSuccess
-                return .send(.loginSuccess)
+                return .none
                 
-            case .loginResponse(.failure(let error)):
+            case .loginFailure(let error):
                 state.showProgressView = false
                 print(error)
                 
-                return .send(.loginFailure)
-            
-            case .loginSuccess:
-                return .none
-                
-            case .loginFailure:
                 return .none
             }
         }

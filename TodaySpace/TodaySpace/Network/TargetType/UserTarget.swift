@@ -13,7 +13,7 @@ enum UserTarget {
 
 extension UserTarget: TargetType {
     var baseURL: String {
-        return API.baseURL + "/v1"
+        return API.baseURL
     }
     
     var header: [String : String] {
@@ -22,7 +22,7 @@ extension UserTarget: TargetType {
             return [
                 Header.contentType: ContentType.json,
                 Header.productId: API.productId,
-                Header.authorization: "",
+                Header.authorization: UserDefaultsManager.accessToken,
                 Header.sesacKey: API.apiKey,
             ]
         }
@@ -59,8 +59,8 @@ extension UserTarget: TargetType {
                 return data
             } catch {
                 print("인코딩 실패: \(error)")
+                return nil
             }
         }
-        return nil
     }
 }
