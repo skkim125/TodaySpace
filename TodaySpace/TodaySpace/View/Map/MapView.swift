@@ -63,6 +63,7 @@ struct MapView: View {
                             .tag(place.id)
                         }
                     }
+                    .tint(Color.accentColor)
                     .onMapCameraChange { context in
                         if !position.followsUserLocation {
                             isChangeRegion = true
@@ -148,6 +149,7 @@ struct MapView: View {
                     
                     Spacer()
                 }
+                .padding(.top, 10)
             }
         }
     }

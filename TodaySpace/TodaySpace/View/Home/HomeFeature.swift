@@ -22,17 +22,25 @@ struct HomeFeature: Reducer {
     struct State {
         var viewType: HomeViewType = .postList
         var category: PlaceCategory?
+        var writePost = WritePostFeature.State()
+        var showWritePostSheet = false
     }
     
     enum Action: BindableAction {
         case binding(BindingAction<State>)
+        case showWritePostSheet
         case tokenRefresh
         case refreshSuccess(TokenResponse)
         case refreshFailure(Error)
         case switchViewType(HomeViewType)
+        case writePost(WritePostFeature.Action)
     }
     
     var body: some ReducerOf<Self> {
+        Scope(state: \.writePost, action: \.writePost) {
+            WritePostFeature()
+        }
+        BindingReducer()
         
         Reduce { state, action in
             switch action {
@@ -64,6 +72,11 @@ struct HomeFeature: Reducer {
                 case .mapView:
                     state.viewType = .postList
                 }
+                return .none
+            case .showWritePostSheet:
+                state.showWritePostSheet = true
+                return .none
+            case .writePost:
                 return .none
             }
         }

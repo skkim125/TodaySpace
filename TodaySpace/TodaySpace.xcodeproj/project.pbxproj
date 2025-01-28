@@ -41,6 +41,8 @@
 		04FBE0322D48A4CD004CCCE6 /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FBE0312D48A4CD004CCCE6 /* UserDefaultsManager.swift */; };
 		04FBE0382D48A993004CCCE6 /* TokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FBE0372D48A993004CCCE6 /* TokenResponse.swift */; };
 		04FBE03A2D48AB38004CCCE6 /* AuthClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FBE0392D48AB38004CCCE6 /* AuthClient.swift */; };
+		04FBE03F2D4921B8004CCCE6 /* WritePostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FBE03E2D4921B8004CCCE6 /* WritePostView.swift */; };
+		04FBE0412D493B5F004CCCE6 /* WritePostFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FBE0402D493B5F004CCCE6 /* WritePostFeature.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -80,6 +82,8 @@
 		04FBE0312D48A4CD004CCCE6 /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
 		04FBE0372D48A993004CCCE6 /* TokenResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenResponse.swift; sourceTree = "<group>"; };
 		04FBE0392D48AB38004CCCE6 /* AuthClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthClient.swift; sourceTree = "<group>"; };
+		04FBE03E2D4921B8004CCCE6 /* WritePostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritePostView.swift; sourceTree = "<group>"; };
+		04FBE0402D493B5F004CCCE6 /* WritePostFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritePostFeature.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -259,6 +263,7 @@
 			children = (
 				04FBE0172D47714D004CCCE6 /* HomeView.swift */,
 				04FBE01C2D477181004CCCE6 /* HomeFeature.swift */,
+				04FBE03D2D4921A1004CCCE6 /* Post */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -270,6 +275,15 @@
 				04FBE0222D47782A004CCCE6 /* LocationManager.swift */,
 			);
 			path = Map;
+			sourceTree = "<group>";
+		};
+		04FBE03D2D4921A1004CCCE6 /* Post */ = {
+			isa = PBXGroup;
+			children = (
+				04FBE03E2D4921B8004CCCE6 /* WritePostView.swift */,
+				04FBE0402D493B5F004CCCE6 /* WritePostFeature.swift */,
+			);
+			path = Post;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -371,10 +385,12 @@
 				0457057A2D475235000C4CBA /* EmailLoginBody.swift in Sources */,
 				04FBE0272D477A73004CCCE6 /* Triangle.swift in Sources */,
 				045705582D466E85000C4CBA /* NetworkError.swift in Sources */,
+				04FBE0412D493B5F004CCCE6 /* WritePostFeature.swift in Sources */,
 				0457058D2D47561A000C4CBA /* EmailLoginResponse.swift in Sources */,
 				045705802D475397000C4CBA /* LoginFeature.swift in Sources */,
 				04FBE0322D48A4CD004CCCE6 /* UserDefaultsManager.swift in Sources */,
 				0457055D2D467245000C4CBA /* TargetType.swift in Sources */,
+				04FBE03F2D4921B8004CCCE6 /* WritePostView.swift in Sources */,
 				04FBE03A2D48AB38004CCCE6 /* AuthClient.swift in Sources */,
 				04FBE0252D477A59004CCCE6 /* MapMarker.swift in Sources */,
 				0457057C2D4752EA000C4CBA /* LoginView.swift in Sources */,

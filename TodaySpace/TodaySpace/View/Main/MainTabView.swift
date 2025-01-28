@@ -11,6 +11,11 @@ import ComposableArchitecture
 struct MainTabView: View {
     @Bindable var store: StoreOf<MainTabFeature>
     
+    init(store: StoreOf<MainTabFeature>) {
+        self.store = store
+        UITabBar.appearance().backgroundColor = UIColor.systemBackground
+    }
+    
     var body: some View {
         TabView(selection: $store.selectedTab) {
             
@@ -38,6 +43,6 @@ struct MainTabView: View {
                 }
                 .tag(TabInfo.myPage)
         }
-        .tint(.cyan)
+        .tint(Color(uiColor: .label))
     }
 }

@@ -14,21 +14,55 @@ struct HomeView: View {
     
     var body: some View {
         VStack {
+            navigationBar()
             switch store.state.viewType {
             case .postList:
-                Button {
-                    store.send(.tokenRefresh)
-                } label: {
-                    Text("리프래시토큰 갱신")
+                ScrollView {
+                    Button {
+                        store.send(.tokenRefresh)
+                    } label: {
+                        Text("리프래시토큰 갱신")
+                    }
+                    .padding(.top)
                 }
             case .mapView:
                 MapView()
             }
-            
-            Button("버튼: 뷰 전환") {
-                store.send(.switchViewType(store.viewType))
+        }
+    }
+    
+    @ViewBuilder
+    func navigationBar() -> some View {
+        VStack {
+            HStack {
+                Text("오늘의 공간")
+                    .font(.system(size: 25))
+                    .fontWeight(.black)
+                    .fontDesign(.serif)
+                
+                Spacer()
+                
+                HStack(spacing: 10) {
+                    Button {
+                        store.send(.showWritePostSheet)
+                    } label: {
+                        Image(systemName: "pencil")
+                            .font(.system(size: 20))
+                    }
+                    
+                    Button {
+                        store.send(.switchViewType(store.viewType))
+                    } label: {
+                        Image(systemName: store.viewType == .postList ? "map.fill" : "list.dash")
+                            .font(.system(size: 20))
+                    }
+                }
             }
-            .padding(.top)
+            .padding()
+        }
+        .frame(height: 30)
+        .fullScreenCover(isPresented: $store.showWritePostSheet) {
+            WritePostView(store: store.scope(state: \.writePost, action: \.writePost))
         }
     }
 }
