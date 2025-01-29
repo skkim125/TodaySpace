@@ -15,10 +15,14 @@ struct WritePostFeature: Reducer {
     
     @ObservableState
     struct State {
-        var title: String?
-        var contents: String?
-        var coordinate: CLLocationCoordinate2D?
-        var files: String?
+        var files: [String] = []
+        var title: String = ""
+        var placeName: String = ""
+        var longitude: Double = 0.0
+        var latitude: Double = 0.0
+        var category: String = ""
+        var date: String = ""
+        var contents: String = ""
     }
     
     enum Action: BindableAction {
@@ -26,6 +30,7 @@ struct WritePostFeature: Reducer {
     }
     
     var body: some ReducerOf<Self> {
+        BindingReducer()
         
         Reduce { state, action in
             switch action {

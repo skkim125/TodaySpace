@@ -10,8 +10,7 @@ import CoreLocation
 
 final class LocationManager: NSObject, CLLocationManagerDelegate {
     var locationManager =  CLLocationManager()
-    var lastLocation: CLLocationCoordinate2D?
-    @Published var myLocation: CLLocationCoordinate2D?
+    @Published var myLocation: Bool = false
 
     override init() {
         super.init()
@@ -37,9 +36,8 @@ final class LocationManager: NSObject, CLLocationManagerDelegate {
             print ("위치 허용 상태")
             locationManager.requestLocation()
 
-            if let location = locationManager.location {
-                lastLocation = location.coordinate
-                myLocation = location.coordinate
+            if let _ = locationManager.location {
+                myLocation = true
             }
             
         @unknown default :
@@ -54,7 +52,7 @@ final class LocationManager: NSObject, CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let newLocation = locations.last else { return }
         let coordinate = newLocation.coordinate
-        lastLocation = coordinate
+        print(coordinate)
     }
     
     func locationUpdate() {
