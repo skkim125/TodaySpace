@@ -5,7 +5,7 @@
 //  Created by 김상규 on 1/27/25.
 //
 
-import Foundation
+import SwiftUI
 import ComposableArchitecture
 
 struct PlaceCategory: Identifiable {
@@ -62,6 +62,7 @@ struct HomeFeature: Reducer {
         var writePost = WritePostFeature.State()
         var showWritePostSheet = false
         var categoryFilter: CategoryFilter = .all
+        let columns = [GridItem(.flexible()), GridItem(.flexible())]
         var selectedCategory: [String] {
             switch categoryFilter {
             case .all:

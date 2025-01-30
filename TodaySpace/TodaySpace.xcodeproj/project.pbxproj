@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		044710FD2D4B4A660084B26E /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044710FC2D4B4A660084B26E /* Color.swift */; };
+		044711002D4B5C6C0084B26E /* KakaoLocalManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044710FF2D4B5C6C0084B26E /* KakaoLocalManager.swift */; };
+		044711032D4B63140084B26E /* KakaoLocalModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044711022D4B63140084B26E /* KakaoLocalModel.swift */; };
+		044711052D4B63500084B26E /* PlaceResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044711042D4B63500084B26E /* PlaceResponse.swift */; };
+		044711072D4B63860084B26E /* KakaoLocalQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044711062D4B63860084B26E /* KakaoLocalQuery.swift */; };
+		044711092D4B63F90084B26E /* KakaoTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044711082D4B63F90084B26E /* KakaoTarget.swift */; };
 		045705532D466DB5000C4CBA /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045705522D466DB5000C4CBA /* API.swift */; };
 		045705562D466E31000C4CBA /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045705552D466E31000C4CBA /* NetworkManager.swift */; };
 		045705582D466E85000C4CBA /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045705572D466E85000C4CBA /* NetworkError.swift */; };
@@ -46,6 +52,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		044710FC2D4B4A660084B26E /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
+		044710FF2D4B5C6C0084B26E /* KakaoLocalManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoLocalManager.swift; sourceTree = "<group>"; };
+		044711022D4B63140084B26E /* KakaoLocalModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoLocalModel.swift; sourceTree = "<group>"; };
+		044711042D4B63500084B26E /* PlaceResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceResponse.swift; sourceTree = "<group>"; };
+		044711062D4B63860084B26E /* KakaoLocalQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoLocalQuery.swift; sourceTree = "<group>"; };
+		044711082D4B63F90084B26E /* KakaoTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoTarget.swift; sourceTree = "<group>"; };
 		045705502D46656C000C4CBA /* API.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = API.xcconfig; sourceTree = "<group>"; };
 		045705512D4666C4000C4CBA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		045705522D466DB5000C4CBA /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
@@ -98,12 +110,32 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		044710FE2D4B4E4B0084B26E /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				044710FC2D4B4A660084B26E /* Color.swift */,
+			);
+			path = Resource;
+			sourceTree = "<group>";
+		};
+		044711012D4B5C700084B26E /* Kakao */ = {
+			isa = PBXGroup;
+			children = (
+				044710FF2D4B5C6C0084B26E /* KakaoLocalManager.swift */,
+				044711062D4B63860084B26E /* KakaoLocalQuery.swift */,
+				044711022D4B63140084B26E /* KakaoLocalModel.swift */,
+				044711042D4B63500084B26E /* PlaceResponse.swift */,
+			);
+			path = Kakao;
+			sourceTree = "<group>";
+		};
 		045705542D466E26000C4CBA /* Network */ = {
 			isa = PBXGroup;
 			children = (
 				045705552D466E31000C4CBA /* NetworkManager.swift */,
-				045705892D4754DA000C4CBA /* Client */,
 				045705732D467CA5000C4CBA /* Chore */,
+				044711012D4B5C700084B26E /* Kakao */,
+				045705892D4754DA000C4CBA /* Client */,
 				045705602D46769F000C4CBA /* TargetType */,
 				0457055B2D4671DE000C4CBA /* Error */,
 			);
@@ -126,6 +158,7 @@
 				045705712D467C81000C4CBA /* UserTarget.swift */,
 				0457056F2D467C6E000C4CBA /* PostTarget.swift */,
 				0457056D2D467C5F000C4CBA /* ChatTarget.swift */,
+				044711082D4B63F90084B26E /* KakaoTarget.swift */,
 			);
 			path = TargetType;
 			sourceTree = "<group>";
@@ -228,6 +261,7 @@
 			children = (
 				045705512D4666C4000C4CBA /* Info.plist */,
 				04FBE0312D48A4CD004CCCE6 /* UserDefaultsManager.swift */,
+				044710FE2D4B4E4B0084B26E /* Resource */,
 				045705812D4753C3000C4CBA /* Modifier */,
 				045705882D475406000C4CBA /* Components */,
 				045705782D47521D000C4CBA /* Data */,
@@ -363,9 +397,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				044711002D4B5C6C0084B26E /* KakaoLocalManager.swift in Sources */,
 				045705722D467C81000C4CBA /* UserTarget.swift in Sources */,
 				0457058F2D476219000C4CBA /* RoundButtonModifier.swift in Sources */,
 				045705912D476374000C4CBA /* AppFeature.swift in Sources */,
+				044711092D4B63F90084B26E /* KakaoTarget.swift in Sources */,
 				045705562D466E31000C4CBA /* NetworkManager.swift in Sources */,
 				045705702D467C6E000C4CBA /* PostTarget.swift in Sources */,
 				04A39E4C2D4114E5007E3616 /* ContentView.swift in Sources */,
@@ -382,8 +418,11 @@
 				0457055F2D467261000C4CBA /* HTTPMethod.swift in Sources */,
 				0457055A2D466F89000C4CBA /* ErrorType.swift in Sources */,
 				0457058B2D4754E1000C4CBA /* UserClient.swift in Sources */,
+				044711072D4B63860084B26E /* KakaoLocalQuery.swift in Sources */,
 				0457057A2D475235000C4CBA /* EmailLoginBody.swift in Sources */,
 				04FBE0272D477A73004CCCE6 /* Triangle.swift in Sources */,
+				044710FD2D4B4A660084B26E /* Color.swift in Sources */,
+				044711032D4B63140084B26E /* KakaoLocalModel.swift in Sources */,
 				045705582D466E85000C4CBA /* NetworkError.swift in Sources */,
 				04FBE0412D493B5F004CCCE6 /* WritePostFeature.swift in Sources */,
 				0457058D2D47561A000C4CBA /* EmailLoginResponse.swift in Sources */,
@@ -396,6 +435,7 @@
 				0457057C2D4752EA000C4CBA /* LoginView.swift in Sources */,
 				04FBE0182D47714D004CCCE6 /* HomeView.swift in Sources */,
 				0457056E2D467C5F000C4CBA /* ChatTarget.swift in Sources */,
+				044711052D4B63500084B26E /* PlaceResponse.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -531,10 +571,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"TodaySpace/Preview Content\"";
+				DEVELOPMENT_TEAM = K7C455FTM9;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TodaySpace/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "오늘의 공간";
+				INFOPLIST_KEY_CFBundleDisplayName = "오늘의공간";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "유저 위치 주변의 게시물을 검색하기 위해 위치정보를 사용합니다.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -546,7 +587,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.harvey.TodaySpace;
+				PRODUCT_BUNDLE_IDENTIFIER = com.harvey.todayspace;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -566,10 +607,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"TodaySpace/Preview Content\"";
+				DEVELOPMENT_TEAM = K7C455FTM9;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TodaySpace/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "오늘의 공간";
+				INFOPLIST_KEY_CFBundleDisplayName = "오늘의공간";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "유저 위치 주변의 게시물을 검색하기 위해 위치정보를 사용합니다.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -581,7 +623,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.harvey.TodaySpace;
+				PRODUCT_BUNDLE_IDENTIFIER = com.harvey.todayspace;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;

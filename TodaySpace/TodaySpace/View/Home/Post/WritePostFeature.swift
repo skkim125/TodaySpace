@@ -23,6 +23,9 @@ struct WritePostFeature: Reducer {
         var category: String = ""
         var date: String = ""
         var contents: String = ""
+        var buttonEnabled: Bool {
+            !title.isEmpty && !placeName.isEmpty && !category.isEmpty && !date.isEmpty && !contents.isEmpty
+        }
     }
     
     enum Action: BindableAction {

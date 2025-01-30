@@ -13,7 +13,7 @@ enum PostTarget {
 
 extension PostTarget: TargetType {
     var baseURL: String {
-        return API.baseURL
+        return API.baseURL + "/v1"
     }
     
     var header: [String : String] {
@@ -25,8 +25,8 @@ extension PostTarget: TargetType {
         ]
     }
     
-    var path: String {
-        return ""
+    var path: String? {
+        return nil
     }
     
     var method: HTTPMethod {

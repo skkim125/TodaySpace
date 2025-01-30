@@ -13,7 +13,7 @@ enum AuthTarget {
 
 extension AuthTarget: TargetType {
     var baseURL: String {
-        return API.baseURL
+        return API.baseURL + "/v1"
     }
     
     var header: [String : String] {
@@ -26,7 +26,7 @@ extension AuthTarget: TargetType {
         ]
     }
     
-    var path: String {
+    var path: String? {
         return "auth/refresh"
     }
     

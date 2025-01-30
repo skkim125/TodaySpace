@@ -18,43 +18,38 @@ struct HomeView: View {
             ZStack {
                 switch store.state.viewType {
                 case .postList:
-                    
-                    VStack {
+                    VStack(spacing: 12) {
                         categoryView()
-                            .padding(.top, 5)
+                            .padding(.top, 10)
                         
                         ScrollView {
-                            LazyVStack {
-                                ForEach(0..<60, id: \.self) { value in
+                            LazyVGrid(columns: store.columns) {
+                                ForEach(0..<60, id: \ .self) { value in
                                     Button {
                                         store.send(.tokenRefresh)
                                     } label: {
-                                        Text("리프래시토큰 갱신\(value+1)")
+                                        RoundedRectangle(cornerRadius: 8)
                                     }
-                                    .padding(.top)
+                                    .frame(width: 180, height: 250)
                                 }
                             }
+                            .padding(.horizontal, 10)
                         }
                     }
                     
                 case .mapView:
                     MapView()
-                    
                     VStack {
                         categoryView()
-                            .padding(.top, 5)
-                        
+                            .padding(.top, 10)
                         Spacer()
                     }
                 }
                 
                 VStack {
-                    
                     Spacer()
-                    
                     HStack {
                         Spacer()
-                        
                         Button {
                             store.send(.showWritePostSheet)
                         } label: {
@@ -64,12 +59,14 @@ struct HomeView: View {
                                 .foregroundStyle(.background, .foreground)
                                 .frame(width: 50, height: 50)
                         }
+                        .shadow(radius: 3)
                     }
                     .padding(.trailing, 15)
                     .padding(.bottom, 15)
                 }
             }
         }
+        .background(AppColor.appBackground)
     }
     
     @ViewBuilder
@@ -77,9 +74,8 @@ struct HomeView: View {
         VStack {
             HStack(alignment: .center) {
                 Text("오늘의 공간")
-                    .font(.system(size: 25))
-                    .fontWeight(.black)
-                    .fontDesign(.serif)
+                    .font(.system(size: 25, weight: .black))
+                    .foregroundColor(AppColor.main)
                 
                 Spacer()
                 
@@ -88,20 +84,21 @@ struct HomeView: View {
                 } label: {
                     Image(systemName: store.viewType == .postList ? "map.fill" : "list.dash")
                         .frame(width: 40, height: 40)
+                        .foregroundColor(AppColor.main)
                 }
             }
             .padding()
         }
         .frame(height: 35)
         .fullScreenCover(isPresented: $store.showWritePostSheet) {
-            WritePostView(store: store.scope(state: \.writePost, action: \.writePost))
+            WritePostView(store: store.scope(state: \ .writePost, action: \ .writePost))
         }
     }
     
     @ViewBuilder
     func categoryView() -> some View {
         HStack(alignment: .center, spacing: 10) {
-            ForEach(Category.allCases, id: \.id) { category in
+            ForEach(Category.allCases, id: \ .id) { category in
                 HStack {
                     HStack(spacing: 10) {
                         if let image = category.image {
@@ -116,17 +113,17 @@ struct HomeView: View {
                     }
                     .frame(height: 20)
                     .foregroundStyle(
-                        isSelected(category.id) ? Color(uiColor: .systemBackground) : Color(uiColor: .label)
+                        isSelected(category.id) ? AppColor.appBackground : AppColor.main
                     )
                     .padding(.horizontal, 10)
                     .padding(.vertical, 5)
-                    .background {
+                    .background(
                         RoundedRectangle(cornerRadius: 8, style: .continuous)
-                            .stroke(Color(uiColor: .label) ,lineWidth: 1)
-                            .fill(isSelected(category.id) ? Color(uiColor: .label) : Color(uiColor: .systemBackground))
+                            .stroke(AppColor.grayStroke, lineWidth: 1)
+                            .fill(isSelected(category.id) ? AppColor.main : AppColor.appBackground)
                             .animation(.easeInOut(duration: 0.2), value: store.state.categoryFilter)
                             .shadow(radius: 0.3)
-                    }
+                    )
                 }
                 .onTapGesture {
                     if category == .all, store.state.categoryFilter == .all { return }
@@ -141,7 +138,6 @@ struct HomeView: View {
         if store.state.categoryFilter == .all, categoryID == Category.all.id {
             return true
         }
-        
         if case .selected(let selectedID) = store.state.categoryFilter {
             return categoryID == selectedID
         }

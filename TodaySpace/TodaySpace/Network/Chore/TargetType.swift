@@ -9,7 +9,7 @@ import Foundation
 
 protocol TargetType {
     var baseURL: String { get }
-    var path: String { get }
+    var path: String? { get }
     var method: HTTPMethod { get }
     var header: [String: String] { get }
     var query: [URLQueryItem]? { get }
@@ -18,9 +18,9 @@ protocol TargetType {
 
 extension TargetType {
     func asURLRequest() throws -> URLRequest {
-        guard let baseURL = URL(string: baseURL + "/v1") else { throw NetworkError.invalidURL }
+        guard let baseURL = URL(string: baseURL) else { throw NetworkError.invalidURL }
         var components = URLComponents(
-            url: baseURL.appending(path: path),
+            url: baseURL.appending(path: path ?? ""),
             resolvingAgainstBaseURL: false
         )
         components?.queryItems = query

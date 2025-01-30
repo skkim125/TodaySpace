@@ -25,6 +25,7 @@ final class NetworkManager {
                         return try await callRequest(targetType: targetType)
                     }
                 }
+                
                 do {
                     // 서버에서 온 에러 메시지를 ErrorType으로 디코딩
                     let errorResponse = try JSONDecoder().decode(ErrorType.self, from: data)

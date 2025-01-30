@@ -13,7 +13,7 @@ enum UserTarget {
 
 extension UserTarget: TargetType {
     var baseURL: String {
-        return API.baseURL
+        return API.baseURL + "/v1"
     }
     
     var header: [String : String] {
@@ -28,7 +28,7 @@ extension UserTarget: TargetType {
         }
     }
     
-    var path: String {
+    var path: String? {
         switch self {
         case .emailLogin:
             return "users/login"
