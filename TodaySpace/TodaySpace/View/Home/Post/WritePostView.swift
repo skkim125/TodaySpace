@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import PhotosUI
 import ComposableArchitecture
 
 struct WritePostView: View {
@@ -20,9 +21,39 @@ struct WritePostView: View {
                     VStack(spacing: 10) {
                         ScrollView(.horizontal, showsIndicators: false) {
                             HStack(spacing: 15) {
-                                ForEach(0..<3) { _ in
+                                ForEach(store.selectedImages.indices, id: \.self) { index in
+                                    Image(uiImage: store.selectedImages[index])
+                                        .resizable()
+                                        .scaledToFill()
+                                        .frame(width: 120, height: 150)
+                                        .clipShape(RoundedRectangle(cornerRadius: 8))
+                                        .overlay(
+                                            RoundedRectangle(cornerRadius: 8)
+                                                .stroke(AppColor.grayStroke, lineWidth: 1)
+                                        )
+                                        .overlay(
+                                            VStack {
+                                                HStack {
+                                                    Spacer()
+                                                    
+                                                    Button {
+                                                        store.send(.removePhoto(index), animation: .default)
+                                                    } label: {
+                                                        Image(systemName: "xmark.circle.fill")
+                                                            .foregroundStyle(AppColor.white, .red)
+                                                    }
+                                                    .shadow(color: AppColor.white, radius: 1)
+                                                }
+                                                .padding(.all, 5)
+                                                
+                                                Spacer()
+                                            }
+                                        )
+                                }
+                                
+                                if store.selectedImages.count < 5 {
                                     Button {
-                                        
+                                        store.isPickerPresented = true
                                     } label: {
                                         ZStack {
                                             RoundedRectangle(cornerRadius: 8)
@@ -39,13 +70,13 @@ struct WritePostView: View {
                                                     .frame(width: 50, height: 50)
                                                     .overlay(
                                                         Image(systemName: "photo.badge.plus")
-                                                            .foregroundColor(AppColor.main)
+                                                            .foregroundStyle(AppColor.main)
                                                             .font(.system(size: 22, weight: .medium))
                                                     )
                                                 
                                                 Text("사진 추가")
                                                     .font(.system(size: 13, weight: .semibold))
-                                                    .foregroundColor(AppColor.subTitle)
+                                                    .foregroundStyle(AppColor.subTitle)
                                             }
                                         }
                                     }
@@ -71,7 +102,7 @@ struct WritePostView: View {
                                 text: $store.placeName,
                                 fieldType: .button
                             )
-
+                            
                             SophisticatedField(
                                 icon: "tag",
                                 title: "카테고리",
@@ -79,7 +110,7 @@ struct WritePostView: View {
                                 text: $store.category,
                                 fieldType: .category
                             )
-
+                            
                             SophisticatedField(
                                 icon: "calendar",
                                 title: "방문일",
@@ -91,10 +122,10 @@ struct WritePostView: View {
                             VStack(alignment: .leading, spacing: 10) {
                                 HStack {
                                     Image(systemName: "text.alignleft")
-                                        .foregroundColor(AppColor.subTitle)
+                                        .foregroundStyle(AppColor.subTitle)
                                     Text("공간에 대해...")
                                         .font(.system(size: 13, weight: .semibold))
-                                        .foregroundColor(AppColor.subTitle)
+                                        .foregroundStyle(AppColor.subTitle)
                                 }
                                 
                                 TextEditor(text: $store.contents)
@@ -126,7 +157,7 @@ struct WritePostView: View {
                         } label: {
                             Text("업로드")
                                 .font(.system(size: 18, weight: .bold))
-                                .foregroundColor(AppColor.appBackground)
+                                .foregroundStyle(AppColor.appBackground)
                                 .frame(maxWidth: .infinity)
                                 .frame(height: 50)
                                 .background(
@@ -140,6 +171,10 @@ struct WritePostView: View {
                     }
                 }
             }
+            .photosPicker(isPresented: $store.isPickerPresented, selection: $store.selectedItems, maxSelectionCount: 5, selectionBehavior: .ordered, matching: .images)
+            .onChange(of: store.selectedItems) { oldValue, newValue in
+                store.send(.addPhoto(newValue))
+            }
             .background(AppColor.appBackground)
             .navigationTitle("오늘의 공간 남기기")
             .navigationBarTitleDisplayMode(.inline)
@@ -149,7 +184,7 @@ struct WritePostView: View {
                         dismiss()
                     } label: {
                         Image(systemName: "xmark")
-                            .foregroundColor(AppColor.main)
+                            .foregroundStyle(AppColor.main)
                     }
                 }
             }
@@ -177,20 +212,19 @@ struct SophisticatedField: View {
         formatter.timeZone = TimeZone(identifier: "Asia/Seoul")
         return formatter
     }()
-    var fieldType: FieldType  // 필드 타입 추가
-    var categories = ["Category 1", "Category 2", "Category 3"]  // 예시 카테고리
+    var fieldType: FieldType
+    var categories = ["Category 1", "Category 2", "Category 3"]
     
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             HStack(spacing: 5) {
                 Image(systemName: icon)
-                    .foregroundColor(AppColor.subTitle)
+                    .foregroundStyle(AppColor.subTitle)
                 Text(title)
                     .font(.system(size: 13, weight: .medium))
-                    .foregroundColor(AppColor.subTitle)
+                    .foregroundStyle(AppColor.subTitle)
             }
             
-            // 필드 타입에 따라 다른 UI 제공
             switch fieldType {
             case .button:
                 Button(action: {
@@ -198,10 +232,10 @@ struct SophisticatedField: View {
                 }) {
                     HStack {
                         Text(text.isEmpty ? placeholder : text)
-                            .foregroundColor(text.isEmpty ? AppColor.subTitle : AppColor.main)
+                            .foregroundStyle(text.isEmpty ? AppColor.subTitle : AppColor.main)
                         Spacer()
                         Image(systemName: "chevron.right")
-                            .foregroundColor(AppColor.subTitle)
+                            .foregroundStyle(AppColor.subTitle)
                     }
                     .padding(10)
                     .background(
@@ -219,7 +253,7 @@ struct SophisticatedField: View {
                 
                 HStack {
                     Text(selectedCategory ?? placeholder)
-                        .foregroundColor(AppColor.subTitle)
+                        .foregroundStyle(AppColor.subTitle)
                     Spacer()
                     Menu {
                         ForEach(categories, id: \.self) { category in
@@ -232,7 +266,7 @@ struct SophisticatedField: View {
                         }
                     } label: {
                         Image(systemName: "chevron.down")
-                            .foregroundColor(AppColor.subTitle)
+                            .foregroundStyle(AppColor.subTitle)
                     }
                 }
                 .padding(10)
@@ -252,10 +286,10 @@ struct SophisticatedField: View {
                 }) {
                     HStack {
                         Text(text.isEmpty ? placeholder : text)
-                            .foregroundColor(AppColor.subTitle)
+                            .foregroundStyle(AppColor.subTitle)
                         Spacer()
                         Image(systemName: "chevron.right")
-                            .foregroundColor(AppColor.subTitle)
+                            .foregroundStyle(AppColor.subTitle)
                     }
                     .contentShape(Rectangle())
                     .padding(10)

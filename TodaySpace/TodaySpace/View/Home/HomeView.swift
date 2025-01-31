@@ -58,8 +58,11 @@ struct HomeView: View {
                                 .scaledToFit()
                                 .foregroundStyle(.background, .foreground)
                                 .frame(width: 50, height: 50)
+                                .background {
+                                    Circle()
+                                        .stroke(AppColor.appBackground,lineWidth: 1)
+                                }
                         }
-                        .shadow(radius: 3)
                     }
                     .padding(.trailing, 15)
                     .padding(.bottom, 15)
@@ -75,7 +78,7 @@ struct HomeView: View {
             HStack(alignment: .center) {
                 Text("오늘의 공간")
                     .font(.system(size: 25, weight: .black))
-                    .foregroundColor(AppColor.main)
+                    .foregroundStyle(AppColor.main)
                 
                 Spacer()
                 
@@ -84,7 +87,7 @@ struct HomeView: View {
                 } label: {
                     Image(systemName: store.viewType == .postList ? "map.fill" : "list.dash")
                         .frame(width: 40, height: 40)
-                        .foregroundColor(AppColor.main)
+                        .foregroundStyle(AppColor.main)
                 }
             }
             .padding()
@@ -109,7 +112,7 @@ struct HomeView: View {
                         }
                         
                         Text(category.rawValue)
-                            .font(.system(size: 15))
+                            .font(.system(size: 14))
                     }
                     .frame(height: 20)
                     .foregroundStyle(
@@ -119,10 +122,10 @@ struct HomeView: View {
                     .padding(.vertical, 5)
                     .background(
                         RoundedRectangle(cornerRadius: 8, style: .continuous)
-                            .stroke(AppColor.grayStroke, lineWidth: 1)
+                            .stroke(AppColor.main, lineWidth: 0.7)
                             .fill(isSelected(category.id) ? AppColor.main : AppColor.appBackground)
                             .animation(.easeInOut(duration: 0.2), value: store.state.categoryFilter)
-                            .shadow(radius: 0.3)
+//                            .shadow(color: AppColor.main, radius: 0.3)
                     )
                 }
                 .onTapGesture {

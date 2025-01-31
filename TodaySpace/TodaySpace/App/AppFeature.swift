@@ -19,7 +19,7 @@ struct AppFeature {
     
     @ObservableState
     struct State {
-        var loginState: LoginState = .loading
+        var loginState: LoginState = .success
         var login = LoginFeature.State()
         var mainTab = MainTabFeature.State()
     }

@@ -79,7 +79,6 @@ struct LoginFeature {
         }
     }
     
-    // 이메일 유효성 검증을 위한 함수
     private func isEmailValid(_ email: String) -> Bool {
         let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
         let emailPred = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
