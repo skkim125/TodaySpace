@@ -33,6 +33,8 @@
 		0457058D2D47561A000C4CBA /* EmailLoginResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0457058C2D47561A000C4CBA /* EmailLoginResponse.swift */; };
 		0457058F2D476219000C4CBA /* RoundButtonModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0457058E2D476219000C4CBA /* RoundButtonModifier.swift */; };
 		045705912D476374000C4CBA /* AppFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045705902D476374000C4CBA /* AppFeature.swift */; };
+		0459AEC22D4CA8AE009307DE /* AddPlaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0459AEC12D4CA8AE009307DE /* AddPlaceView.swift */; };
+		0459AEC42D4CBFCE009307DE /* AddPlaceFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0459AEC32D4CBFCE009307DE /* AddPlaceFeature.swift */; };
 		04A39E4A2D4114E5007E3616 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04A39E442D4114E5007E3616 /* Preview Assets.xcassets */; };
 		04A39E4B2D4114E5007E3616 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04A39E462D4114E5007E3616 /* Assets.xcassets */; };
 		04A39E4C2D4114E5007E3616 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A39E472D4114E5007E3616 /* ContentView.swift */; };
@@ -80,6 +82,8 @@
 		0457058C2D47561A000C4CBA /* EmailLoginResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailLoginResponse.swift; sourceTree = "<group>"; };
 		0457058E2D476219000C4CBA /* RoundButtonModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundButtonModifier.swift; sourceTree = "<group>"; };
 		045705902D476374000C4CBA /* AppFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFeature.swift; sourceTree = "<group>"; };
+		0459AEC12D4CA8AE009307DE /* AddPlaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPlaceView.swift; sourceTree = "<group>"; };
+		0459AEC32D4CBFCE009307DE /* AddPlaceFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPlaceFeature.swift; sourceTree = "<group>"; };
 		04A39E332D4114DE007E3616 /* TodaySpace.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TodaySpace.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		04A39E442D4114E5007E3616 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		04A39E462D4114E5007E3616 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -316,6 +320,8 @@
 			children = (
 				04FBE03E2D4921B8004CCCE6 /* WritePostView.swift */,
 				04FBE0402D493B5F004CCCE6 /* WritePostFeature.swift */,
+				0459AEC12D4CA8AE009307DE /* AddPlaceView.swift */,
+				0459AEC32D4CBFCE009307DE /* AddPlaceFeature.swift */,
 			);
 			path = Post;
 			sourceTree = "<group>";
@@ -411,6 +417,7 @@
 				0457056C2D467C4B000C4CBA /* AuthTarget.swift in Sources */,
 				04FBE01D2D477181004CCCE6 /* HomeFeature.swift in Sources */,
 				04A39E4D2D4114E5007E3616 /* TodaySpaceApp.swift in Sources */,
+				0459AEC22D4CA8AE009307DE /* AddPlaceView.swift in Sources */,
 				045705772D467EFF000C4CBA /* MainTabFeature.swift in Sources */,
 				04FBE0232D47782A004CCCE6 /* LocationManager.swift in Sources */,
 				04FBE0202D4777E2004CCCE6 /* MapView.swift in Sources */,
@@ -421,6 +428,7 @@
 				044711072D4B63860084B26E /* KakaoLocalQuery.swift in Sources */,
 				0457057A2D475235000C4CBA /* EmailLoginBody.swift in Sources */,
 				04FBE0272D477A73004CCCE6 /* Triangle.swift in Sources */,
+				0459AEC42D4CBFCE009307DE /* AddPlaceFeature.swift in Sources */,
 				044710FD2D4B4A660084B26E /* Color.swift in Sources */,
 				044711032D4B63140084B26E /* KakaoLocalModel.swift in Sources */,
 				045705582D466E85000C4CBA /* NetworkError.swift in Sources */,

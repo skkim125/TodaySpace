@@ -5,6 +5,13 @@
 //  Created by 김상규 on 1/27/25.
 //
 
+//
+//  HomeView.swift
+//  TodaySpace
+//
+//  Created by 김상규 on 1/27/25.
+//
+
 import SwiftUI
 import ComposableArchitecture
 
@@ -93,14 +100,36 @@ struct HomeView: View {
             .padding()
         }
         .frame(height: 35)
-        .fullScreenCover(isPresented: $store.showWritePostSheet) {
-            WritePostView(store: store.scope(state: \ .writePost, action: \ .writePost))
+        .fullScreenCover(item: $store.scope(state: \.writePost, action: \.writePost)) { store in
+            WritePostView(store: store)
         }
     }
     
     @ViewBuilder
     func categoryView() -> some View {
         HStack(alignment: .center, spacing: 10) {
+            HStack {
+                HStack(spacing: 10) {
+                    Text("ALL")
+                        .font(.system(size: 14))
+                }
+                .frame(height: 20)
+                .foregroundStyle(
+                    store.state.categoryFilter == .all ? AppColor.appBackground : AppColor.main
+                )
+                .padding(.horizontal, 10)
+                .padding(.vertical, 5)
+                .background(
+                    RoundedRectangle(cornerRadius: 8, style: .continuous)
+                        .stroke(AppColor.main, lineWidth: 0.7)
+                        .fill(store.state.categoryFilter == .all ? AppColor.main : AppColor.appBackground)
+                        .animation(.easeInOut(duration: 0.2), value: store.state.categoryFilter)
+                )
+            }
+            .onTapGesture {
+                store.send(.setCategory("ALL"))
+            }
+            
             ForEach(Category.allCases, id: \ .id) { category in
                 HStack {
                     HStack(spacing: 10) {
@@ -125,11 +154,9 @@ struct HomeView: View {
                             .stroke(AppColor.main, lineWidth: 0.7)
                             .fill(isSelected(category.id) ? AppColor.main : AppColor.appBackground)
                             .animation(.easeInOut(duration: 0.2), value: store.state.categoryFilter)
-//                            .shadow(color: AppColor.main, radius: 0.3)
                     )
                 }
                 .onTapGesture {
-                    if category == .all, store.state.categoryFilter == .all { return }
                     store.send(.setCategory(category.id))
                 }
             }
@@ -138,9 +165,6 @@ struct HomeView: View {
     }
     
     private func isSelected(_ categoryID: String) -> Bool {
-        if store.state.categoryFilter == .all, categoryID == Category.all.id {
-            return true
-        }
         if case .selected(let selectedID) = store.state.categoryFilter {
             return categoryID == selectedID
         }

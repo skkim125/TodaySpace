@@ -9,5 +9,10 @@ import Foundation
 
 struct PlaceResponse: Decodable {
     let meta: Meta
-    let documents: [PlaceInfo]
+    let results: [PlaceInfo]
+    
+    enum CodingKeys: String, CodingKey {
+        case meta
+        case results = "documents"
+    }
 }

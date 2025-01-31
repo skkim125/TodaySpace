@@ -11,11 +11,10 @@ import ComposableArchitecture
 
 struct WritePostView: View {
     @Bindable var store: StoreOf<WritePostFeature>
-    @Environment(\.dismiss) var dismiss
     @Namespace private var scrollSpace
     
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $store.scope(state: \.path, action: \.path)) {
             ScrollViewReader { proxy in
                 ScrollView {
                     VStack(spacing: 10) {
@@ -87,7 +86,8 @@ struct WritePostView: View {
                         }
                         
                         VStack(spacing: 15) {
-                            SophisticatedField(
+                            CustomForm(
+                                store: $store,
                                 icon: "bookmark.fill",
                                 title: "제목",
                                 placeholder: "제목을 입력하세요",
@@ -95,15 +95,17 @@ struct WritePostView: View {
                                 fieldType: .text
                             )
                             
-                            SophisticatedField(
+                            CustomForm(
+                                store: $store,
                                 icon: "mappin.circle",
                                 title: "공간",
                                 placeholder: "오늘의 공간을 추가하세요",
                                 text: $store.placeName,
-                                fieldType: .button
+                                fieldType: .place
                             )
                             
-                            SophisticatedField(
+                            CustomForm(
+                                store: $store,
                                 icon: "tag",
                                 title: "카테고리",
                                 placeholder: "카테고리를 선택하세요",
@@ -111,11 +113,12 @@ struct WritePostView: View {
                                 fieldType: .category
                             )
                             
-                            SophisticatedField(
+                            CustomForm(
+                                store: $store,
                                 icon: "calendar",
                                 title: "방문일",
                                 placeholder: "날짜를 선택하세요",
-                                text: $store.date,
+                                text: $store.dateString,
                                 fieldType: .datePicker
                             )
                             
@@ -152,22 +155,10 @@ struct WritePostView: View {
                         
                         Spacer()
                         
-                        Button {
-                            
-                        } label: {
-                            Text("업로드")
-                                .font(.system(size: 18, weight: .bold))
-                                .foregroundStyle(AppColor.appBackground)
-                                .frame(maxWidth: .infinity)
-                                .frame(height: 50)
-                                .background(
-                                    store.buttonEnabled ? Color.white : Color.gray
-                                )
-                                .cornerRadius(8)
-                        }
-                        .padding(.horizontal, 20)
-                        .padding(.bottom, 10)
-                        .id(scrollSpace)
+                        uploadButton()
+                            .padding(.horizontal, 20)
+                            .padding(.bottom, 10)
+                            .id(scrollSpace)
                     }
                 }
             }
@@ -181,30 +172,65 @@ struct WritePostView: View {
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Button {
-                        dismiss()
+                        store.send(.dismiss)
                     } label: {
                         Image(systemName: "xmark")
                             .foregroundStyle(AppColor.main)
                     }
                 }
             }
+        } destination: { store in
+            switch store.case {
+            case .addPlace(let store):
+                return AddPlaceView(store: store)
+            }
+        }
+    }
+    
+    @ViewBuilder
+    func uploadButton() -> some View {
+        
+        if store.buttonEnabled {
+            Button {
+                store.send(.dismiss)
+            } label: {
+                Text("업로드")
+                    .font(.system(size: 18, weight: .bold))
+                    .foregroundStyle(AppColor.appBackground)
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 50)
+                    .background(
+                        AppColor.main
+                    )
+                    .cornerRadius(8)
+            }
+        } else {
+            Text("업로드")
+                .font(.system(size: 18, weight: .bold))
+                .foregroundStyle(AppColor.appBackground)
+                .frame(maxWidth: .infinity)
+                .frame(height: 50)
+                .background(
+                    AppColor.gray
+                )
+                .cornerRadius(8)
         }
     }
 }
 
 enum FieldType {
-    case text, button, category, datePicker
+    case text, place, category, datePicker
 }
 
-struct SophisticatedField: View {
+struct CustomForm: View {
     let icon: String
     let title: String
     let placeholder: String
+    let fieldType: FieldType
+    let categories: [String]
+    @Bindable var store: StoreOf<WritePostFeature>
     @Binding var text: String
-    @State private var selectedDate = Date()
-    @State private var selectedCategory: String? = nil
-    @State private var isButtonPressed = false
-    @State private var showDatePicker = false
+    
     private let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy년 M월 d일"
@@ -212,142 +238,161 @@ struct SophisticatedField: View {
         formatter.timeZone = TimeZone(identifier: "Asia/Seoul")
         return formatter
     }()
-    var fieldType: FieldType
-    var categories = ["Category 1", "Category 2", "Category 3"]
+    
+    init(
+        store: Bindable<StoreOf<WritePostFeature>>,
+        icon: String,
+        title: String,
+        placeholder: String,
+        text: Binding<String>,
+        fieldType: FieldType,
+        categories: [String] = Category.allCases.map { $0.rawValue }
+    ) {
+        self._store = store
+        self.icon = icon
+        self.title = title
+        self.placeholder = placeholder
+        self._text = text
+        self.fieldType = fieldType
+        self.categories = categories
+    }
     
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
-            HStack(spacing: 5) {
-                Image(systemName: icon)
-                    .foregroundStyle(AppColor.subTitle)
-                Text(title)
-                    .font(.system(size: 13, weight: .medium))
-                    .foregroundStyle(AppColor.subTitle)
-            }
+            titleRow
             
             switch fieldType {
-            case .button:
-                Button(action: {
-                    isButtonPressed.toggle()
-                }) {
-                    HStack {
-                        Text(text.isEmpty ? placeholder : text)
-                            .foregroundStyle(text.isEmpty ? AppColor.subTitle : AppColor.main)
-                        Spacer()
-                        Image(systemName: "chevron.right")
-                            .foregroundStyle(AppColor.subTitle)
-                    }
-                    .padding(10)
-                    .background(
-                        RoundedRectangle(cornerRadius: 8)
-                            .fill(AppColor.appSecondary)
-                    )
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 8)
-                            .stroke(AppColor.grayStroke, lineWidth: 1)
-                    )
-                    .font(.system(size: 15))
-                }
-                
+            case .place:
+                placeField(store: store)
             case .category:
-                
-                HStack {
-                    Text(selectedCategory ?? placeholder)
-                        .foregroundStyle(AppColor.subTitle)
-                    Spacer()
-                    Menu {
-                        ForEach(categories, id: \.self) { category in
-                            Button(action: {
-                                selectedCategory = category
-                                text = category
-                            }) {
-                                Text(category)
-                            }
-                        }
-                    } label: {
-                        Image(systemName: "chevron.down")
-                            .foregroundStyle(AppColor.subTitle)
-                    }
-                }
-                .padding(10)
-                .background(
-                    RoundedRectangle(cornerRadius: 8)
-                        .fill(AppColor.appSecondary)
-                )
-                .overlay(
-                    RoundedRectangle(cornerRadius: 8)
-                        .stroke(AppColor.grayStroke, lineWidth: 1)
-                )
-                .font(.system(size: 15))
-                
+                categoryField
             case .datePicker:
-                Button(action: {
-                    showDatePicker = true
-                }) {
-                    HStack {
-                        Text(text.isEmpty ? placeholder : text)
-                            .foregroundStyle(AppColor.subTitle)
-                        Spacer()
-                        Image(systemName: "chevron.right")
-                            .foregroundStyle(AppColor.subTitle)
-                    }
-                    .contentShape(Rectangle())
-                    .padding(10)
-                    .background(
-                        RoundedRectangle(cornerRadius: 8)
-                            .fill(AppColor.appSecondary)
-                    )
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 8)
-                            .stroke(AppColor.grayStroke, lineWidth: 1)
-                    )
-                }
-                .font(.system(size: 15))
-                .sheet(isPresented: $showDatePicker) {
-                    NavigationStack {
-                        VStack {
-                            DatePicker(
-                                "",
-                                selection: $selectedDate,
-                                in: ...Date(),
-                                displayedComponents: .date
-                            )
-                            .datePickerStyle(.graphical)
-                            .padding()
-                        }
-                        .navigationTitle("날짜 선택")
-                        .navigationBarTitleDisplayMode(.inline)
-                        .toolbar {
-                            ToolbarItem(placement: .navigationBarLeading) {
-                                Button("취소") {
-                                    showDatePicker = false
-                                }
-                            }
-                            ToolbarItem(placement: .navigationBarTrailing) {
-                                Button("확인") {
-                                    text = dateFormatter.string(from: selectedDate)
-                                    showDatePicker = false
-                                }
-                            }
-                        }
-                    }
-                    .presentationDetents([.medium])
-                }
-                
+                datePickerField
             case .text:
-                TextField(placeholder, text: $text)
-                    .padding(10)
-                    .background(
-                        RoundedRectangle(cornerRadius: 8)
-                            .fill(AppColor.appSecondary)
-                    )
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 8)
-                            .stroke(AppColor.grayStroke, lineWidth: 1)
-                    )
-                    .font(.system(size: 15))
+                textField
             }
         }
         .padding(.horizontal, 20)
+    }
+    
+    private var titleRow: some View {
+        HStack(spacing: 5) {
+            Image(systemName: icon)
+                .foregroundStyle(AppColor.subTitle)
+            Text(title)
+                .font(.system(size: 13, weight: .medium))
+                .foregroundStyle(AppColor.subTitle)
+        }
+    }
+    
+    private func placeField(store: StoreOf<WritePostFeature>) -> some View {
+        Button {
+            store.send(.addPlaceButtonClicked)
+        } label: {
+            HStack {
+                Text(text.isEmpty ? placeholder : text)
+                    .foregroundStyle(text.isEmpty ? AppColor.subTitle : AppColor.main)
+                Spacer()
+                Image(systemName: "chevron.right")
+                    .foregroundStyle(AppColor.subTitle)
+            }
+            .fieldBackground()
+        }
+    }
+    
+    private var categoryField: some View {
+        HStack {
+            Text(store.category.isEmpty ? placeholder : store.category)
+                .foregroundStyle(text.isEmpty ? AppColor.subTitle : AppColor.main)
+            
+            Spacer()
+            
+            Menu {
+                ForEach(categories, id: \.self) { category in
+                    Button(action: {
+                        store.category = category
+                        text = category
+                    }) {
+                        Text(category)
+                    }
+                }
+            } label: {
+                Image(systemName: "plus")
+                    .foregroundStyle(AppColor.subTitle)
+            }
+        }
+        .fieldBackground()
+    }
+    
+    private var datePickerField: some View {
+        Button {
+            store.showDatePicker = true
+        } label: {
+            HStack {
+                Text(text.isEmpty ? placeholder : text)
+                    .foregroundStyle(text.isEmpty ? AppColor.subTitle : AppColor.main)
+                Spacer()
+                Image(systemName: "chevron.right")
+                    .foregroundStyle(AppColor.subTitle)
+            }
+            .contentShape(Rectangle())
+            .fieldBackground()
+        }
+        .sheet(isPresented: $store.showDatePicker) {
+            datePickerSheet
+        }
+    }
+    
+    private var datePickerSheet: some View {
+        NavigationStack {
+            VStack {
+                DatePicker(
+                    "",
+                    selection: $store.date,
+                    in: ...Date(),
+                    displayedComponents: .date
+                )
+                .datePickerStyle(.graphical)
+                .padding()
+            }
+            .navigationTitle("날짜 선택")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button("취소") {
+                        store.showDatePicker = false
+                    }
+                }
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button("확인") {
+                        text = dateFormatter.string(from: store.date)
+                        store.showDatePicker = false
+                    }
+                }
+            }
+        }
+        .presentationDetents([.medium])
+    }
+    
+    private var textField: some View {
+        TextField("", text: $text, prompt: Text(placeholder).foregroundStyle(AppColor.subTitle))
+            .foregroundStyle(AppColor.main)
+            .fieldBackground()
+    }
+}
+
+extension View {
+    func fieldBackground() -> some View {
+        self
+            .padding(10)
+            .background(
+                RoundedRectangle(cornerRadius: 8)
+                    .fill(AppColor.appSecondary)
+            )
+            .overlay(
+                RoundedRectangle(cornerRadius: 8)
+                    .stroke(AppColor.grayStroke, lineWidth: 1)
+            )
+            .font(.system(size: 15))
     }
 }

@@ -18,12 +18,13 @@ extension KakaoTarget: TargetType {
     
     var header: [String : String] {
         return [
-            Header.authorization: "\(Header.key) \(API.kakaoRestApiKey)"
+            Header.authorization: "\(Header.key) \(API.kakaoRestApiKey)",
+            Header.contentType: ContentType.json
         ]
     }
     
     var path: String? {
-        return "local/search/keyword.json"
+        return "local/search/keyword"
     }
     
     var method: HTTPMethod {

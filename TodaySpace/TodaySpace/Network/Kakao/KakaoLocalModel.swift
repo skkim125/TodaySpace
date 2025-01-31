@@ -28,7 +28,6 @@ struct PlaceInfo: Hashable, Decodable {
     let lat: String // y
     let lon: String // x
     let placeURL: String // place_url
-    let distance: String // distance
     
     enum CodingKeys: String, CodingKey {
         case id
@@ -39,6 +38,5 @@ struct PlaceInfo: Hashable, Decodable {
         case lat = "y"
         case lon = "x"
         case placeURL = "place_url"
-        case distance
     }
 }

@@ -15,7 +15,6 @@ struct PlaceCategory: Identifiable {
 }
 
 enum Category: String, CaseIterable {
-    case all = "ALL"
     case restaurant = "식당"
     case cafe = "카페"
     case landmark = "명소"
@@ -27,8 +26,6 @@ enum Category: String, CaseIterable {
     
     var image: String? {
         switch self {
-        case .all:
-            nil
         case .restaurant:
             "fork.knife"
         case .cafe:
@@ -59,8 +56,7 @@ struct HomeFeature: Reducer {
     @ObservableState
     struct State {
         var viewType: HomeViewType = .postList
-        var writePost = WritePostFeature.State()
-        var showWritePostSheet = false
+        @Presents var writePost: WritePostFeature.State?
         var categoryFilter: CategoryFilter = .all
         let columns = [GridItem(.flexible()), GridItem(.flexible())]
         var selectedCategory: [String] {
@@ -80,14 +76,11 @@ struct HomeFeature: Reducer {
         case refreshSuccess(TokenResponse)
         case refreshFailure(Error)
         case switchViewType(HomeViewType)
-        case writePost(WritePostFeature.Action)
+        case writePost(PresentationAction<WritePostFeature.Action>)
         case setCategory(String)
     }
     
     var body: some ReducerOf<Self> {
-        Scope(state: \.writePost, action: \.writePost) {
-            WritePostFeature()
-        }
         BindingReducer()
         
         Reduce { state, action in
@@ -122,21 +115,24 @@ struct HomeFeature: Reducer {
                 }
                 return .none
             case .showWritePostSheet:
-                state.showWritePostSheet = true
+                state.writePost = WritePostFeature.State()
+                return .none
+            case .writePost(.presented(.dismiss)):
+                state.writePost = nil
                 return .none
             case .writePost:
                 return .none
             case .setCategory(let categoryID):
                 switch state.categoryFilter {
                 case .all:
-                    // 아무것도 선택되지 않은 상태에서 카테고리 선택
+                    
                     state.categoryFilter = .selected(categoryID)
                 case .selected(let currentCategoryID):
-                    // 이미 선택된 카테고리를 다시 선택한 경우 -> all로 변경
+                    
                     if currentCategoryID == categoryID {
                         state.categoryFilter = .all
                     } else {
-                        // 다른 카테고리 선택
+                        
                         state.categoryFilter = .selected(categoryID)
                     }
                 }
@@ -144,6 +140,9 @@ struct HomeFeature: Reducer {
                 print(state.categoryFilter)
                 return .none
             }
+        }
+        .ifLet(\.$writePost, action: \.writePost) {
+            WritePostFeature()
         }
     }
 }
