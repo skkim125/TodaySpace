@@ -17,6 +17,7 @@ final class NetworkManager {
             let (data, response) = try await URLSession.shared.data(for: targetType.asURLRequest())
             
             guard let httpResponse = response as? HTTPURLResponse else { throw NetworkError.invalidResponse }
+            print(httpResponse)
 
             guard httpResponse.statusCode == 200 else {
                 print(httpResponse.statusCode)
@@ -28,6 +29,7 @@ final class NetworkManager {
                 } else {
                     do {
                         let errorResponse = try JSONDecoder().decode(ErrorType.self, from: data)
+                        print(errorResponse.message)
                         throw errorResponse
                     } catch {
                         throw NetworkError.checkNetworkError(errorCode: httpResponse.statusCode)

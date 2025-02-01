@@ -63,9 +63,9 @@ struct LoginFeature {
                 
             case .loginSuccess(let response):
                 UserDefaultsManager.logIn(response.accessToken, response.refreshToken, response.user_id)
-                print(UserDefaultsManager.accessToken)
-                print(UserDefaultsManager.refreshToken)
-                print(UserDefaultsManager.userID)
+                print("액세스 토큰", UserDefaultsManager.accessToken)
+                print("리프레시 토큰", UserDefaultsManager.refreshToken)
+                print("유저 아이디", UserDefaultsManager.userID)
                 state.showProgressView = false
                 state.scenePhase = .loginSuccess
                 return .none

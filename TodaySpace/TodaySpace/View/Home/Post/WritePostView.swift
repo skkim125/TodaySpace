@@ -192,7 +192,7 @@ struct WritePostView: View {
         
         if store.buttonEnabled {
             Button {
-                store.send(.dismiss)
+                store.send(.uploadButtonClicked)
             } label: {
                 Text("업로드")
                     .font(.system(size: 18, weight: .bold))
