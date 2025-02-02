@@ -7,6 +7,11 @@
 
 import Foundation
 
+struct FetchPostResult: Decodable {
+    let data: [PostResponse]
+    let next_cursor: String
+}
+
 struct PostResponse: Decodable {
     let post_id: String
     let category: String
@@ -19,13 +24,13 @@ struct PostResponse: Decodable {
     let likes: [String]
     let likes2: [String]
     let buyers: [String]
-    let hashtags: [String]
+    let hashTags: [String]
     let comments: [Comment]
     let geolocation: Geolocation
 //    let distance: Double?
 }
 
 struct Geolocation: Decodable {
-    let longitude: Double
     let latitude: Double
+    let longitude: Double
 }

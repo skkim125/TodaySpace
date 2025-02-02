@@ -10,6 +10,7 @@ import Foundation
 enum PostTarget {
     case uploadImage(ImageUploadBody)
     case postUpload(PostBody)
+    case fetchPost(FetchPostQuery)
 }
 
 extension PostTarget: TargetType {
@@ -35,6 +36,12 @@ extension PostTarget: TargetType {
                 Header.authorization: UserDefaultsManager.accessToken,
                 Header.sesacKey: API.apiKey,
             ]
+        case .fetchPost:
+            return [
+                Header.productId: API.productId,
+                Header.authorization: UserDefaultsManager.accessToken,
+                Header.sesacKey: API.apiKey,
+            ]
         }
     }
     
@@ -44,6 +51,8 @@ extension PostTarget: TargetType {
             return "posts/files"
         case .postUpload:
             return "posts"
+        case .fetchPost:
+            return "posts"
         }
     }
     
@@ -51,11 +60,24 @@ extension PostTarget: TargetType {
         switch self {
         case .uploadImage, .postUpload:
             return .post
+        case .fetchPost:
+            return .get
         }
     }
     
     var query: [URLQueryItem]? {
-        return nil
+        switch self {
+        case .fetchPost(let postQuery):
+            var queries = [URLQueryItem]()
+            queries.append(URLQueryItem(name: "next", value: postQuery.next))
+            queries.append(URLQueryItem(name: "limit", value: postQuery.limit))
+            
+            let categories = postQuery.category.map{ URLQueryItem(name: "category", value: $0) }
+            queries.append(contentsOf: categories)
+            return queries
+        default:
+            return nil
+        }
     }
     
     var body: Data? {
@@ -65,6 +87,7 @@ extension PostTarget: TargetType {
         case .uploadImage(let body):
             let fileName = API.productId + "Post_Image"
             return convertMultipartFormData(boundary: body.boundary, datas: body.files, filename: fileName)
+            
         case .postUpload(let body):
             do {
                 let data = try encoder.encode(body)
@@ -73,24 +96,9 @@ extension PostTarget: TargetType {
                 print("Body to JSON Encode Error", error)
                 return nil
             }
+            
+        default:
+            return nil
         }
-    }
-}
-
-extension PostTarget {
-    func convertMultipartFormData(boundary: String, datas: [Data], filename: String) -> Data {
-        let crlf = "\r\n"
-        let data = NSMutableData()
-        
-        datas.forEach {
-            data.append("--\(boundary)\(crlf)".data(using: .utf8)!)
-            data.append("Content-Disposition: form-data; name=\"files\"; filename=\"\(filename)\"\(crlf)".data(using: .utf8)!)
-            data.append("Content-Type: image/png\(crlf)\(crlf)".data(using: .utf8)!)
-            data.append($0)
-            data.append("\(crlf)".data(using: .utf8)!)
-        }
-        data.append("--\(boundary)--\(crlf)".data(using: .utf8)!)
-        
-        return data as Data
     }
 }

@@ -38,3 +38,21 @@ extension TargetType {
         return request
     }
 }
+
+extension TargetType {
+    func convertMultipartFormData(boundary: String, datas: [Data], filename: String) -> Data {
+        let crlf = "\r\n"
+        let data = NSMutableData()
+        
+        datas.forEach {
+            data.append("--\(boundary)\(crlf)".data(using: .utf8)!)
+            data.append("Content-Disposition: form-data; name=\"files\"; filename=\"\(filename)\"\(crlf)".data(using: .utf8)!)
+            data.append("Content-Type: image/png\(crlf)\(crlf)".data(using: .utf8)!)
+            data.append($0)
+            data.append("\(crlf)".data(using: .utf8)!)
+        }
+        data.append("--\(boundary)--\(crlf)".data(using: .utf8)!)
+        
+        return data as Data
+    }
+}

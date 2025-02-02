@@ -11,6 +11,7 @@ import ComposableArchitecture
 struct PostClient {
     var uploadImage: (ImageUploadBody) async throws -> ImageUploadResponse
     var postUpload: (PostBody) async throws -> PostResponse
+    var fetchPost: (FetchPostQuery) async throws -> FetchPostResult
 }
 
 extension PostClient: DependencyKey {
@@ -27,6 +28,14 @@ extension PostClient: DependencyKey {
         postUpload: { body in
             do {
                 return try await NetworkManager.shared.callRequest(targetType: PostTarget.postUpload(body))
+            } catch let error as NetworkError {
+                throw error
+            }
+        },
+        
+        fetchPost: { body in
+            do {
+                return try await NetworkManager.shared.callRequest(targetType: PostTarget.fetchPost(body))
             } catch let error as NetworkError {
                 throw error
             }

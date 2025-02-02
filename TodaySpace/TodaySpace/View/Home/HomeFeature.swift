@@ -47,15 +47,24 @@ enum CategoryFilter: Equatable {
 struct HomeFeature: Reducer {
     
     @Dependency(\.authClient) var authClient
+    @Dependency(\.postClient) var postClient
     
     enum HomeViewType {
         case postList
         case mapView
     }
     
+//    enum ViewAppearState {
+//        case loading
+//        case appeared
+//        case disappeared
+//    }
+    
     @ObservableState
     struct State {
         var viewType: HomeViewType = .postList
+        var viewAppeared = false
+        var posts: [PostResponse] = []
         @Presents var writePost: WritePostFeature.State?
         var categoryFilter: CategoryFilter = .all
         let columns = [GridItem(.flexible()), GridItem(.flexible())]
@@ -71,13 +80,16 @@ struct HomeFeature: Reducer {
     
     enum Action: BindableAction {
         case binding(BindingAction<State>)
+        case viewAppear
         case showWritePostSheet
         case tokenRefresh
         case refreshSuccess(TokenResponse)
-        case refreshFailure(Error)
         case switchViewType(HomeViewType)
         case writePost(PresentationAction<WritePostFeature.Action>)
         case setCategory(String)
+        case fetchPost(FetchPostQuery)
+        case fetchSuccess(FetchPostResult)
+        case requestError(Error)
     }
     
     var body: some ReducerOf<Self> {
@@ -87,13 +99,22 @@ struct HomeFeature: Reducer {
             switch action {
             case .binding:
                 return .none
+            case .viewAppear:
+                if !state.viewAppeared {
+                    state.viewAppeared = true
+                    return .run { send in
+                       await send(.fetchPost(FetchPostQuery(next: "0", limit: "20", category: [])))
+                    }
+                } else {
+                    return .none
+                }
             case .tokenRefresh:
                 return .run { send in
                     do {
                         let result = try await authClient.tokenRefresh()
                         return await send(.refreshSuccess(result))
                     } catch {
-                        return await send(.refreshFailure(error))
+                        return await send(.requestError(error))
                     }
                 }
                 
@@ -102,7 +123,7 @@ struct HomeFeature: Reducer {
                 print("리프래시 완료")
                 return .none
                 
-            case .refreshFailure(let error):
+            case .requestError(let error):
                 print(error)
                 return .none
                 
@@ -132,12 +153,25 @@ struct HomeFeature: Reducer {
                     if currentCategoryID == categoryID {
                         state.categoryFilter = .all
                     } else {
-                        
                         state.categoryFilter = .selected(categoryID)
                     }
                 }
                 
                 print(state.categoryFilter)
+                return .none
+                
+            case .fetchPost(let body):
+                return .run { send in
+                    do {
+                        let result = try await postClient.fetchPost(body)
+                        return await send(.fetchSuccess(result))
+                    } catch {
+                        return await send(.requestError(error))
+                    }
+                }
+                
+            case .fetchSuccess(let result):
+                state.posts = result.data
                 return .none
             }
         }

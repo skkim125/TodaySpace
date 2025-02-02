@@ -17,6 +17,7 @@ import ComposableArchitecture
 
 struct HomeView: View {
     @Bindable var store: StoreOf<HomeFeature>
+    @State var image: UIImage?
     
     var body: some View {
         VStack {
@@ -31,11 +32,13 @@ struct HomeView: View {
                         
                         ScrollView {
                             LazyVGrid(columns: store.columns) {
-                                ForEach(0..<60, id: \ .self) { value in
+                                ForEach(store.posts, id: \.post_id) { post in
+                                    PostImageView(post: post)
+                                        .frame(height: 250)
                                     Button {
-                                        store.send(.tokenRefresh)
+                                        print(post)
                                     } label: {
-                                        RoundedRectangle(cornerRadius: 8)
+                                        Text("\(post.title)")
                                     }
                                     .frame(width: 180, height: 250)
                                 }
@@ -77,6 +80,11 @@ struct HomeView: View {
             }
         }
         .background(AppColor.appBackground)
+        .onAppear {
+            if !store.viewAppeared {
+                store.send(.viewAppear)
+            }
+        }
     }
     
     @ViewBuilder
@@ -169,5 +177,57 @@ struct HomeView: View {
             return categoryID == selectedID
         }
         return false
+    }
+}
+
+struct PostImageView: View {
+    let post: PostResponse
+    @State private var image: UIImage?
+    @State private var isLoading = false
+    @State private var loadError = false
+    
+    var body: some View {
+        ZStack {
+            if isLoading {
+                ProgressView()
+            } else if let image = image {
+                Image(uiImage: image)
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .clipped()
+            } else if loadError {
+                Image(systemName: "photo")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .foregroundColor(.gray)
+            } else {
+                Color.gray.opacity(0.2)
+            }
+        }
+        .frame(width: 150, height: 150)
+        .cornerRadius(12)
+        .shadow(radius: 2)
+        .task {
+            await loadImage()
+        }
+    }
+    
+    private func loadImage() async {
+        guard let images = post.files, !images.isEmpty,
+              let firstImage = images.first else {
+            loadError = true
+            return
+        }
+        
+        isLoading = true
+        
+        do {
+            image = try await NetworkManager.shared.fetchImage(imageURL: firstImage)
+        } catch {
+            print("이미지 로드 실패: \(error)")
+            loadError = true
+        }
+        
+        isLoading = false
     }
 }
