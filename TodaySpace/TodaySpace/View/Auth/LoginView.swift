@@ -60,6 +60,12 @@ struct LoginView: View {
                     .clipShape(RoundedRectangle(cornerRadius: 8))
             }
         }
+        .showCustomAlert(isPresented: $store.showLoginSuccessAlert, title: store.alertTitle, message: store.alertMessage, buttonTitle: "확인") {
+            store.send(.loginSuccessConfirmButtonClicked)
+        }
+        .showCustomAlert(isPresented: $store.showLoginFailureAlert, title: store.alertTitle, message: store.alertMessage, buttonTitle: "확인") {
+            store.send(.loginFailureConfirmButtonClicked)
+        }
         .navigationBarBackButtonHidden(true)
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {

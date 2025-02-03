@@ -40,7 +40,7 @@ struct AppFeature {
         
         Reduce { state, action in
             switch action {
-            case .login(.loginSuccess):
+            case .login(.loginSuccessConfirmButtonClicked):
                 return .send(.updateLoginState(.success), animation: .easeIn)
             
             case .login(.loginFailure):

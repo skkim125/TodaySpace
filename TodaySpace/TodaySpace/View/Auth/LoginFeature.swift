@@ -26,6 +26,11 @@ struct LoginFeature {
         var buttonEnabled: Bool = false
         var showProgressView: Bool = false
         var scenePhase: ScenePhase = .onboarding
+        
+        var showLoginSuccessAlert: Bool = false
+        var showLoginFailureAlert: Bool = false
+        var alertTitle: String = ""
+        var alertMessage: String = ""
     }
     
     enum Action: BindableAction {
@@ -34,6 +39,8 @@ struct LoginFeature {
         case buttonTap
         case loginSuccess(EmailLoginResponse)
         case loginFailure(Error)
+        case loginSuccessConfirmButtonClicked
+        case loginFailureConfirmButtonClicked
     }
     
     var body: some ReducerOf<Self> {
@@ -67,12 +74,31 @@ struct LoginFeature {
                 print("리프레시 토큰", UserDefaultsManager.refreshToken)
                 print("유저 아이디", UserDefaultsManager.userID)
                 state.showProgressView = false
-                state.scenePhase = .loginSuccess
+                state.alertTitle = "로그인되었습니다."
+                state.showLoginSuccessAlert = true
+                
                 return .none
                 
             case .loginFailure(let error):
+                if let error = error as? ErrorType {
+                    print(error.message)
+                    state.alertTitle = "로그인에 실패했습니다."
+                    state.alertMessage = "다시 시도해주세요"
+                } else {
+                    state.alertTitle = "서버에 연결할 수 없습니다."
+                    state.alertMessage = "잠시후 다시 시도해주세요"
+                    print(error)
+                }
                 state.showProgressView = false
-                print(error)
+                state.showLoginFailureAlert = true
+                
+                return .none
+            
+            case .loginSuccessConfirmButtonClicked:
+                state.scenePhase = .loginSuccess
+                return .none
+                
+            case .loginFailureConfirmButtonClicked:
                 
                 return .none
             }

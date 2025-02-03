@@ -29,7 +29,6 @@ final class NetworkManager {
                 } else {
                     do {
                         let errorResponse = try JSONDecoder().decode(ErrorType.self, from: data)
-                        print(errorResponse.message)
                         throw errorResponse
                     } catch {
                         throw NetworkError.checkNetworkError(errorCode: httpResponse.statusCode)

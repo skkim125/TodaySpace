@@ -37,6 +37,8 @@
 		0459AEC42D4CBFCE009307DE /* AddPlaceFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0459AEC32D4CBFCE009307DE /* AddPlaceFeature.swift */; };
 		0459AEC72D4D1DD4009307DE /* PostBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0459AEC62D4D1DD4009307DE /* PostBody.swift */; };
 		0459AEC92D4D1F60009307DE /* ImageUploadBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0459AEC82D4D1F60009307DE /* ImageUploadBody.swift */; };
+		04984D922D5106400053DE54 /* CustomAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04984D912D5106400053DE54 /* CustomAlert.swift */; };
+		04984D942D51066E0053DE54 /* CustomAlertModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04984D932D51066E0053DE54 /* CustomAlertModifier.swift */; };
 		04A39E4A2D4114E5007E3616 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04A39E442D4114E5007E3616 /* Preview Assets.xcassets */; };
 		04A39E4B2D4114E5007E3616 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04A39E462D4114E5007E3616 /* Assets.xcassets */; };
 		04A39E4C2D4114E5007E3616 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A39E472D4114E5007E3616 /* ContentView.swift */; };
@@ -94,6 +96,8 @@
 		0459AEC32D4CBFCE009307DE /* AddPlaceFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPlaceFeature.swift; sourceTree = "<group>"; };
 		0459AEC62D4D1DD4009307DE /* PostBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostBody.swift; sourceTree = "<group>"; };
 		0459AEC82D4D1F60009307DE /* ImageUploadBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageUploadBody.swift; sourceTree = "<group>"; };
+		04984D912D5106400053DE54 /* CustomAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlert.swift; sourceTree = "<group>"; };
+		04984D932D51066E0053DE54 /* CustomAlertModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlertModifier.swift; sourceTree = "<group>"; };
 		04A39E332D4114DE007E3616 /* TodaySpace.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TodaySpace.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		04A39E442D4114E5007E3616 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		04A39E462D4114E5007E3616 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -230,6 +234,7 @@
 			isa = PBXGroup;
 			children = (
 				0457058E2D476219000C4CBA /* RoundButtonModifier.swift */,
+				04984D932D51066E0053DE54 /* CustomAlertModifier.swift */,
 			);
 			path = Modifier;
 			sourceTree = "<group>";
@@ -237,6 +242,7 @@
 		045705882D475406000C4CBA /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				04984D912D5106400053DE54 /* CustomAlert.swift */,
 				045705862D4753FD000C4CBA /* RoundButton.swift */,
 				04FBE0242D477A59004CCCE6 /* MapMarker.swift */,
 				04FBE0262D477A73004CCCE6 /* Triangle.swift */,
@@ -452,6 +458,7 @@
 				044711092D4B63F90084B26E /* KakaoTarget.swift in Sources */,
 				04F1A75F2D4E5B3900471965 /* FetchPostQuery.swift in Sources */,
 				045705562D466E31000C4CBA /* NetworkManager.swift in Sources */,
+				04984D922D5106400053DE54 /* CustomAlert.swift in Sources */,
 				04F1A7572D4E54F100471965 /* PostResponse.swift in Sources */,
 				045705702D467C6E000C4CBA /* PostTarget.swift in Sources */,
 				04A39E4C2D4114E5007E3616 /* ContentView.swift in Sources */,
@@ -487,6 +494,7 @@
 				04FBE03F2D4921B8004CCCE6 /* WritePostView.swift in Sources */,
 				04FBE03A2D48AB38004CCCE6 /* AuthClient.swift in Sources */,
 				04FBE0252D477A59004CCCE6 /* MapMarker.swift in Sources */,
+				04984D942D51066E0053DE54 /* CustomAlertModifier.swift in Sources */,
 				04F1A75D2D4E553900471965 /* Comment.swift in Sources */,
 				0457057C2D4752EA000C4CBA /* LoginView.swift in Sources */,
 				04FBE0182D47714D004CCCE6 /* HomeView.swift in Sources */,
