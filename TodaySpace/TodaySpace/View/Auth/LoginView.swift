@@ -60,9 +60,6 @@ struct LoginView: View {
                     .clipShape(RoundedRectangle(cornerRadius: 8))
             }
         }
-        .onChange(of: store.state.scenePhase, { oldValue, newValue in
-            
-        })
         .navigationBarBackButtonHidden(true)
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {

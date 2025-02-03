@@ -33,8 +33,10 @@ struct HomeView: View {
                         ScrollView {
                             LazyVGrid(columns: store.columns) {
                                 ForEach(store.posts, id: \.post_id) { post in
-                                    PostImageView(post: post)
-                                        .frame(height: 250)
+                                    HStack {
+                                        PostImageView(postImage: post.files?.first)
+                                            .frame(height: 250)
+                                    }
                                     Button {
                                         print(post)
                                     } label: {
@@ -181,7 +183,7 @@ struct HomeView: View {
 }
 
 struct PostImageView: View {
-    let post: PostResponse
+    let postImage: String?
     @State private var image: UIImage?
     @State private var isLoading = false
     @State private var loadError = false
@@ -213,8 +215,7 @@ struct PostImageView: View {
     }
     
     private func loadImage() async {
-        guard let images = post.files, !images.isEmpty,
-              let firstImage = images.first else {
+        guard let postImage = postImage, !postImage.isEmpty else {
             loadError = true
             return
         }
@@ -222,7 +223,7 @@ struct PostImageView: View {
         isLoading = true
         
         do {
-            image = try await NetworkManager.shared.fetchImage(imageURL: firstImage)
+            image = try await NetworkManager.shared.fetchImage(imageURL: postImage)
         } catch {
             print("이미지 로드 실패: \(error)")
             loadError = true

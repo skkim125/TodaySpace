@@ -21,7 +21,7 @@ final class NetworkManager {
 
             guard httpResponse.statusCode == 200 else {
                 print(httpResponse.statusCode)
-                if httpResponse.statusCode == 401 || httpResponse.statusCode == 419 {
+                if httpResponse.statusCode == 419 {
                     do {
                         try await tokenRefresh()
                         return try await callRequest(targetType: targetType)
@@ -68,7 +68,7 @@ final class NetworkManager {
             
             guard httpResponse.statusCode == 200 else {
                 print(httpResponse.statusCode)
-                if httpResponse.statusCode == 401 || httpResponse.statusCode == 419 {
+                if httpResponse.statusCode == 419 {
                     do {
                         try await tokenRefresh()
                         return try await fetchImage(imageURL: imageURL)
