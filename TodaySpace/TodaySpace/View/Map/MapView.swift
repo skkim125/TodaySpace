@@ -103,7 +103,7 @@ struct MapView: View {
                     
                     Spacer()
                 }
-                .padding(.top, 10)
+                .padding(.top, 35)
             }
         }
     }

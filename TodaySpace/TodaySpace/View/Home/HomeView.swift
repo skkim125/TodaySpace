@@ -24,39 +24,7 @@ struct HomeView: View {
             navigationBar()
             
             ZStack {
-                switch store.state.viewType {
-                case .postList:
-                    VStack(spacing: 12) {
-                        categoryView()
-                            .padding(.top, 10)
-                        
-                        ScrollView {
-                            LazyVGrid(columns: store.columns) {
-                                ForEach(store.posts, id: \.post_id) { post in
-                                    HStack {
-                                        PostImageView(postImage: post.files?.first)
-                                            .frame(height: 250)
-                                    }
-                                    Button {
-                                        print(post)
-                                    } label: {
-                                        Text("\(post.title)")
-                                    }
-                                    .frame(width: 180, height: 250)
-                                }
-                            }
-                            .padding(.horizontal, 10)
-                        }
-                    }
-                    
-                case .mapView:
-                    MapView()
-                    VStack {
-                        categoryView()
-                            .padding(.top, 10)
-                        Spacer()
-                    }
-                }
+                listView(viewType: store.viewType)
                 
                 VStack {
                     Spacer()
@@ -116,6 +84,43 @@ struct HomeView: View {
     }
     
     @ViewBuilder
+    private func listView(viewType: HomeFeature.HomeViewType) -> some View {
+        switch store.state.viewType {
+        case .postList:
+            VStack {
+                categoryView()
+                    .padding(.top, 10)
+                
+                ScrollView {
+                    LazyVStack(alignment: .leading) {
+                        ForEach(store.posts, id: \.post_id) { post in
+                            Button {
+                                print(post)
+                            } label: {
+                                HStack {
+                                    ImageView(imageURL: post.files?.first)
+                                    
+                                    Text("\(post.title)")
+                                }
+                            }
+                            .padding(.horizontal, 20)
+                        }
+                    }
+                }
+                .padding(.top, 10)
+            }
+            
+        case .mapView:
+            MapView()
+            VStack {
+                categoryView()
+                    .padding(.top, 10)
+                Spacer()
+            }
+        }
+    }
+    
+    @ViewBuilder
     func categoryView() -> some View {
         HStack(alignment: .center, spacing: 10) {
             HStack {
@@ -137,7 +142,7 @@ struct HomeView: View {
                 )
             }
             .onTapGesture {
-                store.send(.setCategory("ALL"))
+                store.send(.setCategory(.all))
             }
             
             ForEach(Category.allCases, id: \ .id) { category in
@@ -167,68 +172,19 @@ struct HomeView: View {
                     )
                 }
                 .onTapGesture {
-                    store.send(.setCategory(category.id))
+                    store.send(.setCategory(.selected(category.id)))
                 }
             }
         }
         .frame(height: 30)
     }
-    
+}
+
+extension HomeView {
     private func isSelected(_ categoryID: String) -> Bool {
         if case .selected(let selectedID) = store.state.categoryFilter {
             return categoryID == selectedID
         }
         return false
-    }
-}
-
-struct PostImageView: View {
-    let postImage: String?
-    @State private var image: UIImage?
-    @State private var isLoading = false
-    @State private var loadError = false
-    
-    var body: some View {
-        ZStack {
-            if isLoading {
-                ProgressView()
-            } else if let image = image {
-                Image(uiImage: image)
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .clipped()
-            } else if loadError {
-                Image(systemName: "photo")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .foregroundColor(.gray)
-            } else {
-                Color.gray.opacity(0.2)
-            }
-        }
-        .frame(width: 150, height: 150)
-        .cornerRadius(12)
-        .shadow(radius: 2)
-        .task {
-            await loadImage()
-        }
-    }
-    
-    private func loadImage() async {
-        guard let postImage = postImage, !postImage.isEmpty else {
-            loadError = true
-            return
-        }
-        
-        isLoading = true
-        
-        do {
-            image = try await NetworkManager.shared.fetchImage(imageURL: postImage)
-        } catch {
-            print("이미지 로드 실패: \(error)")
-            loadError = true
-        }
-        
-        isLoading = false
     }
 }

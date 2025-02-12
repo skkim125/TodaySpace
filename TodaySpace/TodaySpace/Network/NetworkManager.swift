@@ -52,7 +52,6 @@ final class NetworkManager {
             throw NetworkError.invalidURL
         }
         var request = URLRequest(url: url)
-        print(url)
         
         request.setValue(API.productId, forHTTPHeaderField: Header.productId)
         request.setValue(UserDefaultsManager.accessToken, forHTTPHeaderField: Header.authorization)

@@ -54,12 +54,6 @@ struct HomeFeature: Reducer {
         case mapView
     }
     
-//    enum ViewAppearState {
-//        case loading
-//        case appeared
-//        case disappeared
-//    }
-    
     @ObservableState
     struct State {
         var viewType: HomeViewType = .postList
@@ -86,7 +80,7 @@ struct HomeFeature: Reducer {
         case refreshSuccess(TokenResponse)
         case switchViewType(HomeViewType)
         case writePost(PresentationAction<WritePostFeature.Action>)
-        case setCategory(String)
+        case setCategory(CategoryFilter)
         case fetchPost(FetchPostQuery)
         case fetchSuccess(FetchPostResult)
         case requestError(Error)
@@ -143,21 +137,20 @@ struct HomeFeature: Reducer {
                 return .none
             case .writePost:
                 return .none
-            case .setCategory(let categoryID):
-                switch state.categoryFilter {
+            case .setCategory(let categoryType):
+                
+                switch categoryType {
                 case .all:
+                    state.categoryFilter = .all
                     
-                    state.categoryFilter = .selected(categoryID)
-                case .selected(let currentCategoryID):
-                    
-                    if currentCategoryID == categoryID {
+                case .selected(let categoryId):
+                    if state.categoryFilter == .selected(categoryId) {
                         state.categoryFilter = .all
                     } else {
-                        state.categoryFilter = .selected(categoryID)
+                        state.categoryFilter = .selected(categoryId)
                     }
                 }
                 
-                print(state.categoryFilter)
                 return .none
                 
             case .fetchPost(let body):

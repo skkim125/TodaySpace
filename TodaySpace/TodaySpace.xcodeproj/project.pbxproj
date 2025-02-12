@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		041BFFE32D5C9DA700266BFB /* ImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041BFFE22D5C9DA700266BFB /* ImageView.swift */; };
 		044710FD2D4B4A660084B26E /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044710FC2D4B4A660084B26E /* Color.swift */; };
 		044711002D4B5C6C0084B26E /* KakaoLocalManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044710FF2D4B5C6C0084B26E /* KakaoLocalManager.swift */; };
 		044711032D4B63140084B26E /* KakaoLocalModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044711022D4B63140084B26E /* KakaoLocalModel.swift */; };
@@ -64,6 +65,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		041BFFE22D5C9DA700266BFB /* ImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageView.swift; sourceTree = "<group>"; };
 		044710FC2D4B4A660084B26E /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		044710FF2D4B5C6C0084B26E /* KakaoLocalManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoLocalManager.swift; sourceTree = "<group>"; };
 		044711022D4B63140084B26E /* KakaoLocalModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoLocalModel.swift; sourceTree = "<group>"; };
@@ -246,6 +248,7 @@
 				045705862D4753FD000C4CBA /* RoundButton.swift */,
 				04FBE0242D477A59004CCCE6 /* MapMarker.swift */,
 				04FBE0262D477A73004CCCE6 /* Triangle.swift */,
+				041BFFE22D5C9DA700266BFB /* ImageView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -453,6 +456,7 @@
 				045705722D467C81000C4CBA /* UserTarget.swift in Sources */,
 				04F1A75B2D4E552600471965 /* User.swift in Sources */,
 				0457058F2D476219000C4CBA /* RoundButtonModifier.swift in Sources */,
+				041BFFE32D5C9DA700266BFB /* ImageView.swift in Sources */,
 				0459AEC72D4D1DD4009307DE /* PostBody.swift in Sources */,
 				045705912D476374000C4CBA /* AppFeature.swift in Sources */,
 				044711092D4B63F90084B26E /* KakaoTarget.swift in Sources */,
