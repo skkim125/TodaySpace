@@ -12,34 +12,31 @@ struct ImageView: View {
     @State private var image: UIImage?
     @State private var isLoading = false
     @State private var loadError = false
+    let frame: SetFrame
     
     var body: some View {
         ZStack {
             if isLoading {
                 ProgressView()
-                    .frame(width: 150, height: 150)
-                    .clipShape(RoundedRectangle(cornerRadius: 12))
-                    .shadow(radius: 2)
             } else if let image = image {
                 Image(uiImage: image)
                     .resizable()
                     .aspectRatio(contentMode: .fill)
                     .clipped()
-                    .frame(width: 150, height: 150)
-                    .clipShape(RoundedRectangle(cornerRadius: 12))
-                    .shadow(radius: 2)
+                    .setFrame(setFrame: frame)
+                
             } else if loadError {
-                Image(systemName: "photo")
+                Image(systemName: "photo.badge.exclamationmark")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .foregroundColor(.gray)
-                    .frame(width: 150, height: 150)
-                    .clipShape(RoundedRectangle(cornerRadius: 12))
-                    .shadow(radius: 2)
+                    .setFrame(setFrame: frame)
             } else {
                 EmptyView()
             }
         }
+        .clipShape(RoundedRectangle(cornerRadius: 12))
+        .shadow(radius: 2)
         .task {
             await loadImage()
         }
@@ -63,5 +60,23 @@ extension ImageView {
         }
         
         isLoading = false
+    }
+}
+
+enum SetFrame {
+    case auto
+    case setFrame(CGFloat, CGFloat)
+}
+
+extension View {
+    
+    @ViewBuilder
+    func setFrame(setFrame: SetFrame) -> some View {
+        switch setFrame {
+        case .auto:
+            self
+        case .setFrame(let width, let height):
+            self.frame(width: width, height: height)
+        }
     }
 }

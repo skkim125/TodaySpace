@@ -107,7 +107,7 @@ struct HomeView: View {
                                 store.send(.postDetail(post))
                             } label: {
                                 HStack {
-                                    ImageView(imageURL: post.files?.first)
+                                    ImageView(imageURL: post.files?.first, frame: .setFrame(150, 150))
                                     
                                     Text("\(post.title)")
                                 }

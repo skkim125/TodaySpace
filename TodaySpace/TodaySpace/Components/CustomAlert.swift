@@ -10,7 +10,7 @@ import SwiftUI
 struct CustomAlert: View {
     @Binding var isPresented: Bool
     let title: String
-    let message: String
+    let message: String?
     let buttonTitle: String
     let image: String?
     var action: (() -> Void)?
@@ -42,7 +42,7 @@ struct CustomAlert: View {
                         .foregroundStyle(AppColor.white)
                         .multilineTextAlignment(.center)
                     
-                    Text(message)
+                    Text(message ?? "")
                         .font(.caption)
                         .foregroundStyle(AppColor.white)
                         .multilineTextAlignment(.center)
