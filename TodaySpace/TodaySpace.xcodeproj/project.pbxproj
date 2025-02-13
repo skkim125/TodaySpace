@@ -10,6 +10,8 @@
 		041BFFE32D5C9DA700266BFB /* ImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041BFFE22D5C9DA700266BFB /* ImageView.swift */; };
 		041BFFEB2D5DC5A600266BFB /* CategoryButtonModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041BFFEA2D5DC5A600266BFB /* CategoryButtonModifier.swift */; };
 		041BFFED2D5DCF9900266BFB /* LazyInitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041BFFEC2D5DCF9900266BFB /* LazyInitView.swift */; };
+		041BFFF62D5DDFBB00266BFB /* PostDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041BFFF52D5DDFBB00266BFB /* PostDetailView.swift */; };
+		041BFFF82D5DDFC300266BFB /* PostDetailFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041BFFF72D5DDFC300266BFB /* PostDetailFeature.swift */; };
 		044710FD2D4B4A660084B26E /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044710FC2D4B4A660084B26E /* Color.swift */; };
 		044711002D4B5C6C0084B26E /* KakaoLocalManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044710FF2D4B5C6C0084B26E /* KakaoLocalManager.swift */; };
 		044711032D4B63140084B26E /* KakaoLocalModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044711022D4B63140084B26E /* KakaoLocalModel.swift */; };
@@ -70,6 +72,8 @@
 		041BFFE22D5C9DA700266BFB /* ImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageView.swift; sourceTree = "<group>"; };
 		041BFFEA2D5DC5A600266BFB /* CategoryButtonModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryButtonModifier.swift; sourceTree = "<group>"; };
 		041BFFEC2D5DCF9900266BFB /* LazyInitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LazyInitView.swift; sourceTree = "<group>"; };
+		041BFFF52D5DDFBB00266BFB /* PostDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailView.swift; sourceTree = "<group>"; };
+		041BFFF72D5DDFC300266BFB /* PostDetailFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailFeature.swift; sourceTree = "<group>"; };
 		044710FC2D4B4A660084B26E /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		044710FF2D4B5C6C0084B26E /* KakaoLocalManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoLocalManager.swift; sourceTree = "<group>"; };
 		044711022D4B63140084B26E /* KakaoLocalModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoLocalModel.swift; sourceTree = "<group>"; };
@@ -140,6 +144,26 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		041BFFF32D5DDF9D00266BFB /* PostDetail */ = {
+			isa = PBXGroup;
+			children = (
+				041BFFF52D5DDFBB00266BFB /* PostDetailView.swift */,
+				041BFFF72D5DDFC300266BFB /* PostDetailFeature.swift */,
+			);
+			path = PostDetail;
+			sourceTree = "<group>";
+		};
+		041BFFF42D5DDFA600266BFB /* WritePost */ = {
+			isa = PBXGroup;
+			children = (
+				04FBE03E2D4921B8004CCCE6 /* WritePostView.swift */,
+				04FBE0402D493B5F004CCCE6 /* WritePostFeature.swift */,
+				0459AEC12D4CA8AE009307DE /* AddPlaceView.swift */,
+				0459AEC32D4CBFCE009307DE /* AddPlaceFeature.swift */,
+			);
+			path = WritePost;
+			sourceTree = "<group>";
+		};
 		044710FE2D4B4E4B0084B26E /* Resource */ = {
 			isa = PBXGroup;
 			children = (
@@ -373,10 +397,8 @@
 		04FBE03D2D4921A1004CCCE6 /* Post */ = {
 			isa = PBXGroup;
 			children = (
-				04FBE03E2D4921B8004CCCE6 /* WritePostView.swift */,
-				04FBE0402D493B5F004CCCE6 /* WritePostFeature.swift */,
-				0459AEC12D4CA8AE009307DE /* AddPlaceView.swift */,
-				0459AEC32D4CBFCE009307DE /* AddPlaceFeature.swift */,
+				041BFFF42D5DDFA600266BFB /* WritePost */,
+				041BFFF32D5DDF9D00266BFB /* PostDetail */,
 			);
 			path = Post;
 			sourceTree = "<group>";
@@ -469,9 +491,11 @@
 				044711092D4B63F90084B26E /* KakaoTarget.swift in Sources */,
 				04F1A75F2D4E5B3900471965 /* FetchPostQuery.swift in Sources */,
 				045705562D466E31000C4CBA /* NetworkManager.swift in Sources */,
+				041BFFF62D5DDFBB00266BFB /* PostDetailView.swift in Sources */,
 				04984D922D5106400053DE54 /* CustomAlert.swift in Sources */,
 				04F1A7572D4E54F100471965 /* PostResponse.swift in Sources */,
 				045705702D467C6E000C4CBA /* PostTarget.swift in Sources */,
+				041BFFF82D5DDFC300266BFB /* PostDetailFeature.swift in Sources */,
 				04A39E4C2D4114E5007E3616 /* ContentView.swift in Sources */,
 				04FBE0382D48A993004CCCE6 /* TokenResponse.swift in Sources */,
 				04F1A7592D4E550000471965 /* ImageUploadResponse.swift in Sources */,

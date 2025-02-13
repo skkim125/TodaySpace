@@ -54,11 +54,17 @@ struct HomeFeature: Reducer {
         case mapView
     }
     
+    @Reducer
+    enum Path {
+        case postDetail(PostDetailFeature)
+    }
+    
     @ObservableState
     struct State {
         var viewType: HomeViewType = .postList
         var viewAppeared = false
         var posts: [PostResponse] = []
+        var path = StackState<Path.State>()
         @Presents var writePost: WritePostFeature.State?
         var categoryFilter: CategoryFilter = .all
         let columns = [GridItem(.flexible()), GridItem(.flexible())]
@@ -84,6 +90,8 @@ struct HomeFeature: Reducer {
         case fetchPost(FetchPostQuery)
         case fetchSuccess(FetchPostResult)
         case requestError(Error)
+        case postDetail(PostResponse)
+        case path(StackAction<Path.State, Path.Action>)
     }
     
     var body: some ReducerOf<Self> {
@@ -166,10 +174,16 @@ struct HomeFeature: Reducer {
             case .fetchSuccess(let result):
                 state.posts = result.data
                 return .none
+            case .postDetail(let post):
+                state.path.append(.postDetail(PostDetailFeature.State(post: post)))
+                return .none
+            case .path:
+                return .none
             }
         }
         .ifLet(\.$writePost, action: \.writePost) {
             WritePostFeature()
         }
+        .forEach(\.path, action: \.path)
     }
 }

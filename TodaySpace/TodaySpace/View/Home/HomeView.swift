@@ -20,32 +20,41 @@ struct HomeView: View {
     @State var image: UIImage?
     
     var body: some View {
-        VStack {
-            navigationBar()
-            
-            ZStack {
-                listView(viewType: store.viewType)
+        NavigationStack(path: $store.scope(state: \.path, action: \.path)) {
+            VStack {
+                navigationBar()
                 
-                VStack {
-                    Spacer()
-                    HStack {
+                ZStack {
+                    listView(viewType: store.viewType)
+                    
+                    VStack {
                         Spacer()
-                        Button {
-                            store.send(.showWritePostSheet)
-                        } label: {
-                            Image(systemName: "square.and.pencil.circle.fill")
-                                .resizable()
-                                .scaledToFit()
-                                .foregroundStyle(.background, .foreground)
-                                .frame(width: 50, height: 50)
-                                .background {
-                                    Circle()
-                                        .stroke(AppColor.appBackground,lineWidth: 1)
-                                }
+                        HStack {
+                            Spacer()
+                            Button {
+                                store.send(.showWritePostSheet)
+                            } label: {
+                                Image(systemName: "square.and.pencil.circle.fill")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .foregroundStyle(.background, .foreground)
+                                    .frame(width: 50, height: 50)
+                                    .background {
+                                        Circle()
+                                            .stroke(AppColor.appBackground,lineWidth: 1)
+                                    }
+                            }
                         }
+                        .padding(.trailing, 15)
+                        .padding(.bottom, 15)
                     }
-                    .padding(.trailing, 15)
-                    .padding(.bottom, 15)
+                }
+            }
+        } destination: { store in
+            switch store.case {
+            case .postDetail(let store):
+                LazyInitView {
+                    PostDetailView(store: store)
                 }
             }
         }
@@ -95,7 +104,7 @@ struct HomeView: View {
                     LazyVStack(alignment: .leading) {
                         ForEach(store.posts, id: \.post_id) { post in
                             Button {
-                                print(post)
+                                store.send(.postDetail(post))
                             } label: {
                                 HStack {
                                     ImageView(imageURL: post.files?.first)
