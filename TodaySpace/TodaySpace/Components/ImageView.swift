@@ -17,23 +17,29 @@ struct ImageView: View {
         ZStack {
             if isLoading {
                 ProgressView()
+                    .frame(width: 150, height: 150)
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                    .shadow(radius: 2)
             } else if let image = image {
                 Image(uiImage: image)
                     .resizable()
                     .aspectRatio(contentMode: .fill)
                     .clipped()
+                    .frame(width: 150, height: 150)
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                    .shadow(radius: 2)
             } else if loadError {
                 Image(systemName: "photo")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .foregroundColor(.gray)
+                    .frame(width: 150, height: 150)
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                    .shadow(radius: 2)
             } else {
-                Color.gray.opacity(0.2)
+                EmptyView()
             }
         }
-        .frame(width: 150, height: 150)
-        .clipShape(RoundedRectangle(cornerRadius: 12))
-        .shadow(radius: 2)
         .task {
             await loadImage()
         }

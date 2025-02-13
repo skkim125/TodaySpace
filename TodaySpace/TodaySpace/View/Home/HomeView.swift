@@ -111,7 +111,10 @@ struct HomeView: View {
             }
             
         case .mapView:
-            MapView()
+            LazyInitView {
+                MapView()
+            }
+            
             VStack {
                 categoryView()
                     .padding(.top, 10)
@@ -122,56 +125,13 @@ struct HomeView: View {
     
     @ViewBuilder
     func categoryView() -> some View {
-        HStack(alignment: .center, spacing: 10) {
-            HStack {
-                HStack(spacing: 10) {
-                    Text("ALL")
-                        .font(.system(size: 14))
-                }
-                .frame(height: 20)
-                .foregroundStyle(
-                    store.state.categoryFilter == .all ? AppColor.appBackground : AppColor.main
-                )
-                .padding(.horizontal, 10)
-                .padding(.vertical, 5)
-                .background(
-                    RoundedRectangle(cornerRadius: 8, style: .continuous)
-                        .stroke(AppColor.main, lineWidth: 0.7)
-                        .fill(store.state.categoryFilter == .all ? AppColor.main : AppColor.appBackground)
-                        .animation(.easeInOut(duration: 0.2), value: store.state.categoryFilter)
-                )
-            }
-            .onTapGesture {
+        HStack {
+            categoryButton(title: "ALL", foregroundColor: store.state.categoryFilter == .all ? AppColor.appBackground : AppColor.main, backgroundColor: store.state.categoryFilter == .all ? AppColor.main : AppColor.appBackground, animationValue: store.state.categoryFilter) {
                 store.send(.setCategory(.all))
             }
             
             ForEach(Category.allCases, id: \ .id) { category in
-                HStack {
-                    HStack(spacing: 10) {
-                        if let image = category.image {
-                            Image(systemName: image)
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 15, height: 15)
-                        }
-                        
-                        Text(category.rawValue)
-                            .font(.system(size: 14))
-                    }
-                    .frame(height: 20)
-                    .foregroundStyle(
-                        isSelected(category.id) ? AppColor.appBackground : AppColor.main
-                    )
-                    .padding(.horizontal, 10)
-                    .padding(.vertical, 5)
-                    .background(
-                        RoundedRectangle(cornerRadius: 8, style: .continuous)
-                            .stroke(AppColor.main, lineWidth: 0.7)
-                            .fill(isSelected(category.id) ? AppColor.main : AppColor.appBackground)
-                            .animation(.easeInOut(duration: 0.2), value: store.state.categoryFilter)
-                    )
-                }
-                .onTapGesture {
+                categoryButton(title: category.rawValue, image: category.image, foregroundColor: isSelected(category.id) ? AppColor.appBackground : AppColor.main, backgroundColor: isSelected(category.id) ? AppColor.main : AppColor.appBackground, animationValue: store.state.categoryFilter) {
                     store.send(.setCategory(.selected(category.id)))
                 }
             }

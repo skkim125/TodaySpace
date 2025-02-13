@@ -17,7 +17,6 @@ final class NetworkManager {
             let (data, response) = try await URLSession.shared.data(for: targetType.asURLRequest())
             
             guard let httpResponse = response as? HTTPURLResponse else { throw NetworkError.invalidResponse }
-            print(httpResponse)
 
             guard httpResponse.statusCode == 200 else {
                 print(httpResponse.statusCode)

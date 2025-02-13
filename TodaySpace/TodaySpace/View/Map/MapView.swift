@@ -15,7 +15,7 @@ struct Place: Identifiable {
 }
 
 struct MapView: View {
-    private let locationManager = LocationManager()
+    @StateObject private var locationManager = LocationManager()
     var places: [Place] = []
     @State private var position: MapCameraPosition = .automatic
     @State private var selectedItem: String?
@@ -61,13 +61,15 @@ struct MapView: View {
                             }
                         }
                     }
-                    .onReceive(locationManager.$myLocation) { _ in
-                        withAnimation {
-                            position = .userLocation(followsHeading: true, fallback: .automatic)
-                            
-                            if !isInitialLocationSet {
+                    .onReceive(locationManager.$userLocation) { newLocation in
+                        guard !isInitialLocationSet else { return }
+                        if let _ = newLocation {
+                            withAnimation {
+                                position = .userLocation(followsHeading: true, fallback: .automatic)
                                 isInitialLocationSet = true
                             }
+                        } else {
+                            position = .region(.init(center: CLLocationCoordinate2D(latitude: 37.514575, longitude: 127.0495556), latitudinalMeters: 1500, longitudinalMeters: 1500))
                         }
                     }
                 }
@@ -104,6 +106,11 @@ struct MapView: View {
                     Spacer()
                 }
                 .padding(.top, 35)
+            }
+        }
+        .onAppear {
+            if !locationManager.isInitialized {
+                locationManager.startLocationServices()
             }
         }
     }
