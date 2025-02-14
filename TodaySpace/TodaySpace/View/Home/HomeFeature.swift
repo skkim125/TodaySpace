@@ -142,7 +142,7 @@ struct HomeFeature: Reducer {
                 return .none
             case .writePost(.presented(.dismiss)):
                 state.writePost = nil
-                return .none
+                return .send(.fetchPost(FetchPostQuery(next: "0", limit: "20", category: [])))
             case .writePost:
                 return .none
             case .setCategory(let categoryType):

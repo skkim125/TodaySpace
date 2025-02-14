@@ -38,6 +38,8 @@ struct WritePostFeature: Reducer {
         var date: Date = Date()
         var dateString: String = ""
         var contents: String = ""
+        var placeAddress: String = ""
+        var placeURL: String = ""
         var selectedItems: [PhotosPickerItem] = []
         var selectedImages: [UIImage] = []
         var selectedImageData: [Data] = []
@@ -111,6 +113,8 @@ struct WritePostFeature: Reducer {
                 state.placeName = place.placeName
                 state.latitude = Double(place.lat) ?? 0.0
                 state.longitude = Double(place.lon) ?? 0.0
+                state.placeAddress = place.roadAddress.isEmpty ? place.address : place.roadAddress
+                state.placeURL = place.placeURL
                 state.hashtags = state.placeName.split(separator: " ").map { "#\($0)" }
                 
                 state.path.pop(from: id)
@@ -133,8 +137,7 @@ struct WritePostFeature: Reducer {
                     }
                 }
             case .imageUploadSuccess(let result):
-                let body = PostBody(title: state.title, content: state.contents, category: state.category, files: result.files, content1: state.placeName, latitude: state.latitude, longitude: state.longitude, hashTags: state.hashtags)
-                print(body)
+                let body = PostBody(title: state.title, content: state.contents, category: state.category, files: result.files, content1: state.placeName, content2: state.placeAddress, content3: state.placeURL, latitude: state.latitude, longitude: state.longitude, hashTags: state.hashtags)
                 
                 return .run { send in
                     do {

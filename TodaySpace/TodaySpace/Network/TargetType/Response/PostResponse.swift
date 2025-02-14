@@ -18,7 +18,8 @@ struct PostResponse: Decodable {
     let title: String // 게시물명
     let content: String // 게시물 설명
     let content1: String // 장소명
-//    let content2: String // 장소 설명 url
+    let content2: String // 장소 주소
+    let content3: String // 장소 url
     let createdAt: String // 생성날짜
     let creator: User // 게시물 작성 유저
     let files: [String]? // 이미지

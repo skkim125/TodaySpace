@@ -13,7 +13,9 @@ struct PostBody: Encodable {
     let category: String // 카테고리
     let files: [String] // 이미지
     let content1: String // 장소 이름
+    let content2: String // 장소 주소
+    let content3: String // 장소 url
     let latitude: Double // 위도
     let longitude: Double // 경도
-    let hashTags: [String]
+    let hashTags: [String] // 검색용 해시태그
 }

@@ -46,7 +46,7 @@ struct AddPlaceView: View {
                                     .font(.title3)
                                     .bold()
                                 
-                                Text(place.roadAddress)
+                                Text(place.roadAddress.isEmpty ? place.address : place.roadAddress)
                                     .font(.subheadline)
                                     .foregroundColor(.secondary)
                             }

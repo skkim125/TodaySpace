@@ -13,30 +13,43 @@ struct PostDetailView: View {
     
     var body: some View {
         ScrollView {
-            Text(store.post.title)
-            
-            if let images = store.post.files {
-                if images.count == 1 {
-                    ImageView(imageURL: images[0], frame: .auto)
-                        .padding(.horizontal)
-                } else {
-                    ScrollView(.horizontal) {
-                        HStack {
-                            ForEach(0..<5, id: \.self) { index in
-                                ImageView(imageURL: images[0], frame: .setFrame(UIScreen.main.bounds.width - 100, 300))
-                                    .padding(.leading, index == 0 ? 20 : 0)
-                                    .padding(.horizontal, index != 0 && index != 4 ? 10 : 0)
-                                    .padding(.trailing, index == 4 ? 20 : 0)
+            VStack(alignment: .leading, spacing: 20) {
+                Text(store.post.title)
+                    .font(.title).bold()
+                    .padding(.leading)
+                Text(store.post.content1)
+                    .padding(.leading)
+                Text(store.post.content2)
+                    .padding(.leading)
+                
+                if let images = store.post.files {
+                    if images.count == 1 {
+                        ImageView(imageURL: images[0], frame: .auto)
+                            .padding(.horizontal)
+                    } else {
+                        ScrollView(.horizontal) {
+                            HStack {
+                                ForEach(0..<images.count, id: \.self) { index in
+                                    ImageView(imageURL: images[index], frame: .setFrame(UIScreen.main.bounds.width - 100, 300))
+                                        .padding(.leading, index == 0 ? 20 : 0)
+                                        .padding(.horizontal, index != 0 && index != 4 ? 10 : 0)
+                                        .padding(.trailing, index == 4 ? 20 : 0)
+                                }
                             }
+                            .scrollTargetLayout()
                         }
-                        .scrollTargetLayout()
+                        .scrollIndicators(.hidden)
+                        .scrollTargetBehavior(.viewAligned)
                     }
-                    .scrollIndicators(.hidden)
-                    .scrollTargetBehavior(.viewAligned)
                 }
+                
+                Text(store.post.content)
+                    .padding(.leading)
             }
-            
-            Text(store.post.content)
+            .padding(.top, 10)
+        }
+        .onAppear {
+            print(store.post)
         }
     }
 }

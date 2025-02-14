@@ -24,31 +24,7 @@ struct HomeView: View {
             VStack {
                 navigationBar()
                 
-                ZStack {
-                    listView(viewType: store.viewType)
-                    
-                    VStack {
-                        Spacer()
-                        HStack {
-                            Spacer()
-                            Button {
-                                store.send(.showWritePostSheet)
-                            } label: {
-                                Image(systemName: "square.and.pencil.circle.fill")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .foregroundStyle(.background, .foreground)
-                                    .frame(width: 50, height: 50)
-                                    .background {
-                                        Circle()
-                                            .stroke(AppColor.appBackground,lineWidth: 1)
-                                    }
-                            }
-                        }
-                        .padding(.trailing, 15)
-                        .padding(.bottom, 15)
-                    }
-                }
+                contentView()
             }
         } destination: { store in
             switch store.case {
@@ -67,6 +43,32 @@ struct HomeView: View {
     }
     
     @ViewBuilder
+    func contentView() -> some View {
+        ZStack {
+            if !store.posts.isEmpty {
+                listView(viewType: store.viewType)
+            } else {
+                ContentUnavailableView {
+                    VStack(alignment: .center, spacing: 20) {
+                        Image(systemName: "square.and.pencil")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 80, height: 80)
+                        
+                        Text("첫 게시물의 주인공이 되어보세요!")
+                            .font(.headline)
+                    }
+                    .foregroundStyle(.gray)
+                }
+            }
+            
+            writePostButton()
+                .padding(.trailing, 15)
+                .padding(.bottom, 15)
+        }
+    }
+    
+    @ViewBuilder
     func navigationBar() -> some View {
         VStack {
             HStack(alignment: .center) {
@@ -77,7 +79,11 @@ struct HomeView: View {
                 Spacer()
                 
                 Button {
-                    store.send(.switchViewType(store.viewType))
+                    if store.posts.isEmpty {
+                        store.send(.switchViewType(store.viewType))
+                    } else {
+                        store.send(.switchViewType(store.viewType))
+                    }
                 } label: {
                     Image(systemName: store.viewType == .postList ? "map.fill" : "list.dash")
                         .frame(width: 40, height: 40)
@@ -146,6 +152,29 @@ struct HomeView: View {
             }
         }
         .frame(height: 30)
+    }
+    
+    @ViewBuilder
+    func writePostButton() -> some View {
+        VStack {
+            Spacer()
+            HStack {
+                Spacer()
+                Button {
+                    store.send(.showWritePostSheet)
+                } label: {
+                    Image(systemName: "square.and.pencil.circle.fill")
+                        .resizable()
+                        .scaledToFit()
+                        .foregroundStyle(.background, .foreground)
+                        .frame(width: 50, height: 50)
+                        .background {
+                            Circle()
+                                .stroke(AppColor.appBackground,lineWidth: 1)
+                        }
+                }
+            }
+        }
     }
 }
 
