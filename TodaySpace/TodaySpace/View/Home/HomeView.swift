@@ -22,9 +22,28 @@ struct HomeView: View {
     var body: some View {
         NavigationStack(path: $store.scope(state: \.path, action: \.path)) {
             VStack {
-                navigationBar()
-                
                 contentView()
+            }
+            .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    Text("오늘의 공간")
+                        .font(.system(size: 25, weight: .black))
+                        .foregroundStyle(AppColor.main)
+                }
+                
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        if store.posts.isEmpty {
+                            store.send(.switchViewType(store.viewType))
+                        } else {
+                            store.send(.switchViewType(store.viewType))
+                        }
+                    } label: {
+                        Image(systemName: store.viewType == .postList ? "map.fill" : "list.dash")
+                            .frame(width: 40, height: 40)
+                            .foregroundStyle(AppColor.main)
+                    }
+                }
             }
         } destination: { store in
             switch store.case {
@@ -39,6 +58,9 @@ struct HomeView: View {
             if !store.viewAppeared {
                 store.send(.viewAppear)
             }
+        }
+        .fullScreenCover(item: $store.scope(state: \.writePost, action: \.writePost)) { store in
+            WritePostView(store: store)
         }
     }
     
@@ -65,36 +87,6 @@ struct HomeView: View {
             writePostButton()
                 .padding(.trailing, 15)
                 .padding(.bottom, 15)
-        }
-    }
-    
-    @ViewBuilder
-    func navigationBar() -> some View {
-        VStack {
-            HStack(alignment: .center) {
-                Text("오늘의 공간")
-                    .font(.system(size: 25, weight: .black))
-                    .foregroundStyle(AppColor.main)
-                
-                Spacer()
-                
-                Button {
-                    if store.posts.isEmpty {
-                        store.send(.switchViewType(store.viewType))
-                    } else {
-                        store.send(.switchViewType(store.viewType))
-                    }
-                } label: {
-                    Image(systemName: store.viewType == .postList ? "map.fill" : "list.dash")
-                        .frame(width: 40, height: 40)
-                        .foregroundStyle(AppColor.main)
-                }
-            }
-            .padding()
-        }
-        .frame(height: 35)
-        .fullScreenCover(item: $store.scope(state: \.writePost, action: \.writePost)) { store in
-            WritePostView(store: store)
         }
     }
     
@@ -151,7 +143,7 @@ struct HomeView: View {
                 }
             }
         }
-        .frame(height: 30)
+        .frame(height: 20)
     }
     
     @ViewBuilder
