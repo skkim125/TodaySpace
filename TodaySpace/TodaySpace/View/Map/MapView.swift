@@ -8,11 +8,15 @@
 import SwiftUI
 import MapKit
 
-struct Place: Identifiable {
+struct Place: Identifiable, Hashable {
     let id: String
     let name: String
     let image: String?
-    let coordinate: CLLocationCoordinate2D
+    let lat: Double
+    let lon: Double
+    var coordinate: CLLocationCoordinate2D {
+        .init(latitude: lat, longitude: lon)
+    }
 }
 
 struct MapView: View {
@@ -21,26 +25,24 @@ struct MapView: View {
     
     @State private var posts: [PostResponse] = []
     @State private var position: MapCameraPosition = .automatic
-    @State private var selectedItem: String?
     @State private var mapState: MapState = .viewAppear
     @State private var currentRegion = MKCoordinateRegion(
         center: CLLocationCoordinate2D(latitude: 37.514575, longitude: 127.0495556),
         latitudinalMeters: 1500,
         longitudinalMeters: 1500
     )
-    
+    @State private var showInfoSheet = false
+    @State private var selectedItem: Place?
     @Namespace var mapScope
     
     private var places: [Place] {
         posts.map {
             Place(
                 id: $0.post_id,
-                name: $0.content,
+                name: $0.content1,
                 image: $0.files?.first ?? "",
-                coordinate: CLLocationCoordinate2D(
-                    latitude: $0.geolocation.latitude,
-                    longitude: $0.geolocation.longitude
-                )
+                lat: $0.geolocation.latitude,
+                lon: $0.geolocation.longitude
             )
         }
     }
@@ -68,11 +70,13 @@ struct MapView: View {
         Map(position: $position, selection: $selectedItem, scope: mapScope) {
             UserAnnotation()
             
-            ForEach(places, id: \.id) { place in
-                Annotation("", coordinate: place.coordinate) {
-                    MapMarkerView(imageURL: place.image)
+            ForEach(places) { place in
+                Group {
+                    Annotation("", coordinate: place.coordinate) {
+                        MapMarkerView(imageURL: place.image)
+                    }
                 }
-                .tag(place.id)
+                .tag(place)
             }
         }
         .tint(.black)
@@ -82,6 +86,10 @@ struct MapView: View {
             if !position.followsUserLocation && mapState == .loaded {
                 mapState = .regionChanged
             }
+        }
+        .sheet(item: $selectedItem) { item in
+            Text("\(item.name)")
+                .presentationDetents([.height(50)])
         }
     }
     
