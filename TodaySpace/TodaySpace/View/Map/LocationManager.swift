@@ -10,8 +10,8 @@ import CoreLocation
 
 final class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObject {
     private let locationManager = CLLocationManager()
-    @Published var userLocation: CLLocationCoordinate2D?
     var isInitialized: Bool = false
+    @Published var currentLocation: CLLocation?
 
     override init() {
         super.init()
@@ -34,6 +34,7 @@ final class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObje
         case .denied:
             print("위치 거부 상태")
         case .authorizedAlways, .authorizedWhenInUse:
+            print("위치 서비스 활성화")
             if !isInitialized {
                 locationManager.requestLocation()
             }
@@ -47,15 +48,14 @@ final class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObje
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let newLocation = locations.last else { return }
-        let coordinate = newLocation.coordinate
+        guard let location = locations.last else { return }
+        
         if !isInitialized {
             DispatchQueue.main.async {
-                self.userLocation = coordinate
+                self.currentLocation = location
                 self.isInitialized = true
             }
         }
-        print("업데이트된 위치: \(coordinate)")
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {

@@ -9,6 +9,6 @@ import Foundation
 
 struct User: Decodable {
     let user_id: String
-    let nick: String
+    let nick: String?
     let profileImage: String?
 }

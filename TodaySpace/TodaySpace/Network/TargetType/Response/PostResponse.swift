@@ -7,11 +7,6 @@
 
 import Foundation
 
-struct FetchPostResult: Decodable {
-    let data: [PostResponse]
-    let next_cursor: String
-}
-
 struct PostResponse: Decodable {
     let post_id: String // 게시물 id
     let category: String // 카테고리
@@ -29,7 +24,7 @@ struct PostResponse: Decodable {
     let hashTags: [String] // 검색용 해시태그
     let comments: [Comment] // 댓글
     let geolocation: Geolocation // 위치
-//    let distance: Double?
+    let distance: Double? // 현재 위치로부터의 거리
 }
 
 struct Geolocation: Decodable {

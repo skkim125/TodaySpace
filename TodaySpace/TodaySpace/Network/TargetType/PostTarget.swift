@@ -11,6 +11,7 @@ enum PostTarget {
     case uploadImage(ImageUploadBody)
     case postUpload(PostBody)
     case fetchPost(FetchPostQuery)
+    case fetchAreaPost(FetchAreaPostQuery)
 }
 
 extension PostTarget: TargetType {
@@ -42,6 +43,12 @@ extension PostTarget: TargetType {
                 Header.authorization: UserDefaultsManager.accessToken,
                 Header.sesacKey: API.apiKey,
             ]
+        case .fetchAreaPost:
+            return [
+                Header.productId: API.productId,
+                Header.authorization: UserDefaultsManager.accessToken,
+                Header.sesacKey: API.apiKey,
+            ]
         }
     }
     
@@ -53,6 +60,8 @@ extension PostTarget: TargetType {
             return "posts"
         case .fetchPost:
             return "posts"
+        case .fetchAreaPost:
+            return "posts/geolocation"
         }
     }
     
@@ -61,6 +70,8 @@ extension PostTarget: TargetType {
         case .uploadImage, .postUpload:
             return .post
         case .fetchPost:
+            return .get
+        case .fetchAreaPost:
             return .get
         }
     }
@@ -74,6 +85,16 @@ extension PostTarget: TargetType {
             
             let categories = postQuery.category.map{ URLQueryItem(name: "category", value: $0) }
             queries.append(contentsOf: categories)
+            return queries
+        case .fetchAreaPost(let postQuery):
+            var queries = [URLQueryItem]()
+            queries.append(URLQueryItem(name: "latitude", value: postQuery.latitude))
+            queries.append(URLQueryItem(name: "longitude", value: postQuery.longitude))
+            queries.append(URLQueryItem(name: "maxDistance", value: "1500"))
+            
+            let categories = postQuery.category.map{ URLQueryItem(name: "category", value: $0) }
+            queries.append(contentsOf: categories)
+            
             return queries
         default:
             return nil

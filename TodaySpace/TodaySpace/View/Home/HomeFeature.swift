@@ -88,7 +88,7 @@ struct HomeFeature: Reducer {
         case writePost(PresentationAction<WritePostFeature.Action>)
         case setCategory(CategoryFilter)
         case fetchPost(FetchPostQuery)
-        case fetchSuccess(FetchPostResult)
+        case fetchSuccess(FetchPostResponse)
         case requestError(Error)
         case postDetail(PostResponse)
         case path(StackAction<Path.State, Path.Action>)

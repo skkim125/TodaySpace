@@ -18,6 +18,7 @@ struct ImageView: View {
         ZStack {
             if isLoading {
                 ProgressView()
+                    .setFrame(setFrame: frame)
             } else if let image = image {
                 Image(uiImage: image)
                     .resizable()
@@ -33,6 +34,7 @@ struct ImageView: View {
                     .setFrame(setFrame: frame)
             } else {
                 EmptyView()
+                    .setFrame(setFrame: frame)
             }
         }
         .clipShape(RoundedRectangle(cornerRadius: 12))

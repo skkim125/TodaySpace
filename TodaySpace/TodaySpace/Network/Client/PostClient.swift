@@ -11,7 +11,7 @@ import ComposableArchitecture
 struct PostClient {
     var uploadImage: (ImageUploadBody) async throws -> ImageUploadResponse
     var postUpload: (PostBody) async throws -> PostResponse
-    var fetchPost: (FetchPostQuery) async throws -> FetchPostResult
+    var fetchPost: (FetchPostQuery) async throws -> FetchPostResponse
 }
 
 extension PostClient: DependencyKey {

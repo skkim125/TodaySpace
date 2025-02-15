@@ -8,27 +8,19 @@
 import SwiftUI
 import MapKit
 
-struct MapMarker: View {
+struct MapMarkerView: View {
+    let imageURL: String?
+    
     var body: some View {
         VStack {
-            ZStack {
-                Triangle()
-                    .frame(width: 20, height: 25)
-                    .padding(.top, 28)
-                    .shadow(radius: 1, x: 0, y: 5)
-                
-                
-                Circle()
-                    .fill(Color.black)
-                    .frame(width: 35, height: 35)
-                    .overlay {
-                        Circle()
-                            .frame(width: 25, height: 25)
-                            .foregroundStyle(.white)
-                        Text("+10")
-                            .font(.system(size: 12))
-                    }
-            }
+            Circle()
+                .fill(Color.black)
+                .frame(width: 60, height: 60)
+                .overlay {
+                    ImageView(imageURL: imageURL, frame: .auto)
+                        .clipShape(Circle())
+                        .frame(width: 50, height: 50)
+                }
         }
         .foregroundStyle(.black)
     }

@@ -132,7 +132,7 @@ struct HomeView: View {
     
     @ViewBuilder
     func categoryView() -> some View {
-        HStack {
+        HStack(spacing: 15) {
             categoryButton(title: "ALL", foregroundColor: store.state.categoryFilter == .all ? AppColor.appBackground : AppColor.main, backgroundColor: store.state.categoryFilter == .all ? AppColor.main : AppColor.appBackground, animationValue: store.state.categoryFilter) {
                 store.send(.setCategory(.all))
             }

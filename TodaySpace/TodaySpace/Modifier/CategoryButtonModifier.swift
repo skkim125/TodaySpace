@@ -29,9 +29,7 @@ extension View {
                     .font(.system(size: 12))
             }
             .frame(height: 20)
-            .foregroundStyle(
-                foregroundColor
-            )
+            .foregroundStyle(foregroundColor)
             .padding(.horizontal, 10)
             .padding(.vertical, 5)
             .background(
