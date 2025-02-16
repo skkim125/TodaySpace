@@ -52,22 +52,24 @@ struct MapView: View {
     }
     
     var body: some View {
-        ZStack(alignment: .center) {
-            mapView()
-            searchButton()
-            
-            if let place = selectedItem {
-                placeCardView(place: place)
+        NavigationStack {
+            ZStack(alignment: .center) {
+                mapView()
+                searchButton()
+                
+                if let place = selectedItem {
+                    placeCardView(place: place)
+                }
             }
-        }
-        .onAppear {
-            startLocationServices()
-        }
-        .onChange(of: locationManager.isInitialized) { _, initialized in
-            if initialized,
-               mapState == .viewAppear,
-               let location = locationManager.currentLocation {
-                setFirstLocation(location)
+            .onAppear {
+                startLocationServices()
+            }
+            .onChange(of: locationManager.isInitialized) { _, initialized in
+                if initialized,
+                   mapState == .viewAppear,
+                   let location = locationManager.currentLocation {
+                    setFirstLocation(location)
+                }
             }
         }
     }
@@ -94,6 +96,15 @@ struct MapView: View {
             currentRegion = context.region
             if !position.followsUserLocation && mapState == .loaded {
                 mapState = .regionChanged
+            }
+        }
+        .sheet(isPresented: $showInfoSheet) {
+            if let place = selectedItem, let post = posts.first(where: { $0.post_id == place.id }) {
+                LazyInitView {
+                    PostDetailView(store: .init(initialState: PostDetailFeature.State(post: post), reducer: {
+                        PostDetailFeature()
+                    }))
+                }
             }
         }
     }
@@ -132,20 +143,13 @@ struct MapView: View {
         VStack {
             Spacer()
             
-            NavigationLink {
-                if let post = posts.first(where: { $0.post_id == place.id }) {
-                    LazyInitView {
-                        PostDetailView(store: .init(initialState: PostDetailFeature.State(post: post), reducer: {
-                            PostDetailFeature()
-                        }))
-                    }
+            PlaceCardView(place: place)
+                .transition(.move(edge: .bottom))
+                .animation(.easeInOut(duration: 0.3), value: selectedItem)
+                .padding(.bottom, 30)
+                .onTapGesture {
+                    showInfoSheet.toggle()
                 }
-            } label: {
-                PlaceCardView(place: place)
-                    .transition(.move(edge: .bottom))
-                    .animation(.easeInOut(duration: 0.3), value: selectedItem)
-                    .padding(.bottom, 30)
-            }
         }
     }
 }

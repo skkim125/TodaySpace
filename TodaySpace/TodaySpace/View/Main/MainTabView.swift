@@ -11,38 +11,32 @@ import ComposableArchitecture
 struct MainTabView: View {
     @Bindable var store: StoreOf<MainTabFeature>
     
-    init(store: StoreOf<MainTabFeature>) {
-        self.store = store
-    }
-    
     var body: some View {
-        NavigationStack {
-            TabView(selection: $store.selectedTab) {
-                HomeView(store: store.scope(state: \.home, action: \.home))
-                    .tabItem {
-                        Image(systemName: TabInfo.home.image)
-                    }
-                    .tag(TabInfo.home)
-                
-                MapView()
-                    .tabItem {
-                        Image(systemName: TabInfo.map.image)
-                    }
-                    .tag(TabInfo.map)
-                
-                ContentView()
-                    .tabItem {
-                        Image(systemName: TabInfo.dm.image)
-                    }
-                    .tag(TabInfo.dm)
-                
-                ContentView()
-                    .tabItem {
-                        Image(systemName: TabInfo.myPage.image)
-                    }
-                    .tag(TabInfo.myPage)
-            }
-            .tint(Color(uiColor: .label))
+        TabView(selection: $store.selectedTab) {
+            HomeView(store: store.scope(state: \.home, action: \.home))
+                .tabItem {
+                    Image(systemName: TabInfo.home.image)
+                }
+                .tag(TabInfo.home)
+            
+            MapView()
+                .tabItem {
+                    Image(systemName: TabInfo.map.image)
+                }
+                .tag(TabInfo.map)
+            
+            ContentView()
+                .tabItem {
+                    Image(systemName: TabInfo.dm.image)
+                }
+                .tag(TabInfo.dm)
+            
+            ContentView()
+                .tabItem {
+                    Image(systemName: TabInfo.myPage.image)
+                }
+                .tag(TabInfo.myPage)
         }
+        .tint(Color(uiColor: .label))
     }
 }

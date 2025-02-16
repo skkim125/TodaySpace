@@ -17,10 +17,9 @@ import ComposableArchitecture
 
 struct HomeView: View {
     @Bindable var store: StoreOf<HomeFeature>
-    @State var image: UIImage?
     
     var body: some View {
-        NavigationStack(path: $store.scope(state: \.path, action: \.path)) {
+        NavigationStack {
             VStack {
                 contentView()
             }
@@ -32,35 +31,25 @@ struct HomeView: View {
                 }
                 
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button {
-                        if store.posts.isEmpty {
-                            store.send(.switchViewType(store.viewType))
-                        } else {
-                            store.send(.switchViewType(store.viewType))
-                        }
-                    } label: {
-                        Image(systemName: store.viewType == .postList ? "map.fill" : "list.dash")
-                            .frame(width: 40, height: 40)
-                            .foregroundStyle(AppColor.main)
-                    }
+                    writePostButton()
                 }
             }
-        } destination: { store in
-            switch store.case {
-            case .postDetail(let store):
-                LazyInitView {
-                    PostDetailView(store: store)
+            .background(AppColor.appBackground)
+            .onAppear {
+                if !store.viewAppeared {
+                    store.send(.viewAppear)
                 }
             }
-        }
-        .background(AppColor.appBackground)
-        .onAppear {
-            if !store.viewAppeared {
-                store.send(.viewAppear)
+            .sheet(isPresented: $store.showSheet) {
+                if let post = store.selectedPost {
+                    PostDetailView(store: .init(initialState: PostDetailFeature.State(post: post), reducer: {
+                        PostDetailFeature()
+                    }))
+                }
             }
-        }
-        .fullScreenCover(item: $store.scope(state: \.writePost, action: \.writePost)) { store in
-            WritePostView(store: store)
+            .fullScreenCover(item: $store.scope(state: \.writePost, action: \.writePost)) { store in
+                WritePostView(store: store)
+            }
         }
     }
     
@@ -68,7 +57,7 @@ struct HomeView: View {
     func contentView() -> some View {
         ZStack {
             if !store.posts.isEmpty {
-                listView(viewType: store.viewType)
+                listView()
             } else {
                 ContentUnavailableView {
                     VStack(alignment: .center, spacing: 20) {
@@ -83,50 +72,31 @@ struct HomeView: View {
                     .foregroundStyle(.gray)
                 }
             }
-            
-            writePostButton()
-                .padding(.trailing, 15)
-                .padding(.bottom, 15)
         }
     }
     
     @ViewBuilder
-    private func listView(viewType: HomeFeature.HomeViewType) -> some View {
-        switch store.state.viewType {
-        case .postList:
-            VStack {
-                categoryView()
-                    .padding(.top, 10)
-                
-                ScrollView {
-                    LazyVStack(alignment: .leading) {
-                        ForEach(store.posts, id: \.post_id) { post in
-                            Button {
-                                store.send(.postDetail(post))
-                            } label: {
-                                HStack {
-                                    ImageView(imageURL: post.files?.first, frame: .setFrame(150, 150))
-                                    
-                                    Text("\(post.title)")
-                                }
-                            }
-                            .padding(.horizontal, 20)
+    private func listView() -> some View {
+        VStack {
+            categoryView()
+                .padding(.top, 10)
+            
+            ScrollView {
+                LazyVStack(alignment: .leading) {
+                    ForEach(store.posts, id: \.post_id) { post in
+                        HStack {
+                            ImageView(imageURL: post.files?.first, frame: .setFrame(150, 150))
+                            
+                            Text("\(post.title)")
+                        }
+                        .padding(.horizontal, 20)
+                        .onTapGesture {
+                            store.send(.showSheet(post))
                         }
                     }
                 }
-                .padding(.top, 10)
             }
-            
-        case .mapView:
-            LazyInitView {
-                MapView()
-            }
-            
-            VStack {
-                categoryView()
-                    .padding(.top, 10)
-                Spacer()
-            }
+            .padding(.top, 10)
         }
     }
     
@@ -148,24 +118,13 @@ struct HomeView: View {
     
     @ViewBuilder
     func writePostButton() -> some View {
-        VStack {
-            Spacer()
-            HStack {
-                Spacer()
-                Button {
-                    store.send(.showWritePostSheet)
-                } label: {
-                    Image(systemName: "square.and.pencil.circle.fill")
-                        .resizable()
-                        .scaledToFit()
-                        .foregroundStyle(.background, .foreground)
-                        .frame(width: 50, height: 50)
-                        .background {
-                            Circle()
-                                .stroke(AppColor.appBackground,lineWidth: 1)
-                        }
-                }
-            }
+        Button {
+            store.send(.showWritePostSheet)
+        } label: {
+            Image(systemName: "square.and.pencil")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 25, height: 25)
         }
     }
 }

@@ -48,8 +48,6 @@ struct PostDetailView: View {
             }
             .padding(.top, 10)
         }
-        .onAppear {
-            print(store.post)
-        }
     }
 }
+

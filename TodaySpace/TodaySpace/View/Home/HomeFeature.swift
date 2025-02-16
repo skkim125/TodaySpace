@@ -49,25 +49,15 @@ struct HomeFeature: Reducer {
     @Dependency(\.authClient) var authClient
     @Dependency(\.postClient) var postClient
     
-    enum HomeViewType {
-        case postList
-        case mapView
-    }
-    
-    @Reducer
-    enum Path {
-        case postDetail(PostDetailFeature)
-    }
-    
     @ObservableState
     struct State {
-        var viewType: HomeViewType = .postList
         var viewAppeared = false
         var posts: [PostResponse] = []
-        var path = StackState<Path.State>()
         @Presents var writePost: WritePostFeature.State?
         var categoryFilter: CategoryFilter = .all
         let columns = [GridItem(.flexible()), GridItem(.flexible())]
+        var showSheet: Bool = false
+        var selectedPost: PostResponse?
         var selectedCategory: [String] {
             switch categoryFilter {
             case .all:
@@ -84,14 +74,12 @@ struct HomeFeature: Reducer {
         case showWritePostSheet
         case tokenRefresh
         case refreshSuccess(TokenResponse)
-        case switchViewType(HomeViewType)
         case writePost(PresentationAction<WritePostFeature.Action>)
         case setCategory(CategoryFilter)
         case fetchPost(FetchPostQuery)
         case fetchSuccess(FetchPostResponse)
         case requestError(Error)
-        case postDetail(PostResponse)
-        case path(StackAction<Path.State, Path.Action>)
+        case showSheet(PostResponse)
     }
     
     var body: some ReducerOf<Self> {
@@ -127,15 +115,6 @@ struct HomeFeature: Reducer {
                 
             case .requestError(let error):
                 print(error)
-                return .none
-                
-            case .switchViewType(let viewType):
-                switch viewType {
-                case .postList:
-                    state.viewType = .mapView
-                case .mapView:
-                    state.viewType = .postList
-                }
                 return .none
             case .showWritePostSheet:
                 state.writePost = WritePostFeature.State()
@@ -174,16 +153,15 @@ struct HomeFeature: Reducer {
             case .fetchSuccess(let result):
                 state.posts = result.data
                 return .none
-            case .postDetail(let post):
-                state.path.append(.postDetail(PostDetailFeature.State(post: post)))
-                return .none
-            case .path:
+            case .showSheet(let post):
+                state.selectedPost = post
+                state.showSheet = true
+                
                 return .none
             }
         }
         .ifLet(\.$writePost, action: \.writePost) {
             WritePostFeature()
         }
-        .forEach(\.path, action: \.path)
     }
 }
