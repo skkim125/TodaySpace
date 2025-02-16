@@ -13,36 +13,36 @@ struct MainTabView: View {
     
     init(store: StoreOf<MainTabFeature>) {
         self.store = store
-        UITabBar.appearance().backgroundColor = UIColor.systemBackground
     }
     
     var body: some View {
-        TabView(selection: $store.selectedTab) {
-            
-            HomeView(store: store.scope(state: \.home, action: \.home))
-                .tabItem {
-                    Image(systemName: TabInfo.home.image)
-                }
-                .tag(TabInfo.home)
-            
-            ContentView()
-                .tabItem {
-                    Image(systemName: TabInfo.search.image)
-                }
-                .tag(TabInfo.search)
-            
-            ContentView()
-                .tabItem {
-                    Image(systemName: TabInfo.dm.image)
-                }
-                .tag(TabInfo.dm)
-            
-            ContentView()
-                .tabItem {
-                    Image(systemName: TabInfo.myPage.image)
-                }
-                .tag(TabInfo.myPage)
+        NavigationStack {
+            TabView(selection: $store.selectedTab) {
+                HomeView(store: store.scope(state: \.home, action: \.home))
+                    .tabItem {
+                        Image(systemName: TabInfo.home.image)
+                    }
+                    .tag(TabInfo.home)
+                
+                MapView()
+                    .tabItem {
+                        Image(systemName: TabInfo.map.image)
+                    }
+                    .tag(TabInfo.map)
+                
+                ContentView()
+                    .tabItem {
+                        Image(systemName: TabInfo.dm.image)
+                    }
+                    .tag(TabInfo.dm)
+                
+                ContentView()
+                    .tabItem {
+                        Image(systemName: TabInfo.myPage.image)
+                    }
+                    .tag(TabInfo.myPage)
+            }
+            .tint(Color(uiColor: .label))
         }
-        .tint(Color(uiColor: .label))
     }
 }

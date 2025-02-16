@@ -55,8 +55,14 @@ struct MapView: View {
         ZStack(alignment: .center) {
             mapView()
             searchButton()
+            
+            if let place = selectedItem {
+                placeCardView(place: place)
+            }
         }
-        .onAppear(perform: startLocationServices)
+        .onAppear {
+            startLocationServices()
+        }
         .onChange(of: locationManager.isInitialized) { _, initialized in
             if initialized,
                mapState == .viewAppear,
@@ -67,13 +73,16 @@ struct MapView: View {
     }
     
     private func mapView() -> some View {
-        Map(position: $position, selection: $selectedItem, scope: mapScope) {
+        Map(position: $position, scope: mapScope) {
             UserAnnotation()
             
             ForEach(places) { place in
                 Group {
                     Annotation("", coordinate: place.coordinate) {
                         MapMarkerView(imageURL: place.image)
+                            .onTapGesture {
+                                selectedItem = place
+                            }
                     }
                 }
                 .tag(place)
@@ -86,10 +95,6 @@ struct MapView: View {
             if !position.followsUserLocation && mapState == .loaded {
                 mapState = .regionChanged
             }
-        }
-        .sheet(item: $selectedItem) { item in
-            Text("\(item.name)")
-                .presentationDetents([.height(50)])
         }
     }
     
@@ -117,11 +122,31 @@ struct MapView: View {
                             .shadow(radius: 1)
                     }
                 }
-                .padding(.top)
+                .padding(.top, 10)
             }
             Spacer()
         }
-        .padding(.top, 35)
+    }
+    
+    func placeCardView(place: Place) -> some View {
+        VStack {
+            Spacer()
+            
+            NavigationLink {
+                if let post = posts.first(where: { $0.post_id == place.id }) {
+                    LazyInitView {
+                        PostDetailView(store: .init(initialState: PostDetailFeature.State(post: post), reducer: {
+                            PostDetailFeature()
+                        }))
+                    }
+                }
+            } label: {
+                PlaceCardView(place: place)
+                    .transition(.move(edge: .bottom))
+                    .animation(.easeInOut(duration: 0.3), value: selectedItem)
+                    .padding(.bottom, 30)
+            }
+        }
     }
 }
 

@@ -10,7 +10,7 @@ import ComposableArchitecture
 
 enum TabInfo: String {
     case home = "홈"
-    case search = "검색"
+    case map = "지도"
     case dm = "DM"
     case myPage = "마이페이지"
     
@@ -18,8 +18,8 @@ enum TabInfo: String {
         switch self {
         case .home:
             return "house"
-        case .search:
-            return "magnifyingglass"
+        case .map:
+            return "map"
         case .dm:
             return "message"
         case .myPage:
