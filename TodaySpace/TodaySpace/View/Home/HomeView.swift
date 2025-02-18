@@ -42,9 +42,15 @@ struct HomeView: View {
             }
             .sheet(isPresented: $store.showSheet) {
                 if let post = store.selectedPost {
-                    PostDetailView(store: .init(initialState: PostDetailFeature.State(post: post), reducer: {
-                        PostDetailFeature()
-                    }))
+                    ZStack {
+                        Color(uiColor: .systemBackground)
+                            .ignoresSafeArea()
+                        LazyInitView {
+                            PostDetailView(store: .init(initialState: PostDetailFeature.State(post: post), reducer: {
+                                PostDetailFeature()
+                            }))
+                        }
+                    }
                 }
             }
             .fullScreenCover(item: $store.scope(state: \.writePost, action: \.writePost)) { store in

@@ -11,9 +11,12 @@ import MapKit
 struct Place: Identifiable, Hashable {
     let id: String
     let name: String
+    let address: String
+    let postTitle: String
     let image: String?
     let lat: Double
     let lon: Double
+    let distance: Double?
     var coordinate: CLLocationCoordinate2D {
         .init(latitude: lat, longitude: lon)
     }
@@ -40,9 +43,12 @@ struct MapView: View {
             Place(
                 id: $0.post_id,
                 name: $0.content1,
+                address: $0.content2,
+                postTitle: $0.title,
                 image: $0.files?.first ?? "",
                 lat: $0.geolocation.latitude,
-                lon: $0.geolocation.longitude
+                lon: $0.geolocation.longitude,
+                distance: $0.distance
             )
         }
     }
@@ -83,7 +89,9 @@ struct MapView: View {
                     Annotation("", coordinate: place.coordinate) {
                         MapMarkerView(imageURL: place.image)
                             .onTapGesture {
-                                selectedItem = place
+                                withAnimation(.easeInOut(duration: 0.3)) {
+                                    selectedItem = place
+                                }
                             }
                     }
                 }
@@ -100,10 +108,14 @@ struct MapView: View {
         }
         .sheet(isPresented: $showInfoSheet) {
             if let place = selectedItem, let post = posts.first(where: { $0.post_id == place.id }) {
-                LazyInitView {
-                    PostDetailView(store: .init(initialState: PostDetailFeature.State(post: post), reducer: {
-                        PostDetailFeature()
-                    }))
+                ZStack {
+                    Color(uiColor: .systemBackground)
+                        .ignoresSafeArea()
+                    LazyInitView {
+                        PostDetailView(store: .init(initialState: PostDetailFeature.State(post: post), reducer: {
+                            PostDetailFeature()
+                        }))
+                    }
                 }
             }
         }
@@ -140,16 +152,19 @@ struct MapView: View {
     }
     
     func placeCardView(place: Place) -> some View {
-        VStack {
-            Spacer()
-            
-            PlaceCardView(place: place)
+        ZStack {
+            VStack {
+                Spacer()
+                
+                PlaceCardView(place: place) {
+                    selectedItem = nil
+                }
                 .transition(.move(edge: .bottom))
-                .animation(.easeInOut(duration: 0.3), value: selectedItem)
                 .padding(.bottom, 30)
                 .onTapGesture {
                     showInfoSheet.toggle()
                 }
+            }
         }
     }
 }
