@@ -19,43 +19,24 @@ struct HomeView: View {
     @Bindable var store: StoreOf<HomeFeature>
     
     var body: some View {
-        NavigationStack {
-            VStack {
-                contentView()
+        VStack {
+            CustomNavigationBar(title: "오늘의 공간")
+            
+            contentView()
+        }
+        .background(AppColor.appBackground)
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                writePostButton()
             }
-            .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
-                    Text("오늘의 공간")
-                        .font(.system(size: 25, weight: .black))
-                        .foregroundStyle(AppColor.main)
-                }
-                
-                ToolbarItem(placement: .topBarTrailing) {
-                    writePostButton()
-                }
+        }
+        .onAppear {
+            if !store.viewAppeared {
+                store.send(.viewAppear)
             }
-            .background(AppColor.appBackground)
-            .onAppear {
-                if !store.viewAppeared {
-                    store.send(.viewAppear)
-                }
-            }
-            .sheet(isPresented: $store.showSheet) {
-                if let post = store.selectedPost {
-                    ZStack {
-                        Color(uiColor: .systemBackground)
-                            .ignoresSafeArea()
-                        LazyInitView {
-                            PostDetailView(store: .init(initialState: PostDetailFeature.State(post: post), reducer: {
-                                PostDetailFeature()
-                            }))
-                        }
-                    }
-                }
-            }
-            .fullScreenCover(item: $store.scope(state: \.writePost, action: \.writePost)) { store in
-                WritePostView(store: store)
-            }
+        }
+        .fullScreenCover(item: $store.scope(state: \.writePost, action: \.writePost)) { store in
+            WritePostView(store: store)
         }
     }
     
@@ -87,22 +68,47 @@ struct HomeView: View {
             categoryView()
                 .padding(.top, 10)
             
-            ScrollView {
-                LazyVStack(alignment: .leading) {
-                    ForEach(store.posts, id: \.post_id) { post in
-                        HStack {
-                            ImageView(imageURL: post.files?.first, frame: .setFrame(150, 150))
-                            
-                            Text("\(post.title)")
-                        }
-                        .padding(.horizontal, 20)
-                        .onTapGesture {
-                            store.send(.showSheet(post))
+            GeometryReader { geometry in
+                let availableWidth = geometry.size.width - (40)
+                
+                ScrollView {
+                    LazyVStack(alignment: .leading, spacing: 20) {
+                        ForEach(store.posts, id: \.post_id) { post in
+                            NavigationLink {
+                                LazyInitView {
+                                    PostDetailView(store: .init(initialState: PostDetailFeature.State(post: post), reducer: {
+                                        PostDetailFeature()
+                                    }))
+                                }
+                            } label: {
+                                ZStack(alignment: .bottom) {
+                                    ImageView(
+                                        imageURL: post.files?.first,
+                                        frame: .setFrame(availableWidth, availableWidth)
+                                    )
+                                    .opacity(0.7)
+                                    
+                                    Rectangle()
+                                        .fill(.black.opacity(0.6))
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                        .frame(height: 100)
+                                        .cornerRadius(12, corners: [.bottomLeft, .bottomRight])
+                                        .overlay {
+                                            Text("\(post.title)")
+                                                .font(.title3)
+                                                .foregroundStyle(.white)
+                                        }
+                                }
+                                .contentShape(Rectangle())
+                                
+                            }
                         }
                     }
+                    .padding(.horizontal, 20)
                 }
+                .padding(.top, 10)
             }
-            .padding(.top, 10)
+
         }
     }
     
@@ -141,5 +147,24 @@ extension HomeView {
             return categoryID == selectedID
         }
         return false
+    }
+}
+
+struct CustomNavigationBar: View {
+    var title: String
+    
+    var body: some View {
+        ZStack(alignment: .topLeading) {
+            Rectangle()
+                .fill(AppColor.appBackground)
+                .shadow(color: .clear, radius: 0)
+            
+            Text(title)
+                .font(.system(size: 25, weight: .black))
+                .foregroundStyle(AppColor.main)
+                .padding(.leading)
+        }
+        .frame(height: 30)
+        .frame(maxWidth: .infinity)
     }
 }

@@ -55,8 +55,6 @@ struct HomeFeature: Reducer {
         var posts: [PostResponse] = []
         @Presents var writePost: WritePostFeature.State?
         var categoryFilter: CategoryFilter = .all
-        let columns = [GridItem(.flexible()), GridItem(.flexible())]
-        var showSheet: Bool = false
         var selectedPost: PostResponse?
         var selectedCategory: [String] {
             switch categoryFilter {
@@ -72,14 +70,12 @@ struct HomeFeature: Reducer {
         case binding(BindingAction<State>)
         case viewAppear
         case showWritePostSheet
-        case tokenRefresh
-        case refreshSuccess(TokenResponse)
         case writePost(PresentationAction<WritePostFeature.Action>)
         case setCategory(CategoryFilter)
         case fetchPost(FetchPostQuery)
         case fetchSuccess(FetchPostResponse)
         case requestError(Error)
-        case showSheet(PostResponse)
+        case postDetail(PostResponse)
     }
     
     var body: some ReducerOf<Self> {
@@ -98,20 +94,6 @@ struct HomeFeature: Reducer {
                 } else {
                     return .none
                 }
-            case .tokenRefresh:
-                return .run { send in
-                    do {
-                        let result = try await authClient.tokenRefresh()
-                        return await send(.refreshSuccess(result))
-                    } catch {
-                        return await send(.requestError(error))
-                    }
-                }
-                
-            case .refreshSuccess(let token):
-                UserDefaultsManager.refresh(token.accessToken, token.refreshToken)
-                print("리프래시 완료")
-                return .none
                 
             case .requestError(let error):
                 print(error)
@@ -153,10 +135,8 @@ struct HomeFeature: Reducer {
             case .fetchSuccess(let result):
                 state.posts = result.data
                 return .none
-            case .showSheet(let post):
-                state.selectedPost = post
-                state.showSheet = true
                 
+            case .postDetail:
                 return .none
             }
         }

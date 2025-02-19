@@ -58,23 +58,30 @@ struct MapView: View {
     }
     
     var body: some View {
-        NavigationStack {
-            ZStack(alignment: .center) {
-                mapView()
-                searchButton()
-                
-                if let place = selectedItem {
-                    placeCardView(place: place)
-                }
+        ZStack(alignment: .center) {
+            mapView()
+            searchButton()
+            
+            if let place = selectedItem {
+                placeCardView(place: place)
             }
-            .onAppear {
-                startLocationServices()
+        }
+        .onAppear {
+            startLocationServices()
+        }
+        .onChange(of: locationManager.isInitialized) { _, initialized in
+            if initialized,
+               mapState == .viewAppear,
+               let location = locationManager.currentLocation {
+                setFirstLocation(location)
             }
-            .onChange(of: locationManager.isInitialized) { _, initialized in
-                if initialized,
-                   mapState == .viewAppear,
-                   let location = locationManager.currentLocation {
-                    setFirstLocation(location)
+        }
+        .navigationDestination(isPresented: $showInfoSheet) {
+            if let place = selectedItem, let post = posts.first(where: { $0.post_id == place.id }) {
+                LazyInitView {
+                    PostDetailView(store: .init(initialState: PostDetailFeature.State(post: post), reducer: {
+                        PostDetailFeature()
+                    }))
                 }
             }
         }
@@ -91,6 +98,10 @@ struct MapView: View {
                             .onTapGesture {
                                 withAnimation(.easeInOut(duration: 0.3)) {
                                     selectedItem = place
+                                    position = .camera(MapCamera(
+                                        centerCoordinate: place.coordinate,
+                                        distance: 1500
+                                    ))
                                 }
                             }
                     }
@@ -104,19 +115,6 @@ struct MapView: View {
             currentRegion = context.region
             if !position.followsUserLocation && mapState == .loaded {
                 mapState = .regionChanged
-            }
-        }
-        .sheet(isPresented: $showInfoSheet) {
-            if let place = selectedItem, let post = posts.first(where: { $0.post_id == place.id }) {
-                ZStack {
-                    Color(uiColor: .systemBackground)
-                        .ignoresSafeArea()
-                    LazyInitView {
-                        PostDetailView(store: .init(initialState: PostDetailFeature.State(post: post), reducer: {
-                            PostDetailFeature()
-                        }))
-                    }
-                }
             }
         }
     }

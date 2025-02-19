@@ -35,11 +35,19 @@ struct MainTabFeature {
     struct State {
         var selectedTab: TabInfo = .home
         var home = HomeFeature.State()
+        var showDetailView: Bool = false
+        var path = StackState<Path.State>()
+    }
+    
+    @Reducer
+    enum Path {
+        case postDetail(PostDetailFeature)
     }
     
     enum Action: BindableAction {
         case binding(BindingAction<State>)
         case home(HomeFeature.Action)
+        case path(StackAction<Path.State, Path.Action>)
     }
     
     var body: some ReducerOf<Self> {
@@ -52,9 +60,15 @@ struct MainTabFeature {
             switch action {
             case .binding:
                 return .none
+            case .home(.postDetail(let post)):
+                state.path.append(.postDetail(PostDetailFeature.State(post: post)))
+                return .none
             case .home:
+                return .none
+            case .path:
                 return .none
             }
         }
+        .forEach(\.path, action: \.path)
     }
 }

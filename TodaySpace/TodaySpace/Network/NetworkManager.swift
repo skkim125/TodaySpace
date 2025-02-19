@@ -45,7 +45,6 @@ final class NetworkManager {
         }
     }
     
-    
     func fetchImage(imageURL: String) async throws -> UIImage {
         guard let url = URL(string: API.baseURL + "/v1/" + imageURL) else {
             throw NetworkError.invalidURL
