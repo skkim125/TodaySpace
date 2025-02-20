@@ -101,7 +101,7 @@ struct MapView: View {
                 Spacer()
                 
                 PlaceCardView(place: place) {
-                    store.selectedItem = nil
+                    store.send(.selectedPlace(nil))
                 }
                 .transition(.move(edge: .bottom))
                 .padding(.bottom, 30)

@@ -49,6 +49,7 @@ struct PostDetailView: View {
             }
         }
         .toolbar(.hidden, for: .navigationBar)
+        .background(AppColor.appBackground)
         .customNavigationBar {
             EmptyView()
         } leftView: {

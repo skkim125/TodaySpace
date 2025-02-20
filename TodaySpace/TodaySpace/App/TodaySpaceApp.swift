@@ -14,6 +14,19 @@ struct TodaySpaceApp: App {
         AppFeature()
     }
     
+    init() {
+        let appearance = UITabBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = UIColor(AppColor.appBackground)
+        appearance.backgroundEffect = nil
+        appearance.shadowColor = .gray
+        
+        UITabBar.appearance().backgroundImage = UIImage()
+        UITabBar.appearance().isTranslucent = false
+        UITabBar.appearance().standardAppearance = appearance
+        UITabBar.appearance().scrollEdgeAppearance = appearance
+    }
+    
     var body: some Scene {
         WindowGroup {
             onboardingView()

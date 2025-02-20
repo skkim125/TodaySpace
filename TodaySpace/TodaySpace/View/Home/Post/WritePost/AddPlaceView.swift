@@ -62,6 +62,7 @@ struct AddPlaceView: View {
             .padding(.top, 10)
         }
         .frame(maxHeight: .infinity)
+        .background(AppColor.appBackground)
         .navigationTitle("공간 검색")
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarBackButtonHidden()

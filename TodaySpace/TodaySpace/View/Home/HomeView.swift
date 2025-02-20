@@ -23,7 +23,7 @@ struct HomeView: View {
             contentView()
                 .padding(.vertical, 5)
         }
-        .background(Color(uiColor: .systemBackground))
+        .background(AppColor.appBackground)
         .customNavigationBar(centerView: {
             HStack {
                 Text("오늘의 공간")

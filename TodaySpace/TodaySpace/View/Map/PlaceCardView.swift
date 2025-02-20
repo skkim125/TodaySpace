@@ -60,9 +60,8 @@ struct PlaceCardView: View {
             .tint(.gray)
             .padding(15)
         }
-        .frame(width: width,
-               height: height)
-        .background(Color(uiColor: .systemBackground))
+        .frame(width: width, height: height)
+        .background(AppColor.appBackground)
         .clipShape(RoundedRectangle(cornerRadius: 12))
         .shadow(radius: 5)
     }

@@ -43,7 +43,7 @@ struct MapViewFeature {
         }
         
         var showSearchButton: Bool {
-            self.mapState == .regionChanged
+            self.mapState == .regionChanged && self.selectedItem == nil
         }
     }
     
@@ -120,14 +120,13 @@ struct MapViewFeature {
             case .selectedPlace(let place):
                 if let place = place {
                     state.selectedItem = place
-                    state.position = .camera(MapCamera(
-                        centerCoordinate: place.coordinate,
-                        distance: 1500
-                    ))
-                    
+                    state.mapState = .regionChanged
+                    return .none
+                } else {
+                    state.selectedItem = nil
+                    state.mapState = .loaded
                     return .none
                 }
-                return .none
                 
             case .fetchCurrrentRegion(let region):
                 state.currentRegion = region

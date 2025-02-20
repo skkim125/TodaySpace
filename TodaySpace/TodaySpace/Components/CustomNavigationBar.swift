@@ -41,10 +41,10 @@ struct CustomNavigationBar<C, L, R>: ViewModifier where C: View, L: View, R: Vie
             .padding(.horizontal)
             .frame(height: 30)
             .frame(maxWidth: .infinity)
-            .background(Color(uiColor: .systemBackground))
             
             content
         }
+        .background(AppColor.appBackground)
         .toolbar(.hidden, for: .navigationBar)
     }
 }

@@ -14,14 +14,13 @@ struct MapMarkerView: View {
     var body: some View {
         VStack {
             Circle()
-                .fill(Color.black)
-                .frame(width: 60, height: 60)
+                .fill(AppColor.appBackground)
+                .frame(width: 50, height: 50)
                 .overlay {
                     ImageView(imageURL: imageURL, frame: .auto)
                         .clipShape(Circle())
-                        .frame(width: 50, height: 50)
+                        .frame(width: 40, height: 40)
                 }
         }
-        .foregroundStyle(.black)
     }
 }
