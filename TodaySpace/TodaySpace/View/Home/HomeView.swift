@@ -20,16 +20,24 @@ struct HomeView: View {
     
     var body: some View {
         VStack {
-            CustomNavigationBar(title: "오늘의 공간")
-            
             contentView()
+                .padding(.vertical, 5)
         }
-        .background(AppColor.appBackground)
-        .toolbar {
-            ToolbarItem(placement: .topBarTrailing) {
-                writePostButton()
+        .background(Color(uiColor: .systemBackground))
+        .customNavigationBar(centerView: {
+            HStack {
+                Text("오늘의 공간")
+                    .font(.system(size: 25, weight: .black))
+                    .foregroundStyle(AppColor.main)
+                    .multilineTextAlignment(.leading)
+                
+                Spacer()
             }
-        }
+        }, leftView: {
+            EmptyView()
+        }, rightView: {
+            writePostButton()
+        })
         .onAppear {
             if !store.viewAppeared {
                 store.send(.viewAppear)
@@ -74,41 +82,40 @@ struct HomeView: View {
                 ScrollView {
                     LazyVStack(alignment: .leading, spacing: 20) {
                         ForEach(store.posts, id: \.post_id) { post in
-                            NavigationLink {
-                                LazyInitView {
-                                    PostDetailView(store: .init(initialState: PostDetailFeature.State(post: post), reducer: {
-                                        PostDetailFeature()
-                                    }))
-                                }
+                            Button {
+                                store.send(.postDetail(post))
                             } label: {
-                                ZStack(alignment: .bottom) {
-                                    ImageView(
-                                        imageURL: post.files?.first,
-                                        frame: .setFrame(availableWidth, availableWidth)
-                                    )
-                                    .opacity(0.7)
-                                    
-                                    Rectangle()
-                                        .fill(.black.opacity(0.6))
-                                        .frame(maxWidth: .infinity, alignment: .leading)
-                                        .frame(height: 100)
-                                        .cornerRadius(12, corners: [.bottomLeft, .bottomRight])
-                                        .overlay {
-                                            Text("\(post.title)")
-                                                .font(.title3)
-                                                .foregroundStyle(.white)
+                                RoundedRectangle(cornerRadius: 12)
+                                    .stroke(Color.gray, lineWidth: 0.5)
+                                    .background {
+                                        ZStack(alignment: .bottom) {
+                                            ImageView(
+                                                imageURL: post.files?.first,
+                                                frame: .setFrame(availableWidth, availableWidth)
+                                            )
+                                            .opacity(0.7)
+                                            
+                                            Rectangle()
+                                                .fill(.black.opacity(0.6))
+                                                .frame(maxWidth: .infinity, alignment: .leading)
+                                                .frame(height: 100)
+                                                .cornerRadius(12, corners: [.bottomLeft, .bottomRight])
+                                                .overlay {
+                                                    Text("\(post.title)")
+                                                        .font(.title3)
+                                                        .foregroundStyle(.white)
+                                                }
                                         }
-                                }
-                                .contentShape(Rectangle())
-                                
+                                    }
+                                    .contentShape(Rectangle())
+                                    .frame(width: availableWidth, height: availableWidth)
                             }
                         }
                     }
                     .padding(.horizontal, 20)
+                    .padding(.vertical, 15)
                 }
-                .padding(.top, 10)
             }
-
         }
     }
     
@@ -147,24 +154,5 @@ extension HomeView {
             return categoryID == selectedID
         }
         return false
-    }
-}
-
-struct CustomNavigationBar: View {
-    var title: String
-    
-    var body: some View {
-        ZStack(alignment: .topLeading) {
-            Rectangle()
-                .fill(AppColor.appBackground)
-                .shadow(color: .clear, radius: 0)
-            
-            Text(title)
-                .font(.system(size: 25, weight: .black))
-                .foregroundStyle(AppColor.main)
-                .padding(.leading)
-        }
-        .frame(height: 30)
-        .frame(maxWidth: .infinity)
     }
 }

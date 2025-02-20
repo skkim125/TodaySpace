@@ -20,7 +20,7 @@ struct MainTabView: View {
                     }
                     .tag(TabInfo.home)
                 
-                MapView()
+                MapView(store: store.scope(state: \.map, action: \.map))
                     .tabItem {
                         Image(systemName: TabInfo.map.image)
                     }
@@ -41,9 +41,7 @@ struct MainTabView: View {
         } destination: { store in
             switch store.case {
             case .postDetail(let store):
-                LazyInitView {
                     PostDetailView(store: store)
-                }
             }
         }
         .tint(Color(uiColor: .label))

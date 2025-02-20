@@ -35,6 +35,7 @@ struct MainTabFeature {
     struct State {
         var selectedTab: TabInfo = .home
         var home = HomeFeature.State()
+        var map = MapViewFeature.State()
         var showDetailView: Bool = false
         var path = StackState<Path.State>()
     }
@@ -47,12 +48,17 @@ struct MainTabFeature {
     enum Action: BindableAction {
         case binding(BindingAction<State>)
         case home(HomeFeature.Action)
+        case map(MapViewFeature.Action)
         case path(StackAction<Path.State, Path.Action>)
     }
     
     var body: some ReducerOf<Self> {
         Scope(state: \.home, action: \.home) {
             HomeFeature()
+        }
+        
+        Scope(state: \.map, action: \.map) {
+            MapViewFeature()
         }
         
         BindingReducer()
@@ -64,6 +70,11 @@ struct MainTabFeature {
                 state.path.append(.postDetail(PostDetailFeature.State(post: post)))
                 return .none
             case .home:
+                return .none
+            case .map(.postDetail(let post)):
+                state.path.append(.postDetail(PostDetailFeature.State(post: post)))
+                return .none
+            case .map:
                 return .none
             case .path:
                 return .none

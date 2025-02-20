@@ -12,6 +12,7 @@ struct PostClient {
     var uploadImage: (ImageUploadBody) async throws -> ImageUploadResponse
     var postUpload: (PostBody) async throws -> PostResponse
     var fetchPost: (FetchPostQuery) async throws -> FetchPostResponse
+    var fetchAreaPost: (FetchAreaPostQuery) async throws -> FetchAreaPostResponse
 }
 
 extension PostClient: DependencyKey {
@@ -36,6 +37,14 @@ extension PostClient: DependencyKey {
         fetchPost: { body in
             do {
                 return try await NetworkManager.shared.callRequest(targetType: PostTarget.fetchPost(body))
+            } catch let error as NetworkError {
+                throw error
+            }
+        },
+        
+        fetchAreaPost: { body in
+            do {
+                return try await NetworkManager.shared.callRequest(targetType: PostTarget.fetchAreaPost(body))
             } catch let error as NetworkError {
                 throw error
             }

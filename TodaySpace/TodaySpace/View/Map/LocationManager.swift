@@ -10,7 +10,7 @@ import CoreLocation
 
 final class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObject {
     private let locationManager = CLLocationManager()
-    var isInitialized: Bool = false
+    @Published var isInitialized: Bool = false
     @Published var currentLocation: CLLocation?
 
     override init() {
@@ -49,7 +49,7 @@ final class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObje
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.last else { return }
-        
+        print("Location updated: \(location.coordinate)")
         if !isInitialized {
             DispatchQueue.main.async {
                 self.currentLocation = location

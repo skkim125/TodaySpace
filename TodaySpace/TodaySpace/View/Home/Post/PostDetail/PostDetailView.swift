@@ -9,6 +9,7 @@ import SwiftUI
 import ComposableArchitecture
 
 struct PostDetailView: View {
+    @Environment(\.dismiss) var dismiss
     let store: StoreOf<PostDetailFeature>
     
     var body: some View {
@@ -46,7 +47,22 @@ struct PostDetailView: View {
                 Text(store.post.content)
                     .padding(.leading)
             }
-            .padding(.top, 10)
+        }
+        .toolbar(.hidden, for: .navigationBar)
+        .customNavigationBar {
+            EmptyView()
+        } leftView: {
+            Button {
+                dismiss()
+            } label: {
+                Label {
+                    Text("뒤로")
+                } icon: {
+                    Image(systemName: "chevron.backward")
+                }
+            }
+        } rightView: {
+            EmptyView()
         }
     }
 }
