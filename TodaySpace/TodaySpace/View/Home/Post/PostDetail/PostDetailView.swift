@@ -11,6 +11,8 @@ import ComposableArchitecture
 struct PostDetailView: View {
     @Environment(\.dismiss) var dismiss
     let store: StoreOf<PostDetailFeature>
+    @State private var commentText: String = ""
+    @FocusState private var isFocused: Bool
     
     var body: some View {
         ScrollView {
@@ -39,7 +41,7 @@ struct PostDetailView: View {
             VStack {
                 if store.post.comments.isEmpty {
                     Text("첫 댓글을 작성해보세요!")
-                        .padding(.top, 20)
+                        .padding(.vertical, 20)
                 } else {
                     ForEach(store.mockComment, id: \.comment_id) { comment in
                         CommentView(comment: comment)
@@ -47,6 +49,9 @@ struct PostDetailView: View {
                 }
             }
             .padding(.horizontal, 5)
+        }
+        .onTapGesture {
+            isFocused = false
         }
         .toolbar(.hidden, for: .navigationBar)
         .background(AppColor.appBackground)
@@ -64,6 +69,33 @@ struct PostDetailView: View {
             }
         } rightView: {
             EmptyView()
+        }
+        .safeAreaInset(edge: .bottom) {
+            VStack(spacing: 0) {
+                Divider()
+                
+                HStack {
+                    TextField("댓글을 입력하세요...", text: $commentText)
+                        .padding(10)
+                        .background(Color(.systemGray6))
+                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                        .focused($isFocused)
+                    
+                    Button {
+                        commentText = ""
+                        isFocused = false
+                    } label: {
+                        Text("전송")
+                            .foregroundColor(.white)
+                            .padding(10)
+                            .background(commentText.isEmpty ? AppColor.gray : .orange)
+                            .clipShape(RoundedRectangle(cornerRadius: 12))
+                    }
+                }
+                .padding(.horizontal)
+                .padding(.vertical, 15)
+            }
+            .background(AppColor.appBackground)
         }
     }
     
