@@ -57,6 +57,7 @@
 		04B9FF352D65F8F400D3983F /* MapViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B9FF342D65F8F400D3983F /* MapViewState.swift */; };
 		04B9FF372D67133000D3983F /* CustomNavigationBarModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B9FF362D67133000D3983F /* CustomNavigationBarModifier.swift */; };
 		04B9FF392D67133C00D3983F /* CustomNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B9FF382D67133C00D3983F /* CustomNavigationBar.swift */; };
+		04B9FF3B2D674A5E00D3983F /* CommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B9FF3A2D674A5E00D3983F /* CommentView.swift */; };
 		04F1A7542D4DEE2300471965 /* PostClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F1A7532D4DEE2300471965 /* PostClient.swift */; };
 		04F1A7572D4E54F100471965 /* PostResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F1A7562D4E54F100471965 /* PostResponse.swift */; };
 		04F1A7592D4E550000471965 /* ImageUploadResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F1A7582D4E550000471965 /* ImageUploadResponse.swift */; };
@@ -128,6 +129,7 @@
 		04B9FF342D65F8F400D3983F /* MapViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewState.swift; sourceTree = "<group>"; };
 		04B9FF362D67133000D3983F /* CustomNavigationBarModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationBarModifier.swift; sourceTree = "<group>"; };
 		04B9FF382D67133C00D3983F /* CustomNavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationBar.swift; sourceTree = "<group>"; };
+		04B9FF3A2D674A5E00D3983F /* CommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentView.swift; sourceTree = "<group>"; };
 		04F1A7532D4DEE2300471965 /* PostClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostClient.swift; sourceTree = "<group>"; };
 		04F1A7562D4E54F100471965 /* PostResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostResponse.swift; sourceTree = "<group>"; };
 		04F1A7582D4E550000471965 /* ImageUploadResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageUploadResponse.swift; sourceTree = "<group>"; };
@@ -163,6 +165,7 @@
 			children = (
 				041BFFF52D5DDFBB00266BFB /* PostDetailView.swift */,
 				041BFFF72D5DDFC300266BFB /* PostDetailFeature.swift */,
+				04B9FF3A2D674A5E00D3983F /* CommentView.swift */,
 			);
 			path = PostDetail;
 			sourceTree = "<group>";
@@ -527,6 +530,7 @@
 				045705532D466DB5000C4CBA /* API.swift in Sources */,
 				0457056C2D467C4B000C4CBA /* AuthTarget.swift in Sources */,
 				04FBE01D2D477181004CCCE6 /* HomeFeature.swift in Sources */,
+				04B9FF3B2D674A5E00D3983F /* CommentView.swift in Sources */,
 				04A39E4D2D4114E5007E3616 /* TodaySpaceApp.swift in Sources */,
 				0459AEC22D4CA8AE009307DE /* AddPlaceView.swift in Sources */,
 				045705772D467EFF000C4CBA /* MainTabFeature.swift in Sources */,

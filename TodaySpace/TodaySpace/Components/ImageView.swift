@@ -18,25 +18,20 @@ struct ImageView: View {
         ZStack {
             if isLoading {
                 ProgressView()
-                    .setFrame(setFrame: frame)
+                
             } else if let image = image {
                 Image(uiImage: image)
                     .resizable()
                     .aspectRatio(contentMode: .fill)
                     .clipped()
-                    .setFrame(setFrame: frame)
                 
             } else if loadError {
-                Image(systemName: "photo.badge.exclamationmark")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .foregroundColor(.gray)
-                    .setFrame(setFrame: frame)
+                Text("이미지를 불러올 수 없습니다.")
             } else {
                 EmptyView()
-                    .setFrame(setFrame: frame)
             }
         }
+        .setFrame(setFrame: frame)
         .clipShape(RoundedRectangle(cornerRadius: 12))
         .shadow(radius: 2)
         .task {

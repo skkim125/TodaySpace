@@ -17,6 +17,20 @@ struct PostDetailFeature: Reducer {
     @ObservableState
     struct State {
         var post: PostResponse
+        var mockComment: [Comment] = [] // [
+//            Comment(comment_id: "1231223", content: "오 여기 좋더라구요", createdAt: "2025년 88월 88일", creator: User(user_id: "", nick: "바라쿠타", profileImage: "")),
+//            Comment(comment_id: "123122512", content: "오 여기 좋더라구요", createdAt: "2025년 88월 88일", creator: User(user_id: "", nick: "바라쿠타", profileImage: "")),
+//            Comment(comment_id: "123122612", content: "오 여기 좋더라구요", createdAt: "2025년 88월 88일", creator: User(user_id: "", nick: "바라쿠타", profileImage: "")),
+//            Comment(comment_id: "123127312", content: "오 여기 좋더라구요", createdAt: "2025년 88월 88일", creator: User(user_id: "", nick: "바라쿠타", profileImage: "")),
+//            Comment(comment_id: "123182312", content: "오 여기 좋더라구요", createdAt: "2025년 88월 88일", creator: User(user_id: "", nick: "바라쿠타", profileImage: "")),
+//            Comment(comment_id: "123922312", content: "오 여기 좋더라구요", createdAt: "2025년 88월 88일", creator: User(user_id: "", nick: "바라쿠타", profileImage: "")),
+//            Comment(comment_id: "1222312", content: "오 여기 좋더라구요", createdAt: "2025년 88월 88일", creator: User(user_id: "", nick: "바라쿠타", profileImage: "")),
+//            Comment(comment_id: "43122312", content: "오 여기 좋더라구요", createdAt: "2025년 88월 88일", creator: User(user_id: "", nick: "바라쿠타", profileImage: "")),
+//            Comment(comment_id: "223122312", content: "오 여기 좋더라구요", createdAt: "2025년 88월 88일", creator: User(user_id: "", nick: "바라쿠타", profileImage: "")),
+//            Comment(comment_id: "143122312", content: "오 여기 좋더라구요", createdAt: "2025년 88월 88일", creator: User(user_id: "", nick: "바라쿠타", profileImage: "")),
+//            Comment(comment_id: "12312231", content: "오 여기 좋더라구요", createdAt: "2025년 88월 88일", creator: User(user_id: "", nick: "바라쿠타", profileImage: "")),
+//            Comment(comment_id: "123122", content: "오 여기 좋더라구요. 오 여기 좋더라구요. 오 여기 좋더라구요. 오 여기 좋더라구요. 오 여기 좋더라구요. 오 여기 좋더라구요. 오 여기 좋더라구요. 오 여기 좋더라구요. 오 여기 좋더라구요. 오 여기 좋더라구요. 오 여기 좋더라구요. 오 여기 좋더라구요. 오 여기 좋더라구요. 오 여기 좋더라구요. 오 여기 좋더라구요. 오 여기 좋더라구요. ", createdAt: "2025년 88월 88일", creator: User(user_id: "", nick: "바라쿠타", profileImage: ""))
+//        ]
     }
     
     enum Action: BindableAction {
