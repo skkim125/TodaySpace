@@ -23,7 +23,6 @@ struct ImageView: View {
                 Image(uiImage: image)
                     .resizable()
                     .aspectRatio(contentMode: .fill)
-                    .clipped()
                 
             } else if loadError {
                 Text("이미지를 불러올 수 없습니다.")
@@ -32,7 +31,6 @@ struct ImageView: View {
             }
         }
         .setFrame(setFrame: frame)
-        .clipShape(RoundedRectangle(cornerRadius: 12))
         .shadow(radius: 2)
         .task {
             await loadImage()

@@ -43,6 +43,9 @@ struct MainTabFeature {
     @Reducer
     enum Path {
         case postDetail(PostDetailFeature)
+        enum Action {
+            case postDetail(PostDetailFeature.Action)
+        }
     }
     
     enum Action: BindableAction {
@@ -50,6 +53,7 @@ struct MainTabFeature {
         case home(HomeFeature.Action)
         case map(MapViewFeature.Action)
         case path(StackAction<Path.State, Path.Action>)
+        case updatePost(PostResponse)
     }
     
     var body: some ReducerOf<Self> {
@@ -76,6 +80,25 @@ struct MainTabFeature {
                 return .none
             case .map:
                 return .none
+                
+            case .path(.element(id: _, action: .postDetail(.dismissAction(let post)))):
+                return .send(.updatePost(post))
+                
+            case .updatePost(let post):
+                switch state.selectedTab {
+                case .home:
+                    if let index = state.home.posts.firstIndex(where: { $0.post_id == post.post_id }) {
+                        state.home.posts[index] = post
+                    }
+                case .map:
+                    if let index = state.map.posts.firstIndex(where: { $0.post_id == post.post_id }) {
+                        state.map.posts[index] = post
+                    }
+                default:
+                    break
+                }
+                return .none
+                
             case .path:
                 return .none
             }

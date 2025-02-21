@@ -93,6 +93,7 @@ struct HomeView: View {
                                                 imageURL: post.files?.first,
                                                 frame: .setFrame(availableWidth, availableWidth)
                                             )
+                                            .clipShape(RoundedRectangle(cornerRadius: 12))
                                             .opacity(0.7)
                                             
                                             Rectangle()

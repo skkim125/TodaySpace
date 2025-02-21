@@ -14,6 +14,10 @@ struct CommentView: View {
         HStack(alignment: .top, spacing: 10) {
             if let imageURL = comment.creator.profileImage, !imageURL.isEmpty {
                 ImageView(imageURL: imageURL, frame: .setFrame(40, 40))
+                    .overlay(
+                        Circle().stroke(AppColor.grayStroke, lineWidth: 1)
+                    )
+                    .clipShape(Circle())
             } else {
                 Circle()
                     .fill(AppColor.subTitle)
@@ -33,7 +37,7 @@ struct CommentView: View {
                     Text("\(comment.creator.nick ?? "")")
                         .font(.system(size: 15))
                     
-                    Text("\(comment.createdAt)")
+                    Text("\(DateFormatter.convertDateString(comment.createdAt))")
                         .font(.system(size: 12))
                         .foregroundStyle(AppColor.gray)
                 }

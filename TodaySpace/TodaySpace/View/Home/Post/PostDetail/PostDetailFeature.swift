@@ -17,16 +17,19 @@ struct PostDetailFeature: Reducer {
     @ObservableState
     struct State {
         var post: PostResponse
-        var comments: [Comment] = []
+        var comments: [Comment] {
+            post.comments.sorted(by: { $0.createdAt < $1.createdAt })
+        }
         var commentText: String = ""
     }
     
     enum Action: BindableAction {
         case binding(BindingAction<State>)
-        case viewAppeared
         case commentButtonTap
         case commentSuccess(Comment)
         case fetchCurrentPostSuccess(PostResponse)
+        case dismiss
+        case dismissAction(PostResponse)
     }
     
     var body: some ReducerOf<Self> {
@@ -35,9 +38,6 @@ struct PostDetailFeature: Reducer {
         Reduce { state, action in
             switch action {
             case .binding:
-                return .none
-            case .viewAppeared:
-                state.comments = state.post.comments
                 return .none
             case .commentButtonTap:
                 if !state.commentText.isEmpty {
@@ -55,8 +55,9 @@ struct PostDetailFeature: Reducer {
                 } else {
                     return .none
                 }
-            case .commentSuccess(let result):
-                print(result)
+            case .commentSuccess(let comments):
+                print(comments)
+                
                 let postID = state.post.post_id
                 state.commentText = ""
                 return .run { send in
@@ -70,8 +71,22 @@ struct PostDetailFeature: Reducer {
                 
             case .fetchCurrentPostSuccess(let post):
                 state.post = post
-                state.comments = post.comments
                 
+                return .none
+                
+            case .dismiss:
+                let postID = state.post.post_id
+                return .run { send in
+                    do {
+                        let result = try await postClient.fetchCurrentPost(postID)
+                        await send(.dismissAction(result))
+                        await self.dismiss()
+                    } catch {
+                        print(error)
+                    }
+                }
+                
+            case .dismissAction:
                 return .none
             }
         }

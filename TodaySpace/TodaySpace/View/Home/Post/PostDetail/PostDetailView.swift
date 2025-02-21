@@ -9,7 +9,6 @@ import SwiftUI
 import ComposableArchitecture
 
 struct PostDetailView: View {
-    @Environment(\.dismiss) var dismiss
     @Bindable var store: StoreOf<PostDetailFeature>
     @FocusState private var isFocused: Bool
     
@@ -66,7 +65,7 @@ struct PostDetailView: View {
             EmptyView()
         } leftView: {
             Button {
-                dismiss()
+                store.send(.dismiss)
             } label: {
                 Label {
                     Text("뒤로")
@@ -106,9 +105,6 @@ struct PostDetailView: View {
             }
             .background(AppColor.appBackground)
         }
-        .onAppear {
-            store.send(.viewAppeared)
-        }
     }
     
     @ViewBuilder
@@ -116,30 +112,35 @@ struct PostDetailView: View {
         if let images = store.post.files {
             if images.count == 1 {
                 ImageView(imageURL: images[0], frame: .auto)
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
                     .padding(.horizontal)
             } else {
                 ScrollView(.horizontal) {
                     HStack {
                         ForEach(0..<images.count, id: \.self) { index in
                             ImageView(imageURL: images[index], frame: .setFrame(UIScreen.main.bounds.width - 100, 300))
+                                .clipShape(RoundedRectangle(cornerRadius: 12))
                                 .overlay {
-                                    VStack(alignment: .center) {
-                                        Spacer()
-                                        
-                                        HStack {
+                                    ZStack {
+                                        RoundedRectangle(cornerRadius: 12).stroke(AppColor.grayStroke, lineWidth: 1)
+                                        VStack(alignment: .center) {
                                             Spacer()
                                             
-                                            Circle()
-                                                .fill(AppColor.black)
-                                                .overlay {
-                                                    Text("\(index + 1)")
-                                                        .frame(width: 24, height: 24)
-                                                        .foregroundStyle(AppColor.white)
-                                                        .multilineTextAlignment(.center)
-                                                }
-                                                .frame(width: 25, height: 25)
+                                            HStack {
+                                                Spacer()
+                                                
+                                                Circle()
+                                                    .fill(AppColor.black)
+                                                    .overlay {
+                                                        Text("\(index + 1)")
+                                                            .frame(width: 24, height: 24)
+                                                            .foregroundStyle(AppColor.white)
+                                                            .multilineTextAlignment(.center)
+                                                    }
+                                                    .frame(width: 25, height: 25)
+                                            }
+                                            .padding(10)
                                         }
-                                        .padding(10)
                                     }
                                 }
                                 .padding(.leading, index == 0 ? 20 : 0)
