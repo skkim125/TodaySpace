@@ -12,6 +12,7 @@
 		041BFFED2D5DCF9900266BFB /* LazyInitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041BFFEC2D5DCF9900266BFB /* LazyInitView.swift */; };
 		041BFFF62D5DDFBB00266BFB /* PostDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041BFFF52D5DDFBB00266BFB /* PostDetailView.swift */; };
 		041BFFF82D5DDFC300266BFB /* PostDetailFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041BFFF72D5DDFC300266BFB /* PostDetailFeature.swift */; };
+		042C4F402D687C090013BA86 /* CommentBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042C4F3F2D687C090013BA86 /* CommentBody.swift */; };
 		044710FD2D4B4A660084B26E /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044710FC2D4B4A660084B26E /* Color.swift */; };
 		044711002D4B5C6C0084B26E /* KakaoLocalManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044710FF2D4B5C6C0084B26E /* KakaoLocalManager.swift */; };
 		044711032D4B63140084B26E /* KakaoLocalModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044711022D4B63140084B26E /* KakaoLocalModel.swift */; };
@@ -82,6 +83,7 @@
 		041BFFEC2D5DCF9900266BFB /* LazyInitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LazyInitView.swift; sourceTree = "<group>"; };
 		041BFFF52D5DDFBB00266BFB /* PostDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailView.swift; sourceTree = "<group>"; };
 		041BFFF72D5DDFC300266BFB /* PostDetailFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailFeature.swift; sourceTree = "<group>"; };
+		042C4F3F2D687C090013BA86 /* CommentBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentBody.swift; sourceTree = "<group>"; };
 		044710FC2D4B4A660084B26E /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		044710FF2D4B5C6C0084B26E /* KakaoLocalManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoLocalManager.swift; sourceTree = "<group>"; };
 		044711022D4B63140084B26E /* KakaoLocalModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoLocalModel.swift; sourceTree = "<group>"; };
@@ -319,6 +321,7 @@
 				0459AEC62D4D1DD4009307DE /* PostBody.swift */,
 				04F1A75E2D4E5B3900471965 /* FetchPostQuery.swift */,
 				046550922D607BF90087248D /* FetchAreaPostQuery.swift */,
+				042C4F3F2D687C090013BA86 /* CommentBody.swift */,
 			);
 			path = Request;
 			sourceTree = "<group>";
@@ -548,6 +551,7 @@
 				0459AEC42D4CBFCE009307DE /* AddPlaceFeature.swift in Sources */,
 				044710FD2D4B4A660084B26E /* Color.swift in Sources */,
 				044711032D4B63140084B26E /* KakaoLocalModel.swift in Sources */,
+				042C4F402D687C090013BA86 /* CommentBody.swift in Sources */,
 				045705582D466E85000C4CBA /* NetworkError.swift in Sources */,
 				04FBE0412D493B5F004CCCE6 /* WritePostFeature.swift in Sources */,
 				04F1A7542D4DEE2300471965 /* PostClient.swift in Sources */,

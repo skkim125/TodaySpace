@@ -10,45 +10,52 @@ import ComposableArchitecture
 
 struct PostDetailView: View {
     @Environment(\.dismiss) var dismiss
-    let store: StoreOf<PostDetailFeature>
-    @State private var commentText: String = ""
+    @Bindable var store: StoreOf<PostDetailFeature>
     @FocusState private var isFocused: Bool
     
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 20) {
-                Text(store.post.title)
-                    .font(.title).bold()
-                    .padding(.leading)
-                Text(store.post.content1)
-                    .padding(.leading)
-                Text(store.post.content2)
-                    .padding(.leading)
-                
-                imageListView()
-                
-                Text(store.post.content)
-                    .padding(.leading)
-                
-                VStack {
-                    Text("댓글: \(store.post.comments.count)개")
-                        .font(.title2)
-                        .multilineTextAlignment(.leading)
+        ScrollViewReader { proxy in
+            ScrollView {
+                VStack(alignment: .leading, spacing: 20) {
+                    Text(store.post.title)
+                        .font(.title).bold()
                         .padding(.leading)
-                }
-            }
-            
-            VStack {
-                if store.post.comments.isEmpty {
-                    Text("첫 댓글을 작성해보세요!")
-                        .padding(.vertical, 20)
-                } else {
-                    ForEach(store.mockComment, id: \.comment_id) { comment in
-                        CommentView(comment: comment)
+                    Text(store.post.content1)
+                        .padding(.leading)
+                    Text(store.post.content2)
+                        .padding(.leading)
+                    
+                    imageListView()
+                    
+                    Text(store.post.content)
+                        .padding(.leading)
+                    
+                    VStack {
+                        Text("댓글: \(store.post.comments.count)개")
+                            .font(.title2)
+                            .multilineTextAlignment(.leading)
+                            .padding(.leading)
                     }
                 }
+                
+                VStack {
+                    if store.comments.isEmpty {
+                        Text("첫 댓글을 작성해보세요!")
+                            .padding(.vertical, 20)
+                    } else {
+                        ForEach(store.comments, id: \.comment_id) { comment in
+                            CommentView(comment: comment)
+                                .id(comment.comment_id)
+                        }
+                    }
+                }
+                .padding(.horizontal, 5)
             }
-            .padding(.horizontal, 5)
+            .onChange(of: store.comments) { _, newValue in
+                if let lastComment = newValue.last {
+                    proxy.scrollTo(lastComment.comment_id, anchor: .bottom)
+                }
+            }
         }
         .onTapGesture {
             isFocused = false
@@ -75,27 +82,32 @@ struct PostDetailView: View {
                 Divider()
                 
                 HStack {
-                    TextField("댓글을 입력하세요...", text: $commentText)
+                    TextField("댓글을 입력하세요...", text: $store.commentText)
                         .padding(10)
                         .background(Color(.systemGray6))
                         .clipShape(RoundedRectangle(cornerRadius: 12))
                         .focused($isFocused)
                     
                     Button {
-                        commentText = ""
                         isFocused = false
+                        store.send(.commentButtonTap)
                     } label: {
-                        Text("전송")
-                            .foregroundColor(.white)
-                            .padding(10)
-                            .background(commentText.isEmpty ? AppColor.gray : .orange)
-                            .clipShape(RoundedRectangle(cornerRadius: 12))
+                        Image(systemName: "arrow.up.circle.fill")
+                            .resizable()
+                            .scaledToFit()
+                            .foregroundStyle(.white, store.commentText.isEmpty ? AppColor.gray : .orange)
+                            .clipShape(Circle())
+                            .frame(width: 25, height: 25)
                     }
+                    .disabled(store.commentText.isEmpty)
                 }
                 .padding(.horizontal)
                 .padding(.vertical, 15)
             }
             .background(AppColor.appBackground)
+        }
+        .onAppear {
+            store.send(.viewAppeared)
         }
     }
     

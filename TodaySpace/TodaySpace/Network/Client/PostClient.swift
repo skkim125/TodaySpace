@@ -13,6 +13,8 @@ struct PostClient {
     var postUpload: (PostBody) async throws -> PostResponse
     var fetchPost: (FetchPostQuery) async throws -> FetchPostResponse
     var fetchAreaPost: (FetchAreaPostQuery) async throws -> FetchAreaPostResponse
+    var comments: (String, CommentBody) async throws -> Comment
+    var fetchCurrentPost: (String) async throws -> PostResponse
 }
 
 extension PostClient: DependencyKey {
@@ -45,6 +47,21 @@ extension PostClient: DependencyKey {
         fetchAreaPost: { body in
             do {
                 return try await NetworkManager.shared.callRequest(targetType: PostTarget.fetchAreaPost(body))
+            } catch let error as NetworkError {
+                throw error
+            }
+        },
+        
+        comments: { postID, body  in
+            do {
+                return try await NetworkManager.shared.callRequest(targetType: PostTarget.comment(postID, body))
+            } catch let error as NetworkError {
+                throw error
+            }
+        },
+        fetchCurrentPost: { postID in
+            do {
+                return try await NetworkManager.shared.callRequest(targetType: PostTarget.fetchCurrentPost(postID))
             } catch let error as NetworkError {
                 throw error
             }

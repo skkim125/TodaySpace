@@ -12,6 +12,8 @@ enum PostTarget {
     case postUpload(PostBody)
     case fetchPost(FetchPostQuery)
     case fetchAreaPost(FetchAreaPostQuery)
+    case fetchCurrentPost(String)
+    case comment(String, CommentBody)
 }
 
 extension PostTarget: TargetType {
@@ -49,6 +51,20 @@ extension PostTarget: TargetType {
                 Header.authorization: UserDefaultsManager.accessToken,
                 Header.sesacKey: API.apiKey,
             ]
+            
+        case .comment:
+            return [
+                Header.contentType: ContentType.json,
+                Header.productId: API.productId,
+                Header.authorization: UserDefaultsManager.accessToken,
+                Header.sesacKey: API.apiKey,
+            ]
+        case .fetchCurrentPost:
+            return [
+                Header.productId: API.productId,
+                Header.authorization: UserDefaultsManager.accessToken,
+                Header.sesacKey: API.apiKey,
+            ]
         }
     }
     
@@ -62,16 +78,18 @@ extension PostTarget: TargetType {
             return "posts"
         case .fetchAreaPost:
             return "posts/geolocation"
+        case .comment(let postID, _):
+            return "posts/\(postID)/comments"
+        case .fetchCurrentPost(let postID):
+            return "posts/\(postID)"
         }
     }
     
     var method: HTTPMethod {
         switch self {
-        case .uploadImage, .postUpload:
+        case .uploadImage, .postUpload, .comment:
             return .post
-        case .fetchPost:
-            return .get
-        case .fetchAreaPost:
+        case .fetchPost, .fetchAreaPost, .fetchCurrentPost:
             return .get
         }
     }
@@ -118,6 +136,14 @@ extension PostTarget: TargetType {
                 return nil
             }
             
+        case .comment(_, let body):
+            do {
+                let data = try encoder.encode(body)
+                return data
+            } catch {
+                print("Body to JSON Encode Error", error)
+                return nil
+            }
         default:
             return nil
         }

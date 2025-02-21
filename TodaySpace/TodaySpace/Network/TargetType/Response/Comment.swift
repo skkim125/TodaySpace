@@ -7,7 +7,11 @@
 
 import Foundation
 
-struct Comment: Decodable {
+struct Comment: Decodable, Equatable {
+    static func == (lhs: Comment, rhs: Comment) -> Bool {
+        lhs.comment_id == rhs.comment_id
+    }
+    
     let comment_id: String
     let content: String
     let createdAt: String
