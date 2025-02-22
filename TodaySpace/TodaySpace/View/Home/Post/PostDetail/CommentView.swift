@@ -37,12 +37,12 @@ struct CommentView: View {
                     Text("\(comment.creator.nick ?? "")")
                         .font(.system(size: 15))
                     
-                    Text("\(DateFormatter.convertDateString(comment.createdAt))")
+                    Text("\(DateFormatter.convertDateString(comment.createdAt ?? ""))")
                         .font(.system(size: 12))
                         .foregroundStyle(AppColor.gray)
                 }
                 
-                Text("\(comment.content)")
+                Text("\(comment.content ?? "")")
                     .font(.system(size: 14))
                     .multilineTextAlignment(.leading)
             }
@@ -55,5 +55,5 @@ struct CommentView: View {
 }
 
 #Preview {
-    CommentView(comment: Comment(comment_id: "123122312", content: "오 여기 좋더라구요", createdAt: "2025년 88월 88일", creator: User(user_id: "", nick: "바라쿠타", profileImage: "")))
+    CommentView(comment: Comment(comment_id: "123122312", content: "오 여기 좋더라구요", createdAt: "2025년 88월 88일", creator: User(user_Id: "", nick: "바라쿠타", profileImage: "")))
 }

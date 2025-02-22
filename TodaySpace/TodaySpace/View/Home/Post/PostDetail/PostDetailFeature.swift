@@ -18,7 +18,7 @@ struct PostDetailFeature: Reducer {
     struct State {
         var post: PostResponse
         var comments: [Comment] {
-            post.comments.sorted(by: { $0.createdAt < $1.createdAt })
+            post.comments.sorted(by: { $0.createdAt ?? "" < $1.createdAt ?? ""})
         }
         var commentText: String = ""
     }

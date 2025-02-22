@@ -23,6 +23,7 @@ struct PlaceCardView: View {
                         height - 30
                     )
                 )
+                .clipShape(RoundedRectangle(cornerRadius: 8))
                 .padding(.leading, 15)
 
                 VStack(alignment: .leading) {
@@ -66,17 +67,3 @@ struct PlaceCardView: View {
         .shadow(radius: 5)
     }
 }
-
-extension Double {
-    var decimalString: String {
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .decimal
-        
-        if let distanceStr = formatter.string(from: NSNumber(value: Int(self))) {
-            return distanceStr + "m"
-        } else {
-            return ""
-        }
-    }
-}
-

@@ -90,7 +90,7 @@ struct MapViewFeature {
                 
             case .searchPost(let coordinate):
                 let query = FetchAreaPostQuery(lat: coordinate.latitude, lon: coordinate.longitude)
-                
+                print(coordinate.latitude, coordinate.longitude)
                 return .run { send in
                     do {
                         let result: FetchAreaPostResponse = try await postClient.fetchAreaPost(query)

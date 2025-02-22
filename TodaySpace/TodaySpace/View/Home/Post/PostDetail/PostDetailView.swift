@@ -30,10 +30,17 @@ struct PostDetailView: View {
                         .padding(.leading)
                     
                     VStack {
-                        Text("댓글: \(store.post.comments.count)개")
-                            .font(.title2)
-                            .multilineTextAlignment(.leading)
-                            .padding(.leading)
+                        HStack(alignment: .bottom) {
+                            Image(systemName: "text.bubble.fill")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 24, height: 24)
+                            
+                            Text("댓글: \(store.post.comments.count)개")
+                                .font(.title2)
+                                .multilineTextAlignment(.leading)
+                        }
+                        .padding(.leading)
                     }
                 }
                 
