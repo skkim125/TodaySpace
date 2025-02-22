@@ -82,34 +82,41 @@ struct HomeView: View {
                 ScrollView {
                     LazyVStack(alignment: .leading, spacing: 20) {
                         ForEach(store.posts, id: \.post_id) { post in
-                            Button {
-                                store.send(.postDetail(post.post_id))
-                            } label: {
+                            VStack(alignment: .leading, spacing: 10) {
                                 RoundedRectangle(cornerRadius: 12)
-                                    .stroke(Color.gray, lineWidth: 0.5)
+                                    .stroke(AppColor.grayStroke, lineWidth: 0.1)
                                     .background {
-                                        ZStack(alignment: .bottom) {
-                                            ImageView(
-                                                imageURL: post.files.first,
-                                                frame: .setFrame(availableWidth, availableWidth)
-                                            )
-                                            .clipShape(RoundedRectangle(cornerRadius: 12))
-                                            .opacity(0.7)
-                                            
-                                            Rectangle()
-                                                .fill(.black.opacity(0.6))
-                                                .frame(maxWidth: .infinity, alignment: .leading)
-                                                .frame(height: 100)
-                                                .cornerRadius(12, corners: [.bottomLeft, .bottomRight])
-                                                .overlay {
-                                                    Text("\(post.title)")
-                                                        .font(.title3)
-                                                        .foregroundStyle(.white)
-                                                }
-                                        }
+                                        ImageView(
+                                            imageURL: post.files.first,
+                                            frame: .setFrame(availableWidth, availableWidth - 150)
+                                        )
+                                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                                        .opacity(0.7)
                                     }
-                                    .contentShape(Rectangle())
-                                    .frame(width: availableWidth, height: availableWidth)
+                                    .frame(width: availableWidth, height: availableWidth - 150)
+                                
+                                VStack(alignment: .leading, spacing: 5) {
+                                    HStack(alignment: .lastTextBaseline, spacing: 5) {
+                                        Text("\(post.title)")
+                                            .font(.title3).bold()
+                                            .foregroundStyle(.white)
+                                            .lineLimit(1)
+                                        
+                                        Text("\(DateFormatter.convertDateString(post.createdAt, type: .formatted))")
+                                            .font(.caption)
+                                            .foregroundStyle(AppColor.gray)
+                                    }
+                                    
+                                    Text("\(post.content1)")
+                                        .font(.subheadline)
+                                        .multilineTextAlignment(.leading)
+                                        .lineLimit(1)
+                                }
+                            }
+                            .contentShape(Rectangle())
+                            .padding(.bottom, 5)
+                            .onTapGesture {
+                                store.send(.postDetail(post.post_id))
                             }
                         }
                     }

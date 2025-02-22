@@ -15,5 +15,5 @@ struct Comment: Decodable, Equatable {
     let comment_id: String
     let content: String?
     let createdAt: String?
-    let creator: User
+    let creator: User?
 }

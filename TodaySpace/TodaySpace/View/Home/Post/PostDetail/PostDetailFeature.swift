@@ -17,6 +17,7 @@ struct PostDetailFeature: Reducer {
     @ObservableState
     struct State {
         var postID: String
+        var postCreatorID: String = ""
         var title: String = ""
         var content: String = ""
         var placeName: String = ""
@@ -39,7 +40,7 @@ struct PostDetailFeature: Reducer {
         case commentButtonTap
         case commentSuccess(Comment)
         case fetchCurrentPostSuccess(PostResponse)
-        case fetchCurrentPostFailure(Error)
+        case fetchError(Error)
         case dismiss
         case dismissAction(PostResponse)
         case toggleLiked
@@ -59,12 +60,13 @@ struct PostDetailFeature: Reducer {
                         let post = try await postClient.fetchCurrentPost(postID)
                         await send(.fetchCurrentPostSuccess(post))
                     } catch {
-                        await send(.fetchCurrentPostFailure(error))
+                        await send(.fetchError(error))
                     }
                 }
                 
             case .commentButtonTap:
                 if !state.commentText.isEmpty {
+                    state.isLoading = true
                     let postID = state.postID
                     let body = CommentBody(content: state.commentText)
                     
@@ -73,15 +75,13 @@ struct PostDetailFeature: Reducer {
                             let result = try await postClient.comments(postID, body)
                             await send(.commentSuccess(result))
                         } catch {
-                            print(error)
+                            await send(.fetchError(error))
                         }
                     }
-                } else {
-                    return .none
                 }
-            case .commentSuccess(let comments):
-                print(comments)
                 
+                return .none
+            case .commentSuccess:
                 let postID = state.postID
                 state.commentText = ""
                 return .run { send in
@@ -89,11 +89,13 @@ struct PostDetailFeature: Reducer {
                         let result = try await postClient.fetchCurrentPost(postID)
                         await send(.fetchCurrentPostSuccess(result))
                     } catch {
-                        await send(.fetchCurrentPostFailure(error))
+                        await send(.fetchError(error))
                     }
                 }
                 
             case .fetchCurrentPostSuccess(let post):
+                state.postCreatorID = post.creator.user_id ?? ""
+                print(state.postCreatorID)
                 state.title = post.title
                 state.content = post.content
                 state.createdAt = post.createdAt
@@ -102,15 +104,15 @@ struct PostDetailFeature: Reducer {
                 state.placeAddress = post.content2
                 state.placeLink = post.content3
                 state.images = post.files
-                state.comments = post.comments
+                state.comments = post.comments.sorted(by: { $0.createdAt ?? "" < $1.createdAt ?? "" })
                 state.lat = post.geolocation.latitude
                 state.lon = post.geolocation.longitude
-                state.isLoading = false
                 state.isLiked = post.likes.contains(where: { $0 == UserDefaultsManager.userID })
+                state.isLoading = false
                 
                 return .none
                 
-            case .fetchCurrentPostFailure(let error):
+            case .fetchError(let error):
                 state.isLoading = false
                 print(error)
                 return .none

@@ -59,6 +59,7 @@ extension PostClient: DependencyKey {
                 throw error
             }
         },
+        
         fetchCurrentPost: { postID in
             do {
                 return try await NetworkManager.shared.callRequest(targetType: PostTarget.fetchCurrentPost(postID))

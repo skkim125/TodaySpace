@@ -13,59 +13,58 @@ struct PostDetailView: View {
     @FocusState private var isFocused: Bool
     
     var body: some View {
-        Group {
+        ZStack {
             if store.isLoading {
                 ProgressView()
-            } else {
-                ScrollViewReader { proxy in
-                    ScrollView {
-                        VStack(alignment: .leading, spacing: 20) {
-                            Text(store.title)
-                                .font(.title).bold()
-                                .padding(.leading)
-                            Text(store.placeName)
-                                .padding(.leading)
-                            Text(store.placeAddress)
-                                .padding(.leading)
-                            
-                            imageListView()
-                            
-                            Text(store.content)
-                                .padding(.leading)
-                            
-                            VStack {
-                                HStack(alignment: .bottom) {
-                                    Image(systemName: "text.bubble.fill")
-                                        .resizable()
-                                        .scaledToFit()
-                                        .frame(width: 25, height: 25)
-                                    
-                                    Text("댓글 \(store.comments.count)개")
-                                        .font(.title2)
-                                        .multilineTextAlignment(.leading)
-                                }
-                                .padding(.leading)
-                            }
-                        }
+            }
+            ScrollViewReader { proxy in
+                ScrollView {
+                    VStack(alignment: .leading, spacing: 20) {
+                        Text(store.title)
+                            .font(.title).bold()
+                            .padding(.leading)
+                        Text(store.placeName)
+                            .padding(.leading)
+                        Text(store.placeAddress)
+                            .padding(.leading)
+                        
+                        imageListView()
+                        
+                        Text(store.content)
+                            .padding(.leading)
                         
                         VStack {
-                            if store.comments.isEmpty {
-                                Text("첫 댓글을 작성해보세요!")
-                                    .padding(.vertical, 20)
-                            } else {
-                                ForEach(store.comments, id: \.comment_id) { comment in
-                                    CommentView(comment: comment)
-                                        .id(comment.comment_id)
-                                }
+                            HStack(alignment: .bottom) {
+                                Image(systemName: "text.bubble.fill")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 25, height: 25)
+                                
+                                Text("댓글 \(store.comments.count)개")
+                                    .font(.title2)
+                                    .multilineTextAlignment(.leading)
+                            }
+                            .padding(.leading)
+                        }
+                    }
+                    
+                    VStack {
+                        if store.comments.isEmpty {
+                            Text("첫 댓글을 작성해보세요!")
+                                .padding(.vertical, 20)
+                        } else {
+                            ForEach(store.comments, id: \.comment_id) { comment in
+                                CommentView(postCreatorID: store.postCreatorID, comment: comment)
+                                    .id(comment.comment_id)
                             }
                         }
-                        .padding(.horizontal, 5)
                     }
-                    .onChange(of: store.comments) { oldValue, newValue in
-                        if !oldValue.isEmpty {
-                            if let lastComment = newValue.last {
-                                proxy.scrollTo(lastComment.comment_id, anchor: .bottom)
-                            }
+                    .padding(.horizontal, 5)
+                }
+                .onChange(of: store.comments) { oldValue, newValue in
+                    if !oldValue.isEmpty {
+                        if let lastComment = newValue.last {
+                            proxy.scrollTo(lastComment.comment_id, anchor: .bottom)
                         }
                     }
                 }
