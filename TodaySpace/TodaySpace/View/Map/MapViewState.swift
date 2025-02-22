@@ -34,7 +34,7 @@ struct MapViewFeature {
                     name: $0.content1,
                     address: $0.content2,
                     postTitle: $0.title,
-                    image: $0.files?.first ?? "",
+                    image: $0.files.first ?? "",
                     lat: $0.geolocation.latitude,
                     lon: $0.geolocation.longitude,
                     distance: $0.distance
@@ -58,7 +58,7 @@ struct MapViewFeature {
         case searchSuccess([PostResponse])
         case searchFailure(Error)
         case goPostDetail
-        case postDetail(PostResponse)
+        case postDetail(String)
     }
     
     var body: some ReducerOf<Self> {
@@ -137,7 +137,7 @@ struct MapViewFeature {
                 
             case .goPostDetail:
                 if let place = state.selectedItem, let post = state.posts.first(where: { $0.post_id == place.id }) {
-                    return .send(.postDetail(post))
+                    return .send(.postDetail(post.post_id))
                 } else {
                     return .none
                 }

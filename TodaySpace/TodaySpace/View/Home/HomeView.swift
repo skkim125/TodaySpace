@@ -83,14 +83,14 @@ struct HomeView: View {
                     LazyVStack(alignment: .leading, spacing: 20) {
                         ForEach(store.posts, id: \.post_id) { post in
                             Button {
-                                store.send(.postDetail(post))
+                                store.send(.postDetail(post.post_id))
                             } label: {
                                 RoundedRectangle(cornerRadius: 12)
                                     .stroke(Color.gray, lineWidth: 0.5)
                                     .background {
                                         ZStack(alignment: .bottom) {
                                             ImageView(
-                                                imageURL: post.files?.first,
+                                                imageURL: post.files.first,
                                                 frame: .setFrame(availableWidth, availableWidth)
                                             )
                                             .clipShape(RoundedRectangle(cornerRadius: 12))

@@ -17,7 +17,7 @@ struct PostResponse: Decodable {
     let content3: String // 장소 url
     let createdAt: String // 생성날짜
     let creator: User // 게시물 작성 유저
-    let files: [String]? // 이미지
+    let files: [String] // 이미지
     let likes: [String] // 좋아요
     let likes2: [String]
     let buyers: [String] // 구매자

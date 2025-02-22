@@ -75,7 +75,7 @@ struct HomeFeature: Reducer {
         case fetchPost(FetchPostQuery)
         case fetchSuccess(FetchPostResponse)
         case requestError(Error)
-        case postDetail(PostResponse)
+        case postDetail(String)
     }
     
     var body: some ReducerOf<Self> {

@@ -13,53 +13,61 @@ struct PostDetailView: View {
     @FocusState private var isFocused: Bool
     
     var body: some View {
-        ScrollViewReader { proxy in
-            ScrollView {
-                VStack(alignment: .leading, spacing: 20) {
-                    Text(store.post.title)
-                        .font(.title).bold()
-                        .padding(.leading)
-                    Text(store.post.content1)
-                        .padding(.leading)
-                    Text(store.post.content2)
-                        .padding(.leading)
-                    
-                    imageListView()
-                    
-                    Text(store.post.content)
-                        .padding(.leading)
-                    
-                    VStack {
-                        HStack(alignment: .bottom) {
-                            Image(systemName: "text.bubble.fill")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 24, height: 24)
+        Group {
+            if store.isLoading {
+                ProgressView()
+            } else {
+                ScrollViewReader { proxy in
+                    ScrollView {
+                        VStack(alignment: .leading, spacing: 20) {
+                            Text(store.title)
+                                .font(.title).bold()
+                                .padding(.leading)
+                            Text(store.placeName)
+                                .padding(.leading)
+                            Text(store.placeAddress)
+                                .padding(.leading)
                             
-                            Text("댓글: \(store.post.comments.count)개")
-                                .font(.title2)
-                                .multilineTextAlignment(.leading)
+                            imageListView()
+                            
+                            Text(store.content)
+                                .padding(.leading)
+                            
+                            VStack {
+                                HStack(alignment: .bottom) {
+                                    Image(systemName: "text.bubble.fill")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 25, height: 25)
+                                    
+                                    Text("댓글 \(store.comments.count)개")
+                                        .font(.title2)
+                                        .multilineTextAlignment(.leading)
+                                }
+                                .padding(.leading)
+                            }
                         }
-                        .padding(.leading)
+                        
+                        VStack {
+                            if store.comments.isEmpty {
+                                Text("첫 댓글을 작성해보세요!")
+                                    .padding(.vertical, 20)
+                            } else {
+                                ForEach(store.comments, id: \.comment_id) { comment in
+                                    CommentView(comment: comment)
+                                        .id(comment.comment_id)
+                                }
+                            }
+                        }
+                        .padding(.horizontal, 5)
                     }
-                }
-                
-                VStack {
-                    if store.comments.isEmpty {
-                        Text("첫 댓글을 작성해보세요!")
-                            .padding(.vertical, 20)
-                    } else {
-                        ForEach(store.comments, id: \.comment_id) { comment in
-                            CommentView(comment: comment)
-                                .id(comment.comment_id)
+                    .onChange(of: store.comments) { oldValue, newValue in
+                        if !oldValue.isEmpty {
+                            if let lastComment = newValue.last {
+                                proxy.scrollTo(lastComment.comment_id, anchor: .bottom)
+                            }
                         }
                     }
-                }
-                .padding(.horizontal, 5)
-            }
-            .onChange(of: store.comments) { _, newValue in
-                if let lastComment = newValue.last {
-                    proxy.scrollTo(lastComment.comment_id, anchor: .bottom)
                 }
             }
         }
@@ -78,88 +86,116 @@ struct PostDetailView: View {
                     Text("뒤로")
                 } icon: {
                     Image(systemName: "chevron.backward")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 20, height: 20)
                 }
             }
         } rightView: {
-            EmptyView()
+            HStack(spacing: 20) {
+                Button {
+                    store.send(.toggleLiked)
+                } label: {
+                    Image(systemName: store.isLiked ? "heart.fill" : "heart")
+                        .resizable()
+                        .scaledToFit()
+                        .foregroundStyle(.orange)
+                        .frame(width: 25, height: 25)
+                }
+                
+                Button {
+                    print("info.circle.fill")
+                } label: {
+                    Image(systemName: "info.circle.fill")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 25, height: 25)
+                }
+            }
         }
         .safeAreaInset(edge: .bottom) {
-            VStack(spacing: 0) {
-                Divider()
-                
-                HStack {
-                    TextField("댓글을 입력하세요...", text: $store.commentText)
-                        .padding(10)
-                        .background(Color(.systemGray6))
-                        .clipShape(RoundedRectangle(cornerRadius: 12))
-                        .focused($isFocused)
-                    
-                    Button {
-                        isFocused = false
-                        store.send(.commentButtonTap)
-                    } label: {
-                        Image(systemName: "arrow.up.circle.fill")
-                            .resizable()
-                            .scaledToFit()
-                            .foregroundStyle(.white, store.commentText.isEmpty ? AppColor.gray : .orange)
-                            .clipShape(Circle())
-                            .frame(width: 25, height: 25)
-                    }
-                    .disabled(store.commentText.isEmpty)
-                }
-                .padding(.horizontal)
-                .padding(.vertical, 15)
-            }
-            .background(AppColor.appBackground)
+            commentInputView()
+        }
+        .onAppear {
+            store.send(.viewAppear)
         }
     }
     
     @ViewBuilder
-    private func imageListView() -> some View {
-        if let images = store.post.files {
-            if images.count == 1 {
-                ImageView(imageURL: images[0], frame: .auto)
+    private func commentInputView() -> some View {
+        VStack(spacing: 0) {
+            Divider()
+            
+            HStack {
+                TextField("댓글을 입력하세요", text: $store.commentText)
+                    .padding(10)
+                    .background(Color(.systemGray6))
                     .clipShape(RoundedRectangle(cornerRadius: 12))
-                    .padding(.horizontal)
-            } else {
-                ScrollView(.horizontal) {
-                    HStack {
-                        ForEach(0..<images.count, id: \.self) { index in
-                            ImageView(imageURL: images[index], frame: .setFrame(UIScreen.main.bounds.width - 100, 300))
-                                .clipShape(RoundedRectangle(cornerRadius: 12))
-                                .overlay {
-                                    ZStack {
-                                        RoundedRectangle(cornerRadius: 12).stroke(AppColor.grayStroke, lineWidth: 1)
-                                        VStack(alignment: .center) {
+                    .focused($isFocused)
+                
+                Button {
+                    isFocused = false
+                    store.send(.commentButtonTap)
+                } label: {
+                    Image(systemName: "arrow.up.circle.fill")
+                        .resizable()
+                        .scaledToFit()
+                        .foregroundStyle(.white, store.commentText.isEmpty ? AppColor.gray : .orange)
+                        .clipShape(Circle())
+                        .frame(width: 25, height: 25)
+                }
+                .disabled(store.commentText.isEmpty)
+            }
+            .padding(.horizontal)
+            .padding(.vertical, 15)
+        }
+        .background(AppColor.appBackground)
+    }
+    
+    @ViewBuilder
+    private func imageListView() -> some View {
+        if store.images.count == 1 {
+            ImageView(imageURL: store.images[0], frame: .auto)
+                .clipShape(RoundedRectangle(cornerRadius: 12))
+                .padding(.horizontal)
+        } else {
+            ScrollView(.horizontal) {
+                HStack {
+                    ForEach(0..<store.images.count, id: \.self) { index in
+                        ImageView(imageURL: store.images[index], frame: .setFrame(UIScreen.main.bounds.width - 100, 300))
+                            .clipShape(RoundedRectangle(cornerRadius: 12))
+                            .overlay {
+                                ZStack {
+                                    RoundedRectangle(cornerRadius: 12).stroke(AppColor.grayStroke, lineWidth: 1)
+                                    VStack(alignment: .center) {
+                                        Spacer()
+                                        
+                                        HStack {
                                             Spacer()
                                             
-                                            HStack {
-                                                Spacer()
-                                                
-                                                Circle()
-                                                    .fill(AppColor.black)
-                                                    .overlay {
-                                                        Text("\(index + 1)")
-                                                            .frame(width: 24, height: 24)
-                                                            .foregroundStyle(AppColor.white)
-                                                            .multilineTextAlignment(.center)
-                                                    }
-                                                    .frame(width: 25, height: 25)
-                                            }
-                                            .padding(10)
+                                            Circle()
+                                                .fill(AppColor.black)
+                                                .overlay {
+                                                    Text("\(index + 1)")
+                                                        .frame(width: 25, height: 25)
+                                                        .foregroundStyle(AppColor.white)
+                                                        .multilineTextAlignment(.center)
+                                                }
+                                                .frame(width: 25, height: 25)
                                         }
+                                        .padding(10)
                                     }
                                 }
-                                .padding(.leading, index == 0 ? 20 : 0)
-                                .padding(.horizontal, index != 0 && index != 4 ? 10 : 0)
-                                .padding(.trailing, index == 4 ? 20 : 0)
-                        }
+                            }
+                            .padding(.leading, index == 0 ? 20 : 0)
+                            .padding(.horizontal, index != 0 && index != 4 ? 10 : 0)
+                            .padding(.trailing, index == 4 ? 20 : 0)
                     }
-                    .scrollTargetLayout()
                 }
-                .scrollIndicators(.hidden)
-                .scrollTargetBehavior(.viewAligned)
+                .scrollTargetLayout()
             }
+            .scrollIndicators(.hidden)
+            .scrollTargetBehavior(.viewAligned)
         }
     }
 }

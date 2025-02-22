@@ -70,13 +70,13 @@ struct MainTabFeature {
             switch action {
             case .binding:
                 return .none
-            case .home(.postDetail(let post)):
-                state.path.append(.postDetail(PostDetailFeature.State(post: post)))
+            case .home(.postDetail(let postID)):
+                state.path.append(.postDetail(PostDetailFeature.State(postID: postID)))
                 return .none
             case .home:
                 return .none
-            case .map(.postDetail(let post)):
-                state.path.append(.postDetail(PostDetailFeature.State(post: post)))
+            case .map(.postDetail(let postID)):
+                state.path.append(.postDetail(PostDetailFeature.State(postID: postID)))
                 return .none
             case .map:
                 return .none
