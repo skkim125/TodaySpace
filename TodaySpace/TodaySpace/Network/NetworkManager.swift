@@ -102,18 +102,23 @@ final class NetworkManager {
             }
             
             guard httpResponse.statusCode == 200 else {
-                do {
-                    let errorResponse = try JSONDecoder().decode(ErrorType.self, from: data)
-                    throw errorResponse
-                } catch {
-                    throw NetworkError.checkNetworkError(errorCode: httpResponse.statusCode)
+                if httpResponse.statusCode == 418 {
+                    throw NetworkError.expiredRefreshToken
+                } else {
+                    do {
+                        let errorResponse = try JSONDecoder().decode(ErrorType.self, from: data)
+                        throw errorResponse
+                    } catch {
+                        throw NetworkError.checkNetworkError(errorCode: httpResponse.statusCode)
+                    }
                 }
             }
             
             do {
                 let decodedData = try JSONDecoder().decode(TokenResponse.self, from: data)
                 UserDefaultsManager.refresh(decodedData.accessToken, decodedData.refreshToken)
-                return 
+                print("토큰 갱신 완료")
+                return
             } catch {
                 print("Decoding Error: \(error)")
                 throw NetworkError.decodingError
