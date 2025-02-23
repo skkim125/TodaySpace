@@ -51,7 +51,7 @@ struct LoginView: View {
             .padding(.top)
             
             if store.showProgressView {
-                RoundedRectangle(cornerRadius: 8)
+                RoundedRectangle(cornerRadius: 6)
                     .fill(Color(uiColor: .lightGray.withAlphaComponent(0.2)))
                     .frame(width: 50, height: 50)
                     .overlay {

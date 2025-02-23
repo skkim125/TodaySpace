@@ -5,13 +5,6 @@
 //  Created by 김상규 on 1/27/25.
 //
 
-//
-//  HomeView.swift
-//  TodaySpace
-//
-//  Created by 김상규 on 1/27/25.
-//
-
 import SwiftUI
 import ComposableArchitecture
 
@@ -21,11 +14,10 @@ struct HomeView: View {
     var body: some View {
         VStack {
             contentView()
-                .padding(.vertical, 5)
         }
         .background(AppColor.appBackground)
         .customNavigationBar(centerView: {
-            HStack {
+            HStack(alignment: .center) {
                 Text("오늘의 공간")
                     .font(.system(size: 25, weight: .black))
                     .foregroundStyle(AppColor.main)
@@ -74,7 +66,7 @@ struct HomeView: View {
     private func listView() -> some View {
         VStack {
             categoryView()
-                .padding(.top, 10)
+                .padding(.vertical, 5)
             
             GeometryReader { geometry in
                 let availableWidth = geometry.size.width - (40)
@@ -83,15 +75,24 @@ struct HomeView: View {
                     LazyVStack(alignment: .leading, spacing: 20) {
                         ForEach(store.posts, id: \.post_id) { post in
                             VStack(alignment: .leading, spacing: 10) {
-                                RoundedRectangle(cornerRadius: 12)
+                                RoundedRectangle(cornerRadius: 6)
                                     .stroke(AppColor.grayStroke, lineWidth: 0.1)
                                     .background {
-                                        ImageView(
-                                            imageURL: post.files.first,
-                                            frame: .setFrame(availableWidth, availableWidth - 150)
-                                        )
-                                        .clipShape(RoundedRectangle(cornerRadius: 12))
-                                        .opacity(0.7)
+                                        ZStack {
+                                            ImageView(
+                                                imageURL: post.files.first,
+                                                frame: .setFrame(availableWidth, availableWidth - 150)
+                                            )
+                                            .clipShape(RoundedRectangle(cornerRadius: 6))
+                                            
+                                            RoundedRectangle(cornerRadius: 6)
+                                                .fill(Color.black.opacity(0.3))
+                                        }
+                                    }
+                                    .overlay(alignment: .topLeading) {
+                                        roundCategoryView(title: post.category, titleFontSize: 15,foregroundColor: Color.white, backgroundColor: Color(red: 0.18, green: 0.21, blue: 0.27))
+                                            .padding(.top, 15)
+                                            .padding(.leading, 15)
                                     }
                                     .frame(width: availableWidth, height: availableWidth - 150)
                                 
@@ -130,14 +131,16 @@ struct HomeView: View {
     @ViewBuilder
     func categoryView() -> some View {
         HStack(spacing: 15) {
-            categoryButton(title: "ALL", foregroundColor: store.state.categoryFilter == .all ? AppColor.appBackground : AppColor.main, backgroundColor: store.state.categoryFilter == .all ? AppColor.main : AppColor.appBackground, animationValue: store.state.categoryFilter) {
+            roundCategoryView(title: "ALL", foregroundColor: store.state.categoryFilter == .all ? AppColor.appBackground : AppColor.main, backgroundColor: store.state.categoryFilter == .all ? AppColor.main : AppColor.appBackground, strokeColor: AppColor.gray, strokeLineWidth: 0.5) {
                 store.send(.setCategory(.all))
             }
+            .animation(.easeInOut(duration: 0.2), value: store.state.categoryFilter)
             
             ForEach(Category.allCases, id: \ .id) { category in
-                categoryButton(title: category.rawValue, image: category.image, foregroundColor: isSelected(category.id) ? AppColor.appBackground : AppColor.main, backgroundColor: isSelected(category.id) ? AppColor.main : AppColor.appBackground, animationValue: store.state.categoryFilter) {
+                roundCategoryView(title: category.rawValue, image: category.image, foregroundColor: isSelected(category.id) ? AppColor.appBackground : AppColor.main, backgroundColor: isSelected(category.id) ? AppColor.main : AppColor.appBackground, strokeColor: AppColor.gray, strokeLineWidth: 0.5) {
                     store.send(.setCategory(.selected(category.id)))
                 }
+                .animation(.easeInOut(duration: 0.2), value: store.state.categoryFilter)
             }
         }
         .frame(height: 20)

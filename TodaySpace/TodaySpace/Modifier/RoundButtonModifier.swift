@@ -17,7 +17,7 @@ extension View {
             .frame(maxWidth: .infinity)
             .frame(height: 44)
             .background(backgroundColor)
-            .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color(uiColor: .placeholderText), lineWidth: 0.5))
-            .clipShape(RoundedRectangle(cornerRadius: 8))
+            .overlay(RoundedRectangle(cornerRadius: 6).stroke(Color(uiColor: .placeholderText), lineWidth: 0.5))
+            .clipShape(RoundedRectangle(cornerRadius: 6))
     }
 }

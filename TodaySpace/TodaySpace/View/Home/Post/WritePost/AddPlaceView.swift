@@ -53,7 +53,7 @@ struct AddPlaceView: View {
                         }
                         .padding()
                         .background(Color(UIColor.systemGray6))
-                        .cornerRadius(8)
+                        .cornerRadius(6)
                     }
                 }
                 .padding()

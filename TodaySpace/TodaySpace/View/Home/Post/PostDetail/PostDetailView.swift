@@ -129,24 +129,27 @@ struct PostDetailView: View {
                 TextField("댓글을 입력하세요", text: $store.commentText)
                     .padding(10)
                     .background(Color(.systemGray6))
-                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                    .clipShape(RoundedRectangle(cornerRadius: 6))
                     .focused($isFocused)
                 
-                Button {
-                    isFocused = false
-                    store.send(.commentButtonTap)
-                } label: {
-                    Image(systemName: "arrow.up.circle.fill")
-                        .resizable()
-                        .scaledToFit()
-                        .foregroundStyle(.white, store.commentText.isEmpty ? AppColor.gray : .orange)
-                        .clipShape(Circle())
-                        .frame(width: 25, height: 25)
+                if !store.commentText.isEmpty {
+                    Button {
+                        isFocused = false
+                        store.send(.commentButtonTap)
+                    } label: {
+                        Image(systemName: "arrow.up.circle.fill")
+                            .resizable()
+                            .scaledToFit()
+                            .foregroundStyle(.white, store.commentText.isEmpty ? AppColor.gray : .orange)
+                            .clipShape(Circle())
+                            .frame(width: 28, height: 28)
+                    }
+                    .transition(.asymmetric(insertion: .opacity, removal: .opacity))
                 }
-                .disabled(store.commentText.isEmpty)
             }
             .padding(.horizontal)
             .padding(.vertical, 15)
+            .animation(.easeInOut, value: store.commentText)
         }
         .background(AppColor.appBackground)
     }
@@ -155,17 +158,17 @@ struct PostDetailView: View {
     private func imageListView() -> some View {
         if store.images.count == 1 {
             ImageView(imageURL: store.images[0], frame: .auto)
-                .clipShape(RoundedRectangle(cornerRadius: 12))
+                .clipShape(RoundedRectangle(cornerRadius: 6))
                 .padding(.horizontal)
         } else {
             ScrollView(.horizontal) {
                 HStack {
                     ForEach(0..<store.images.count, id: \.self) { index in
                         ImageView(imageURL: store.images[index], frame: .setFrame(UIScreen.main.bounds.width - 100, 300))
-                            .clipShape(RoundedRectangle(cornerRadius: 12))
+                            .clipShape(RoundedRectangle(cornerRadius: 6))
                             .overlay {
                                 ZStack {
-                                    RoundedRectangle(cornerRadius: 12).stroke(AppColor.grayStroke, lineWidth: 1)
+                                    RoundedRectangle(cornerRadius: 6).stroke(AppColor.grayStroke, lineWidth: 1)
                                     VStack(alignment: .center) {
                                         Spacer()
                                         

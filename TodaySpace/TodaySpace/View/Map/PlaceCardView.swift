@@ -23,7 +23,7 @@ struct PlaceCardView: View {
                         height - 30
                     )
                 )
-                .clipShape(RoundedRectangle(cornerRadius: 8))
+                .clipShape(RoundedRectangle(cornerRadius: 6))
                 .padding(.leading, 15)
 
                 VStack(alignment: .leading) {
@@ -63,7 +63,7 @@ struct PlaceCardView: View {
         }
         .frame(width: width, height: height)
         .background(AppColor.appBackground)
-        .clipShape(RoundedRectangle(cornerRadius: 12))
+        .clipShape(RoundedRectangle(cornerRadius: 6))
         .shadow(radius: 5)
     }
 }

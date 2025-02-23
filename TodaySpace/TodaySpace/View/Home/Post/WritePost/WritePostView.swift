@@ -25,9 +25,9 @@ struct WritePostView: View {
                                         .resizable()
                                         .scaledToFill()
                                         .frame(width: 120, height: 150)
-                                        .clipShape(RoundedRectangle(cornerRadius: 8))
+                                        .clipShape(RoundedRectangle(cornerRadius: 6))
                                         .overlay(
-                                            RoundedRectangle(cornerRadius: 8)
+                                            RoundedRectangle(cornerRadius: 6)
                                                 .stroke(AppColor.grayStroke, lineWidth: 1)
                                         )
                                         .overlay(
@@ -55,11 +55,11 @@ struct WritePostView: View {
                                         store.isPickerPresented = true
                                     } label: {
                                         ZStack {
-                                            RoundedRectangle(cornerRadius: 8)
+                                            RoundedRectangle(cornerRadius: 6)
                                                 .fill(AppColor.appSecondary)
                                                 .frame(width: 120, height: 150)
                                                 .overlay(
-                                                    RoundedRectangle(cornerRadius: 8)
+                                                    RoundedRectangle(cornerRadius: 6)
                                                         .stroke(AppColor.grayStroke, lineWidth: 1)
                                                 )
                                             
@@ -136,11 +136,11 @@ struct WritePostView: View {
                                     .frame(minHeight: 80, maxHeight: 100)
                                     .padding(10)
                                     .background(
-                                        RoundedRectangle(cornerRadius: 8)
+                                        RoundedRectangle(cornerRadius: 6)
                                             .fill(AppColor.appSecondary)
                                     )
                                     .overlay(
-                                        RoundedRectangle(cornerRadius: 8)
+                                        RoundedRectangle(cornerRadius: 6)
                                             .stroke(AppColor.grayStroke, lineWidth: 1)
                                     )
                                     .font(.system(size: 15))
@@ -202,7 +202,7 @@ struct WritePostView: View {
                     .background(
                         AppColor.main
                     )
-                    .cornerRadius(8)
+                    .cornerRadius(6)
             }
         } else {
             Text("업로드")
@@ -213,7 +213,7 @@ struct WritePostView: View {
                 .background(
                     AppColor.gray
                 )
-                .cornerRadius(8)
+                .cornerRadius(6)
         }
     }
 }
@@ -386,11 +386,11 @@ extension View {
         self
             .padding(10)
             .background(
-                RoundedRectangle(cornerRadius: 8)
+                RoundedRectangle(cornerRadius: 6)
                     .fill(AppColor.appSecondary)
             )
             .overlay(
-                RoundedRectangle(cornerRadius: 8)
+                RoundedRectangle(cornerRadius: 6)
                     .stroke(AppColor.grayStroke, lineWidth: 1)
             )
             .font(.system(size: 15))

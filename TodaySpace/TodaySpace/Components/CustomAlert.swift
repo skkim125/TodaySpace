@@ -60,10 +60,10 @@ struct CustomAlert: View {
             .frame(maxWidth: 270)
             .padding(10)
             .background(
-                RoundedRectangle(cornerRadius: 8)
+                RoundedRectangle(cornerRadius: 6)
                     .fill(AppColor.black)
                     .overlay(
-                        RoundedRectangle(cornerRadius: 8)
+                        RoundedRectangle(cornerRadius: 6)
                             .stroke(AppColor.black, lineWidth: 1)
                     )
                     .shadow(color: AppColor.black.opacity(0.1), radius: 20, x: 10, y: 10)

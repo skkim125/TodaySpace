@@ -15,5 +15,5 @@ enum AppColor {
     static let main: Color = Color(uiColor: .label)
     static let subTitle: Color = Color(uiColor: .label).opacity(0.6)
     static let gray: Color = .gray
-    static let grayStroke: Color = Color(uiColor: .systemGray4)//Color(uiColor: .label).opacity(0.15)
+    static let grayStroke: Color = Color(uiColor: .systemGray4)
 }

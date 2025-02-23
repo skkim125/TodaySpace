@@ -81,7 +81,7 @@ struct MapView: View {
                             .font(.system(size: 14))
                     }
                     .foregroundStyle(.white)
-                    .padding(.vertical, 8)
+                    .padding(.vertical, 10)
                     .padding(.horizontal, 10)
                     .background {
                         Capsule()

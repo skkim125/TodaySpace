@@ -8,39 +8,40 @@
 import SwiftUI
 
 extension View {
-    func categoryButton<T: Equatable>(
+    func roundCategoryView(
         title: String,
+        titleFontSize: CGFloat = 14,
         image: String? = nil,
         foregroundColor: Color,
         backgroundColor: Color,
-        animationValue: T,
-        action: @escaping (() -> Void)
+        strokeColor: Color = .clear,
+        strokeLineWidth: CGFloat = 0,
+        action: (() -> Void)? = nil
     ) -> some View {
-        HStack {
-            HStack(spacing: 10) {
-                if let image = image {
-                    Image(systemName: image)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 15, height: 15)
-                }
-                
-                Text(title)
-                    .font(.system(size: 12))
+        HStack(spacing: 5) {
+            if let image = image {
+                Image(systemName: image)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 14, height: 14)
             }
-            .frame(height: 20)
-            .foregroundStyle(foregroundColor)
-            .padding(.horizontal, 10)
-            .padding(.vertical, 5)
-            .background(
-                RoundedRectangle(cornerRadius: 8, style: .continuous)
-                    .stroke(AppColor.main, lineWidth: 0.7)
-                    .fill(backgroundColor)
-                    .animation(.easeInOut(duration: 0.2), value: animationValue)
-            )
+            
+            Text(title)
+                .font(.system(size: titleFontSize))
         }
+        .padding(.horizontal, 10)
+        .padding(.vertical, 7)
+        .foregroundColor(foregroundColor)
+        .background(
+            RoundedRectangle(cornerRadius: 6, style: .continuous)
+                .fill(backgroundColor)
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: 6, style: .continuous)
+                .stroke(strokeColor, lineWidth: strokeLineWidth)
+        )
         .onTapGesture {
-            action()
+            action?()
         }
     }
 }
