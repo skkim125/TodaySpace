@@ -33,9 +33,7 @@ struct HomeView: View {
             writePostButton()
         })
         .onAppear {
-            if !store.viewAppeared {
-                store.send(.viewAppear)
-            }
+            store.send(.viewAppear)
         }
         .fullScreenCover(item: $store.scope(state: \.writePost, action: \.writePost)) { store in
             WritePostView(store: store)
@@ -45,9 +43,10 @@ struct HomeView: View {
     @ViewBuilder
     func contentView() -> some View {
         ZStack {
-            if !store.posts.isEmpty {
-                listView()
-            } else {
+            switch store.state.viewState {
+            case .loading:
+                ProgressView()
+            case .empty:
                 ContentUnavailableView {
                     VStack(alignment: .center, spacing: 20) {
                         Image(systemName: "square.and.pencil")
@@ -60,8 +59,11 @@ struct HomeView: View {
                     }
                     .foregroundStyle(.gray)
                 }
+            case .content:
+                listView()
             }
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
     
     @ViewBuilder

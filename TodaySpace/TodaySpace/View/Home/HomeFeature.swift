@@ -43,6 +43,13 @@ enum CategoryFilter: Equatable {
     case selected(String)
 }
 
+enum HomeViewState {
+    case loading
+    case empty
+    case content
+}
+
+
 @Reducer
 struct HomeFeature: Reducer {
     
@@ -51,7 +58,7 @@ struct HomeFeature: Reducer {
     
     @ObservableState
     struct State {
-        var viewAppeared = false
+        var viewState: HomeViewState = .loading
         var posts: [PostResponse] = []
         @Presents var writePost: WritePostFeature.State?
         var categoryFilter: CategoryFilter = .all
@@ -86,10 +93,9 @@ struct HomeFeature: Reducer {
             case .binding:
                 return .none
             case .viewAppear:
-                if !state.viewAppeared {
-                    state.viewAppeared = true
+                if state.viewState == .loading {
                     return .run { send in
-                       await send(.fetchPost(FetchPostQuery(next: "0", limit: "20", category: [])))
+                        await send(.fetchPost(FetchPostQuery(next: "0", limit: "20", category: [])))
                     }
                 } else {
                     return .none
@@ -97,7 +103,9 @@ struct HomeFeature: Reducer {
                 
             case .requestError(let error):
                 print(error)
+                state.viewState = .empty
                 return .none
+                
             case .showWritePostSheet:
                 state.writePost = WritePostFeature.State()
                 return .none
@@ -134,6 +142,8 @@ struct HomeFeature: Reducer {
                 
             case .fetchSuccess(let result):
                 state.posts = result.data
+                state.viewState = result.data.isEmpty ? .empty : .content
+                
                 return .none
                 
             case .postDetail:
