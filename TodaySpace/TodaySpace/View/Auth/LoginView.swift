@@ -52,7 +52,7 @@ struct LoginView: View {
             
             if store.showProgressView {
                 RoundedRectangle(cornerRadius: 6)
-                    .fill(Color(uiColor: .lightGray.withAlphaComponent(0.2)))
+                    .fill(AppColor.grayStroke)
                     .frame(width: 50, height: 50)
                     .overlay {
                         ProgressView()
@@ -89,13 +89,13 @@ struct LoginView: View {
                 store.send(.buttonTap)
             } label: {
                 RoundedButton(text: "로그인",
-                              foregroundColor: .white,
-                              backgroundColor: .yellow)
+                              foregroundColor: AppColor.white,
+                              backgroundColor: AppColor.appGold)
             }
         } else {
             RoundedButton(text: "로그인",
-                          foregroundColor: .white,
-                          backgroundColor: .gray)
+                          foregroundColor: AppColor.white,
+                          backgroundColor: AppColor.gray)
         }
     }
 }

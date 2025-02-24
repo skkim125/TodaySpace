@@ -14,7 +14,7 @@ struct AddPlaceView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            VStack(spacing: 8) {
+            VStack(spacing: 15) {
                 TextField("ex) 뮤직컴플렉스 서울", text: $store.searchText)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .padding(.horizontal)
@@ -23,7 +23,7 @@ struct AddPlaceView: View {
                     store.send(.searchButtonTapped)
                 } label: {
                     Text("검색")
-                        .asRoundButton(foregroundColor: AppColor.appBackground, backgroundColor: AppColor.main)
+                        .asRoundButton(foregroundColor: AppColor.white, backgroundColor: AppColor.appGold)
                 }
                 .padding(.horizontal)
             }
@@ -37,23 +37,27 @@ struct AddPlaceView: View {
                             dismiss()
                         } label: {
                             VStack(alignment: .leading) {
-                                Text(place.categoryName)
-                                    .font(.footnote).bold()
-                                    .foregroundColor(.gray)
-                                
-                                Text(place.placeName)
-                                    .lineLimit(1)
-                                    .font(.title3)
-                                    .bold()
+                                VStack(alignment: .leading, spacing: 5) {
+                                    Text(place.categoryName)
+                                        .font(.footnote).bold()
+                                        .foregroundStyle(AppColor.gray)
+                                    
+                                    Text(place.placeName)
+                                        .lineLimit(1)
+                                        .font(.title3)
+                                        .bold()
+                                }
                                 
                                 Text(place.roadAddress.isEmpty ? place.address : place.roadAddress)
                                     .font(.subheadline)
-                                    .foregroundColor(.secondary)
+                                    .foregroundColor(AppColor.lightGray)
                             }
+                            .multilineTextAlignment(.leading)
+                            .frame(maxWidth: .infinity, alignment: .leading)
                         }
                         .padding()
-                        .background(Color(UIColor.systemGray6))
-                        .cornerRadius(6)
+                        .background(AppColor.appSecondary)
+                        .clipShape(RoundedRectangle(cornerRadius: 6))
                     }
                 }
                 .padding()
@@ -73,7 +77,7 @@ struct AddPlaceView: View {
                 } label: {
                     Image(systemName: "chevron.left")
                 }
-                .tint(AppColor.main)
+                .tint(AppColor.white)
             }
         }
     }

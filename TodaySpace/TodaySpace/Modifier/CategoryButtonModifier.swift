@@ -32,7 +32,7 @@ extension View {
         .bold()
         .padding(.horizontal, 10)
         .padding(.vertical, 7)
-        .foregroundColor(foregroundColor)
+        .foregroundStyle(foregroundColor)
         .background(
             RoundedRectangle(cornerRadius: 25, style: .continuous)
                 .fill(backgroundColor)

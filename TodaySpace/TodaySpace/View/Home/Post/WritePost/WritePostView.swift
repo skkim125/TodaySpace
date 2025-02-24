@@ -69,7 +69,7 @@ struct WritePostView: View {
                                                     .frame(width: 50, height: 50)
                                                     .overlay(
                                                         Image(systemName: "photo.badge.plus")
-                                                            .foregroundStyle(AppColor.main)
+                                                            .foregroundStyle(AppColor.white)
                                                             .font(.system(size: 22, weight: .medium))
                                                     )
                                                 
@@ -175,7 +175,7 @@ struct WritePostView: View {
                         store.send(.dismiss)
                     } label: {
                         Image(systemName: "xmark")
-                            .foregroundStyle(AppColor.main)
+                            .foregroundStyle(AppColor.white)
                     }
                 }
             }
@@ -196,24 +196,24 @@ struct WritePostView: View {
             } label: {
                 Text("업로드")
                     .font(.system(size: 18, weight: .bold))
-                    .foregroundStyle(AppColor.appBackground)
+                    .foregroundStyle(AppColor.white)
                     .frame(maxWidth: .infinity)
                     .frame(height: 50)
                     .background(
-                        AppColor.main
+                        AppColor.appGold
                     )
-                    .cornerRadius(6)
+                    .clipShape(RoundedRectangle(cornerRadius: 6))
             }
         } else {
             Text("업로드")
                 .font(.system(size: 18, weight: .bold))
-                .foregroundStyle(AppColor.appBackground)
+                .foregroundStyle(AppColor.white)
                 .frame(maxWidth: .infinity)
                 .frame(height: 50)
                 .background(
                     AppColor.gray
                 )
-                .cornerRadius(6)
+                .clipShape(RoundedRectangle(cornerRadius: 6))
         }
     }
 }
@@ -272,6 +272,7 @@ struct CustomForm: View {
                 textField
             }
         }
+        .background(AppColor.appBackground)
         .padding(.horizontal, 20)
     }
     
@@ -291,7 +292,7 @@ struct CustomForm: View {
         } label: {
             HStack {
                 Text(text.isEmpty ? placeholder : text)
-                    .foregroundStyle(text.isEmpty ? AppColor.subTitle : AppColor.main)
+                    .foregroundStyle(text.isEmpty ? AppColor.subTitle : AppColor.white)
                 Spacer()
                 Image(systemName: "chevron.right")
                     .foregroundStyle(AppColor.subTitle)
@@ -303,7 +304,7 @@ struct CustomForm: View {
     private var categoryField: some View {
         HStack {
             Text(store.category.isEmpty ? placeholder : store.category)
-                .foregroundStyle(text.isEmpty ? AppColor.subTitle : AppColor.main)
+                .foregroundStyle(text.isEmpty ? AppColor.subTitle : AppColor.white)
             
             Spacer()
             
@@ -330,7 +331,7 @@ struct CustomForm: View {
         } label: {
             HStack {
                 Text(text.isEmpty ? placeholder : text)
-                    .foregroundStyle(text.isEmpty ? AppColor.subTitle : AppColor.main)
+                    .foregroundStyle(text.isEmpty ? AppColor.subTitle : AppColor.white)
                 Spacer()
                 Image(systemName: "chevron.right")
                     .foregroundStyle(AppColor.subTitle)
@@ -376,7 +377,7 @@ struct CustomForm: View {
     
     private var textField: some View {
         TextField("", text: $text, prompt: Text(placeholder).foregroundStyle(AppColor.subTitle))
-            .foregroundStyle(AppColor.main)
+            .foregroundStyle(AppColor.white)
             .fieldBackground()
     }
 }

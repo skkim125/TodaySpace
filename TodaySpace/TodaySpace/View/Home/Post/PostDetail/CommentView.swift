@@ -38,7 +38,7 @@ struct CommentView: View {
                     Text("\(comment.creator?.nick ?? "")")
                         .font(.system(size: 15))
                         .bold((postCreatorID == comment.creator?.user_id ?? ""))
-                        .foregroundStyle((postCreatorID == comment.creator?.user_id ?? "") ? .orange : AppColor.white)
+                        .foregroundStyle((postCreatorID == comment.creator?.user_id ?? "") ? AppColor.appGold : AppColor.white)
                     
                     Text("\(DateFormatter.convertDateString(comment.createdAt ?? "", type: .relative))")
                         .font(.system(size: 12))

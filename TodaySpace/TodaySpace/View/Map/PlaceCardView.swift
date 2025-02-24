@@ -40,7 +40,7 @@ struct PlaceCardView: View {
                     if let distance = place.distance {
                         Text(distance.decimalString)
                             .font(.caption)
-                            .foregroundStyle(.gray)
+                            .foregroundStyle(AppColor.gray)
                     }
                 }
                 .padding(.horizontal, 10)
@@ -58,7 +58,7 @@ struct PlaceCardView: View {
                     .resizable()
                     .frame(width: 20, height: 20)
             }
-            .tint(.gray)
+            .tint(AppColor.gray)
             .padding(15)
         }
         .frame(width: width, height: height)

@@ -19,7 +19,7 @@ struct TodaySpaceApp: App {
         appearance.configureWithOpaqueBackground()
         appearance.backgroundColor = UIColor(AppColor.appBackground)
         appearance.backgroundEffect = nil
-        appearance.shadowColor = .gray
+        appearance.shadowColor = UIColor(AppColor.gray)
         
         UITabBar.appearance().backgroundImage = UIImage()
         UITabBar.appearance().isTranslucent = false

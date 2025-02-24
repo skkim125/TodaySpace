@@ -20,7 +20,7 @@ struct CustomAlert: View {
     var body: some View {
         ZStack {
             if isPresented {
-                Color(uiColor: .black).opacity(0.3)
+                AppColor.black.opacity(0.3)
                     .ignoresSafeArea()
                     .transition(.opacity)
             }

@@ -98,7 +98,7 @@ struct PostDetailView: View {
                     Image(systemName: store.isLiked ? "heart.fill" : "heart")
                         .resizable()
                         .scaledToFit()
-                        .foregroundStyle(.orange)
+                        .foregroundStyle(AppColor.appGold)
                         .frame(width: 25, height: 25)
                 }
                 
@@ -140,7 +140,7 @@ struct PostDetailView: View {
                         Image(systemName: "arrow.up.circle.fill")
                             .resizable()
                             .scaledToFit()
-                            .foregroundStyle(.white, store.commentText.isEmpty ? AppColor.gray : .orange)
+                            .foregroundStyle(AppColor.white, store.commentText.isEmpty ? AppColor.gray : AppColor.appGold)
                             .clipShape(Circle())
                             .frame(width: 28, height: 28)
                     }

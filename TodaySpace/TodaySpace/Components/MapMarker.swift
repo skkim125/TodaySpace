@@ -14,8 +14,8 @@ struct MapMarkerView: View {
     var body: some View {
         VStack {
             Circle()
-                .fill(AppColor.appBackground)
-                .frame(width: 50, height: 50)
+                .fill(AppColor.appGold)
+                .frame(width: 47, height: 47)
                 .overlay {
                     ImageView(imageURL: imageURL, frame: .auto)
                         .clipShape(Circle())

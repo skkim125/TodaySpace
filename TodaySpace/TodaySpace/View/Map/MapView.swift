@@ -58,7 +58,7 @@ struct MapView: View {
                 .tag(place)
             }
         }
-        .tint(.black)
+        .tint(AppColor.black)
         .mapControlVisibility(.hidden)
         .onMapCameraChange { context in
             store.send(.fetchCurrrentRegion(context.region))
@@ -80,12 +80,12 @@ struct MapView: View {
                         Text("이 주변 검색하기")
                             .font(.system(size: 14))
                     }
-                    .foregroundStyle(.white)
+                    .foregroundStyle(AppColor.white)
                     .padding(.vertical, 10)
                     .padding(.horizontal, 10)
                     .background {
                         Capsule()
-                            .fill(Color.orange)
+                            .fill(Color.appGold)
                             .shadow(radius: 1)
                     }
                 }
