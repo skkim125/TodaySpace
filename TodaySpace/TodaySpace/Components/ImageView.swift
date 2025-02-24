@@ -12,13 +12,13 @@ struct ImageView: View {
     @State private var image: UIImage?
     @State private var isLoading = false
     @State private var loadError = false
+    @State private var didLoad = false
     let frame: SetFrame
-    
+
     var body: some View {
         ZStack {
             if isLoading {
                 ProgressView()
-                
             } else if let image = image {
                 Image(uiImage: image)
                     .resizable()
@@ -32,8 +32,13 @@ struct ImageView: View {
         }
         .setFrame(setFrame: frame)
         .shadow(radius: 2)
-        .task {
-            await loadImage()
+        .onAppear {
+            if !didLoad {
+                didLoad = true
+                Task {
+                    await loadImage()
+                }
+            }
         }
     }
 }
