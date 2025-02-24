@@ -39,7 +39,7 @@ struct MapView: View {
         .onAppear {
             store.send(.checkLocationAuthorization)
         }
-        .onReceive(store.locationManager.$isInitialized ){ isInitialized in
+        .onReceive(store.locationManager.$isInitialized.removeDuplicates()){ isInitialized in
             store.send(.setInitialPosition(isInitialized))
         }
     }

@@ -6,12 +6,18 @@
 //
 
 import SwiftUI
+import Accelerate.vImage
 
 final class ImageCacher {
     static let shared = ImageCacher()
     private init() {}
 
-    private let cache = NSCache<NSString, UIImage>()
+    private let cache: NSCache<NSString, UIImage> = {
+       let cache = NSCache<NSString, UIImage>()
+        cache.totalCostLimit = 1024 * 1024 * 50
+        
+        return cache
+    }()
 
     func image(forKey key: String) -> UIImage? {
         return cache.object(forKey: key as NSString)

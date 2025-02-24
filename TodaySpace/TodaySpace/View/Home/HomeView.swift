@@ -18,9 +18,11 @@ struct HomeView: View {
         .background(AppColor.appBackground)
         .customNavigationBar(centerView: {
             HStack(alignment: .center) {
-                Text("오늘의 공간")
-                    .font(.system(size: 25, weight: .black))
-                    .foregroundStyle(AppColor.main)
+                Text("Today Space")
+                    .font(.title)
+                    .fontDesign(.serif)
+                    .bold()
+                    .foregroundStyle(.appGold)
                     .multilineTextAlignment(.leading)
                 
                 Spacer()
@@ -76,7 +78,7 @@ struct HomeView: View {
                         ForEach(store.posts, id: \.post_id) { post in
                             VStack(alignment: .leading, spacing: 10) {
                                 RoundedRectangle(cornerRadius: 6)
-                                    .stroke(AppColor.grayStroke, lineWidth: 0.1)
+                                    .fill(Color.clear)
                                     .background {
                                         ZStack {
                                             ImageView(
@@ -85,19 +87,37 @@ struct HomeView: View {
                                             )
                                             .clipShape(RoundedRectangle(cornerRadius: 6))
                                             
-                                            RoundedRectangle(cornerRadius: 6)
-                                                .fill(Color.black.opacity(0.3))
+                                            LinearGradient(
+                                                gradient: Gradient(colors: [Color.clear, Color.black.opacity(0.4), Color.black.opacity(0.8)]),
+                                                startPoint: .top,
+                                                endPoint: .bottom
+                                            )
+                                            .clipShape(RoundedRectangle(cornerRadius: 6))
+                                            
+                                            VStack(spacing: 5) {
+                                                roundCategoryView(title: post.category, foregroundColor: Color.white, backgroundColor: .appGold, strokeColor: AppColor.gray)
+                                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                                Spacer()
+                                                
+                                                Text("\(post.content1)")
+                                                    .font(.system(size: 20, weight: .bold))
+                                                    .fontDesign(.rounded)
+                                                    .multilineTextAlignment(.trailing)
+                                                    .frame(maxWidth: .infinity, alignment: .trailing)
+                                                
+                                                Text("\(post.content2)")
+                                                    .font(.system(size: 14, weight: .bold))
+                                                    .fontDesign(.rounded)
+                                                    .multilineTextAlignment(.trailing)
+                                                    .frame(maxWidth: .infinity, alignment: .trailing)
+                                            }
+                                            .padding(10)
                                         }
-                                    }
-                                    .overlay(alignment: .topLeading) {
-                                        roundCategoryView(title: post.category, titleFontSize: 15,foregroundColor: Color.white, backgroundColor: Color(red: 0.18, green: 0.21, blue: 0.27))
-                                            .padding(.top, 15)
-                                            .padding(.leading, 15)
                                     }
                                     .frame(width: availableWidth, height: availableWidth - 150)
                                 
-                                VStack(alignment: .leading, spacing: 5) {
-                                    HStack(alignment: .lastTextBaseline, spacing: 5) {
+                                VStack(alignment: .leading, spacing: 10) {
+                                    HStack(alignment: .center, spacing: 5) {
                                         Text("\(post.title)")
                                             .font(.title3).bold()
                                             .foregroundStyle(.white)
@@ -107,13 +127,9 @@ struct HomeView: View {
                                             .font(.caption)
                                             .foregroundStyle(AppColor.gray)
                                     }
-                                    
-                                    Text("\(post.content1)")
-                                        .font(.subheadline)
-                                        .multilineTextAlignment(.leading)
-                                        .lineLimit(1)
                                 }
                             }
+
                             .contentShape(Rectangle())
                             .padding(.bottom, 5)
                             .onTapGesture {
@@ -131,13 +147,13 @@ struct HomeView: View {
     @ViewBuilder
     func categoryView() -> some View {
         HStack(spacing: 15) {
-            roundCategoryView(title: "ALL", foregroundColor: store.state.categoryFilter == .all ? AppColor.appBackground : AppColor.main, backgroundColor: store.state.categoryFilter == .all ? AppColor.main : AppColor.appBackground, strokeColor: AppColor.gray, strokeLineWidth: 0.5) {
+            roundCategoryView(title: "ALL", foregroundColor: .white, backgroundColor: store.state.categoryFilter == .all ? .appGold : .clear, strokeColor: AppColor.gray, strokeLineWidth: 0.5) {
                 store.send(.setCategory(.all))
             }
             .animation(.easeInOut(duration: 0.2), value: store.state.categoryFilter)
             
             ForEach(Category.allCases, id: \ .id) { category in
-                roundCategoryView(title: category.rawValue, image: category.image, foregroundColor: isSelected(category.id) ? AppColor.appBackground : AppColor.main, backgroundColor: isSelected(category.id) ? AppColor.main : AppColor.appBackground, strokeColor: AppColor.gray, strokeLineWidth: 0.5) {
+                roundCategoryView(title: category.rawValue, image: category.image, foregroundColor: .white, backgroundColor: isSelected(category.id) ? .appGold : .clear, strokeColor: AppColor.gray, strokeLineWidth: 0.5) {
                     store.send(.setCategory(.selected(category.id)))
                 }
                 .animation(.easeInOut(duration: 0.2), value: store.state.categoryFilter)

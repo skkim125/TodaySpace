@@ -29,15 +29,16 @@ extension View {
             Text(title)
                 .font(.system(size: titleFontSize))
         }
+        .bold()
         .padding(.horizontal, 10)
         .padding(.vertical, 7)
         .foregroundColor(foregroundColor)
         .background(
-            RoundedRectangle(cornerRadius: 6, style: .continuous)
+            RoundedRectangle(cornerRadius: 25, style: .continuous)
                 .fill(backgroundColor)
         )
         .overlay(
-            RoundedRectangle(cornerRadius: 6, style: .continuous)
+            RoundedRectangle(cornerRadius: 25, style: .continuous)
                 .stroke(strokeColor, lineWidth: strokeLineWidth)
         )
         .onTapGesture {
