@@ -11,8 +11,22 @@ import ComposableArchitecture
 struct LoginView: View {
     @Bindable var store: StoreOf<LoginFeature>
     
+    enum Field: Hashable {
+        case email
+        case password
+    }
+    
+    @FocusState private var focusField: Field?
+    
     var body: some View {
         ZStack {
+            AppColor.appBackground
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .ignoresSafeArea(.all)
+                .onTapGesture {
+                    focusField = nil
+                }
+            
             VStack(spacing: 40) {
                 Text("Today Space")
                     .appFontBold(size: 28).bold()
@@ -21,9 +35,9 @@ struct LoginView: View {
                     .multilineTextAlignment(.center)
                 
                 VStack(spacing: 20) {
-                    FloatingPlaceholderTextField(placeholder: "이메일", text: $store.emailText)
+                    FloatingPlaceholderTextField(placeholder: "이메일", text: $store.emailText, focusField: $focusField, field: .email)
                     
-                    FloatingPlaceholderTextField(placeholder: "비밀번호", text: $store.passwordText, isSecure: true)
+                    FloatingPlaceholderTextField(placeholder: "비밀번호", text: $store.passwordText, isSecure: true, focusField: $focusField, field: .password)
                 }
                 .padding(.horizontal, 25)
                 
@@ -42,8 +56,6 @@ struct LoginView: View {
                     .clipShape(RoundedRectangle(cornerRadius: 8))
             }
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(AppColor.appBackground)
         .showCustomAlert(isPresented: $store.showLoginSuccessAlert, title: store.alertTitle, buttonTitle: "확인") {
             store.send(.loginSuccessConfirmButtonClicked)
         }

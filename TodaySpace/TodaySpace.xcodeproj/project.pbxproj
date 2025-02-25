@@ -66,6 +66,9 @@
 		04E9FF8E2D6D9494000F2439 /* BookkGothicOTF_Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 04E9FF8C2D6D9494000F2439 /* BookkGothicOTF_Light.otf */; };
 		04E9FF902D6D953A000F2439 /* Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E9FF8F2D6D953A000F2439 /* Font.swift */; };
 		04E9FF942D6DB94F000F2439 /* FloatingPlaceholderTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E9FF932D6DB94F000F2439 /* FloatingPlaceholderTextField.swift */; };
+		04E9FF962D6DD64B000F2439 /* BasicTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E9FF952D6DD64B000F2439 /* BasicTextField.swift */; };
+		04E9FF982D6DD665000F2439 /* FiledBackgroundModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E9FF972D6DD665000F2439 /* FiledBackgroundModifier.swift */; };
+		04E9FF9A2D6DD90B000F2439 /* CustomForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E9FF992D6DD90B000F2439 /* CustomForm.swift */; };
 		04F1A7542D4DEE2300471965 /* PostClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F1A7532D4DEE2300471965 /* PostClient.swift */; };
 		04F1A7572D4E54F100471965 /* PostResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F1A7562D4E54F100471965 /* PostResponse.swift */; };
 		04F1A7592D4E550000471965 /* ImageUploadResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F1A7582D4E550000471965 /* ImageUploadResponse.swift */; };
@@ -146,6 +149,9 @@
 		04E9FF8C2D6D9494000F2439 /* BookkGothicOTF_Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = BookkGothicOTF_Light.otf; sourceTree = "<group>"; };
 		04E9FF8F2D6D953A000F2439 /* Font.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Font.swift; sourceTree = "<group>"; };
 		04E9FF932D6DB94F000F2439 /* FloatingPlaceholderTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingPlaceholderTextField.swift; sourceTree = "<group>"; };
+		04E9FF952D6DD64B000F2439 /* BasicTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicTextField.swift; sourceTree = "<group>"; };
+		04E9FF972D6DD665000F2439 /* FiledBackgroundModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiledBackgroundModifier.swift; sourceTree = "<group>"; };
+		04E9FF992D6DD90B000F2439 /* CustomForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomForm.swift; sourceTree = "<group>"; };
 		04F1A7532D4DEE2300471965 /* PostClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostClient.swift; sourceTree = "<group>"; };
 		04F1A7562D4E54F100471965 /* PostResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostResponse.swift; sourceTree = "<group>"; };
 		04F1A7582D4E550000471965 /* ImageUploadResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageUploadResponse.swift; sourceTree = "<group>"; };
@@ -193,6 +199,7 @@
 				04FBE0402D493B5F004CCCE6 /* WritePostFeature.swift */,
 				0459AEC12D4CA8AE009307DE /* AddPlaceView.swift */,
 				0459AEC32D4CBFCE009307DE /* AddPlaceFeature.swift */,
+				04E9FF992D6DD90B000F2439 /* CustomForm.swift */,
 			);
 			path = WritePost;
 			sourceTree = "<group>";
@@ -307,6 +314,7 @@
 				04984D932D51066E0053DE54 /* CustomAlertModifier.swift */,
 				041BFFEA2D5DC5A600266BFB /* CategoryButtonModifier.swift */,
 				04B9FF362D67133000D3983F /* CustomNavigationBarModifier.swift */,
+				04E9FF972D6DD665000F2439 /* FiledBackgroundModifier.swift */,
 			);
 			path = Modifier;
 			sourceTree = "<group>";
@@ -320,6 +328,7 @@
 				041BFFE22D5C9DA700266BFB /* ImageView.swift */,
 				04B9FF382D67133C00D3983F /* CustomNavigationBar.swift */,
 				04E9FF932D6DB94F000F2439 /* FloatingPlaceholderTextField.swift */,
+				04E9FF952D6DD64B000F2439 /* BasicTextField.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -560,12 +569,14 @@
 				04F1A7572D4E54F100471965 /* PostResponse.swift in Sources */,
 				045705702D467C6E000C4CBA /* PostTarget.swift in Sources */,
 				041BFFF82D5DDFC300266BFB /* PostDetailFeature.swift in Sources */,
+				04E9FF9A2D6DD90B000F2439 /* CustomForm.swift in Sources */,
 				046550972D6091FC0087248D /* FetchPostResponse.swift in Sources */,
 				04A39E4C2D4114E5007E3616 /* ContentView.swift in Sources */,
 				04FBE0382D48A993004CCCE6 /* TokenResponse.swift in Sources */,
 				04F1A7592D4E550000471965 /* ImageUploadResponse.swift in Sources */,
 				045705872D4753FD000C4CBA /* RoundButton.swift in Sources */,
 				04E9FF902D6D953A000F2439 /* Font.swift in Sources */,
+				04E9FF962D6DD64B000F2439 /* BasicTextField.swift in Sources */,
 				045705532D466DB5000C4CBA /* API.swift in Sources */,
 				0457056C2D467C4B000C4CBA /* AuthTarget.swift in Sources */,
 				04FBE01D2D477181004CCCE6 /* HomeFeature.swift in Sources */,
@@ -580,6 +591,7 @@
 				0457055F2D467261000C4CBA /* HTTPMethod.swift in Sources */,
 				0457055A2D466F89000C4CBA /* ErrorType.swift in Sources */,
 				0457058B2D4754E1000C4CBA /* UserClient.swift in Sources */,
+				04E9FF982D6DD665000F2439 /* FiledBackgroundModifier.swift in Sources */,
 				044711072D4B63860084B26E /* KakaoLocalQuery.swift in Sources */,
 				04B9FF372D67133000D3983F /* CustomNavigationBarModifier.swift in Sources */,
 				0457057A2D475235000C4CBA /* EmailLoginBody.swift in Sources */,

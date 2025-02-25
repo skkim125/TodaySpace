@@ -7,15 +7,15 @@
 
 import SwiftUI
 
-struct FloatingPlaceholderTextField: View {
+struct FloatingPlaceholderTextField<Field: Hashable>: View {
     var placeholder: String
     @Binding var text: String
     var isSecure: Bool = false
-    
-    @FocusState private var isFocused: Bool
+    var focusField: FocusState<Field?>.Binding
+    var field: Field
     
     private var shouldFloat: Bool {
-        isFocused || !text.isEmpty
+        focusField.wrappedValue == field || !text.isEmpty
     }
     
     var body: some View {
@@ -51,6 +51,6 @@ struct FloatingPlaceholderTextField: View {
             RoundedRectangle(cornerRadius: 5)
                 .stroke(Color.gray, lineWidth: 1)
         }
-        .focused($isFocused)
+        .focused(focusField, equals: field)
     }
 }

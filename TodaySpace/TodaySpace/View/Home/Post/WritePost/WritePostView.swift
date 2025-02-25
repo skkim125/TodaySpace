@@ -12,78 +12,14 @@ import ComposableArchitecture
 struct WritePostView: View {
     @Bindable var store: StoreOf<WritePostFeature>
     @Namespace private var scrollSpace
+    @FocusState private var isFocused: Bool
     
     var body: some View {
         NavigationStack(path: $store.scope(state: \.path, action: \.path)) {
             ScrollViewReader { proxy in
                 ScrollView {
                     VStack(spacing: 10) {
-                        ScrollView(.horizontal, showsIndicators: false) {
-                            HStack(spacing: 15) {
-                                ForEach(store.selectedImages.indices, id: \.self) { index in
-                                    Image(uiImage: store.selectedImages[index])
-                                        .resizable()
-                                        .scaledToFill()
-                                        .frame(width: 120, height: 150)
-                                        .clipShape(RoundedRectangle(cornerRadius: 6))
-                                        .overlay(
-                                            RoundedRectangle(cornerRadius: 6)
-                                                .stroke(AppColor.grayStroke, lineWidth: 1)
-                                        )
-                                        .overlay(
-                                            VStack {
-                                                HStack {
-                                                    Spacer()
-                                                    
-                                                    Button {
-                                                        store.send(.removePhoto(index), animation: .default)
-                                                    } label: {
-                                                        Image(systemName: "xmark.circle.fill")
-                                                            .foregroundStyle(AppColor.white, .red)
-                                                    }
-                                                    .shadow(color: AppColor.white, radius: 1)
-                                                }
-                                                .padding(.all, 5)
-                                                
-                                                Spacer()
-                                            }
-                                        )
-                                }
-                                
-                                if store.selectedImages.count < 5 {
-                                    Button {
-                                        store.isPickerPresented = true
-                                    } label: {
-                                        ZStack {
-                                            RoundedRectangle(cornerRadius: 6)
-                                                .fill(AppColor.appSecondary)
-                                                .frame(width: 120, height: 150)
-                                                .overlay(
-                                                    RoundedRectangle(cornerRadius: 6)
-                                                        .stroke(AppColor.grayStroke, lineWidth: 1)
-                                                )
-                                            
-                                            VStack(spacing: 15) {
-                                                Circle()
-                                                    .fill(AppColor.grayStroke)
-                                                    .frame(width: 50, height: 50)
-                                                    .overlay(
-                                                        Image(systemName: "photo.badge.plus")
-                                                            .foregroundStyle(AppColor.white)
-                                                            .appFontBold(size: 22)
-                                                    )
-                                                
-                                                Text("사진 추가")
-                                                    .appFontBold(size: 13)
-                                                    .foregroundStyle(AppColor.subTitle)
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                            .padding(.horizontal, 20)
-                            .padding(.vertical, 10)
-                        }
+                        imageListView()
                         
                         VStack(spacing: 15) {
                             CustomForm(
@@ -94,6 +30,7 @@ struct WritePostView: View {
                                 text: $store.title,
                                 fieldType: .text
                             )
+                            .focused($isFocused)
                             
                             CustomForm(
                                 store: $store,
@@ -151,6 +88,7 @@ struct WritePostView: View {
                                     }
                             }
                             .padding(.horizontal, 20)
+                            .focused($isFocused)
                         }
                         
                         Spacer()
@@ -179,6 +117,9 @@ struct WritePostView: View {
                     }
                 }
             }
+            .onTapGesture {
+                isFocused = false
+            }
         } destination: { store in
             switch store.case {
             case .addPlace(let store):
@@ -195,205 +136,83 @@ struct WritePostView: View {
                 store.send(.uploadButtonClicked)
             } label: {
                 Text("업로드")
+                    .asRoundButton(foregroundColor: AppColor.white, backgroundColor: AppColor.appGold)
                     .appFontBold(size: 18)
-                    .foregroundStyle(AppColor.white)
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 50)
-                    .background(
-                        AppColor.appGold
-                    )
-                    .clipShape(RoundedRectangle(cornerRadius: 6))
             }
         } else {
             Text("업로드")
+                .asRoundButton(foregroundColor: AppColor.white, backgroundColor: AppColor.gray)
                 .appFontBold(size: 18)
-                .foregroundStyle(AppColor.white)
-                .frame(maxWidth: .infinity)
-                .frame(height: 50)
-                .background(
-                    AppColor.gray
-                )
-                .clipShape(RoundedRectangle(cornerRadius: 6))
-        }
-    }
-}
-
-enum FieldType {
-    case text, place, category, datePicker
-}
-
-struct CustomForm: View {
-    let icon: String
-    let title: String
-    let placeholder: String
-    let fieldType: FieldType
-    let categories: [String]
-    @Bindable var store: StoreOf<WritePostFeature>
-    @Binding var text: String
-    
-    private let dateFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy년 M월 d일"
-        formatter.locale = Locale(identifier: "ko_KR")
-        formatter.timeZone = TimeZone(identifier: "Asia/Seoul")
-        return formatter
-    }()
-    
-    init(
-        store: Bindable<StoreOf<WritePostFeature>>,
-        icon: String,
-        title: String,
-        placeholder: String,
-        text: Binding<String>,
-        fieldType: FieldType,
-        categories: [String] = Category.allCases.map { $0.rawValue }
-    ) {
-        self._store = store
-        self.icon = icon
-        self.title = title
-        self.placeholder = placeholder
-        self._text = text
-        self.fieldType = fieldType
-        self.categories = categories
-    }
-    
-    var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            titleRow
-            
-            switch fieldType {
-            case .place:
-                placeField(store: store)
-            case .category:
-                categoryField
-            case .datePicker:
-                datePickerField
-            case .text:
-                textField
-            }
-        }
-        .background(AppColor.appBackground)
-        .padding(.horizontal, 20)
-    }
-    
-    private var titleRow: some View {
-        HStack(spacing: 5) {
-            Image(systemName: icon)
-                .foregroundStyle(AppColor.subTitle)
-            Text(title)
-                .appFontLight(size: 15)
-                .foregroundStyle(AppColor.subTitle)
         }
     }
     
-    private func placeField(store: StoreOf<WritePostFeature>) -> some View {
-        Button {
-            store.send(.addPlaceButtonClicked)
-        } label: {
-            HStack {
-                Text(text.isEmpty ? placeholder : text)
-                    .foregroundStyle(text.isEmpty ? AppColor.subTitle : AppColor.white)
-                Spacer()
-                Image(systemName: "chevron.right")
-                    .foregroundStyle(AppColor.subTitle)
-            }
-            .fieldBackground()
-        }
-    }
-    
-    private var categoryField: some View {
-        HStack {
-            Text(store.category.isEmpty ? placeholder : store.category)
-                .foregroundStyle(text.isEmpty ? AppColor.subTitle : AppColor.white)
-            
-            Spacer()
-            
-            Menu {
-                ForEach(categories, id: \.self) { category in
-                    Button(action: {
-                        store.category = category
-                        text = category
-                    }) {
-                        Text(category)
-                    }
+    @ViewBuilder
+    func imageListView() -> some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 15) {
+                ForEach(store.selectedImages.indices, id: \.self) { index in
+                    Image(uiImage: store.selectedImages[index])
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 120, height: 150)
+                        .clipShape(RoundedRectangle(cornerRadius: 6))
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 6)
+                                .stroke(AppColor.grayStroke, lineWidth: 1)
+                        )
+                        .overlay(
+                            VStack {
+                                HStack {
+                                    Spacer()
+                                    
+                                    Button {
+                                        store.send(.removePhoto(index), animation: .default)
+                                    } label: {
+                                        Image(systemName: "xmark.circle.fill")
+                                            .foregroundStyle(AppColor.white, .red)
+                                    }
+                                    .shadow(color: AppColor.white, radius: 1)
+                                }
+                                .padding(.all, 5)
+                                
+                                Spacer()
+                            }
+                        )
                 }
-            } label: {
-                Image(systemName: "plus")
-                    .foregroundStyle(AppColor.subTitle)
-            }
-        }
-        .fieldBackground()
-    }
-    
-    private var datePickerField: some View {
-        Button {
-            store.showDatePicker = true
-        } label: {
-            HStack {
-                Text(text.isEmpty ? placeholder : text)
-                    .foregroundStyle(text.isEmpty ? AppColor.subTitle : AppColor.white)
-                Spacer()
-                Image(systemName: "chevron.right")
-                    .foregroundStyle(AppColor.subTitle)
-            }
-            .contentShape(Rectangle())
-            .fieldBackground()
-        }
-        .sheet(isPresented: $store.showDatePicker) {
-            datePickerSheet
-        }
-    }
-    
-    private var datePickerSheet: some View {
-        NavigationStack {
-            VStack {
-                DatePicker(
-                    "",
-                    selection: $store.date,
-                    in: ...Date(),
-                    displayedComponents: .date
-                )
-                .datePickerStyle(.graphical)
-                .padding()
-            }
-            .navigationTitle("날짜 선택")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button("취소") {
-                        store.showDatePicker = false
-                    }
-                }
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("확인") {
-                        text = dateFormatter.string(from: store.date)
-                        store.showDatePicker = false
+                
+                if store.selectedImages.count < 5 {
+                    Button {
+                        store.isPickerPresented = true
+                    } label: {
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 6)
+                                .fill(AppColor.appSecondary)
+                                .frame(width: 120, height: 150)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 6)
+                                        .stroke(AppColor.grayStroke, lineWidth: 1)
+                                )
+                            
+                            VStack(spacing: 15) {
+                                Circle()
+                                    .fill(AppColor.grayStroke)
+                                    .frame(width: 50, height: 50)
+                                    .overlay(
+                                        Image(systemName: "photo.badge.plus")
+                                            .foregroundStyle(AppColor.white)
+                                            .appFontBold(size: 22)
+                                    )
+                                
+                                Text("사진 추가")
+                                    .appFontBold(size: 13)
+                                    .foregroundStyle(AppColor.subTitle)
+                            }
+                        }
                     }
                 }
             }
+            .padding(.horizontal, 20)
+            .padding(.vertical, 10)
         }
-        .presentationDetents([.medium])
-    }
-    
-    private var textField: some View {
-        TextField("", text: $text, prompt: Text(placeholder).foregroundStyle(AppColor.subTitle))
-            .foregroundStyle(AppColor.white)
-            .fieldBackground()
-    }
-}
-
-extension View {
-    func fieldBackground() -> some View {
-        self
-            .padding(10)
-            .background(
-                RoundedRectangle(cornerRadius: 6)
-                    .fill(AppColor.appSecondary)
-            )
-            .overlay(
-                RoundedRectangle(cornerRadius: 6)
-                    .stroke(AppColor.grayStroke, lineWidth: 1)
-            )
-            .appFontLight(size: 15)
     }
 }

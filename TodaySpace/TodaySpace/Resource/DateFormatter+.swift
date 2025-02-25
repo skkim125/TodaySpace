@@ -20,7 +20,7 @@ extension DateFormatter {
         return formatter
     }()
     
-    private static let yearDateFormatter: DateFormatter = {
+    static let yearDateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy년 M월 d일"
         return formatter
