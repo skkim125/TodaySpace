@@ -27,7 +27,7 @@ extension View {
             }
             
             Text(title)
-                .font(.system(size: titleFontSize))
+                .appFontLight(size: titleFontSize)
         }
         .bold()
         .padding(.horizontal, 10)

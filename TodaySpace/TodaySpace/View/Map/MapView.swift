@@ -78,7 +78,7 @@ struct MapView: View {
                             .frame(width: 15, height: 15)
                         
                         Text("이 주변 검색하기")
-                            .font(.system(size: 14))
+                            .appFontLight(size: 14)
                     }
                     .foregroundStyle(AppColor.white)
                     .padding(.vertical, 10)

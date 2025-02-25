@@ -17,5 +17,10 @@
 	</dict>
 	<key>PRODUCT_ID</key>
 	<string>$(PRODUCT_ID)</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>BookkGothicOTF_Light.otf</string>
+		<string>BookkGothicOTF_Bold.otf</string>
+	</array>
 </dict>
 </plist>

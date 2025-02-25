@@ -19,9 +19,8 @@ struct HomeView: View {
         .customNavigationBar(centerView: {
             HStack(alignment: .center) {
                 Text("Today Space")
-                    .font(.title)
+                    .appFontBold(size: 28).bold()
                     .fontDesign(.serif)
-                    .bold()
                     .foregroundStyle(AppColor.appGold)
                     .multilineTextAlignment(.leading)
                 
@@ -55,7 +54,7 @@ struct HomeView: View {
                             .frame(width: 80, height: 80)
                         
                         Text("첫 게시물의 주인공이 되어보세요!")
-                            .font(.headline)
+                            .appFontBold(size: 20)
                     }
                     .foregroundStyle(AppColor.gray)
                 }
@@ -96,48 +95,42 @@ struct HomeView: View {
                                             )
                                             .clipShape(RoundedRectangle(cornerRadius: 6))
                                             
-                                            VStack(spacing: 5) {
+                                            VStack {
                                                 roundCategoryView(title: post.category, foregroundColor: AppColor.white, backgroundColor: AppColor.appGold, strokeColor: AppColor.gray)
                                                     .frame(maxWidth: .infinity, alignment: .leading)
+                                                
                                                 Spacer()
                                                 
-                                                Text("\(post.content1)")
-                                                    .font(.system(size: 20, weight: .bold))
-                                                    .fontDesign(.rounded)
-                                                    .multilineTextAlignment(.trailing)
-                                                    .frame(maxWidth: .infinity, alignment: .trailing)
-                                                
-                                                Text("\(post.content2)")
-                                                    .font(.system(size: 14, weight: .bold))
-                                                    .fontDesign(.rounded)
-                                                    .multilineTextAlignment(.trailing)
-                                                    .frame(maxWidth: .infinity, alignment: .trailing)
+                                                VStack(spacing: 8) {
+                                                    Text("\(post.content1)")
+                                                        .appFontBold(size: 24).bold()
+                                                        .multilineTextAlignment(.trailing)
+                                                        .frame(maxWidth: .infinity, alignment: .trailing)
+                                                    
+                                                    Text("\(post.content2)")
+                                                        .appFontBold(size: 14)
+                                                        .multilineTextAlignment(.trailing)
+                                                        .frame(maxWidth: .infinity, alignment: .trailing)
+                                                }
                                             }
                                             .padding(10)
                                         }
                                     }
                                     .frame(width: availableWidth, height: availableWidth - 150)
                                 
-                                VStack(alignment: .leading, spacing: 5) {
-//                                    HStack(alignment: .center, spacing: 5) {
-                                        Text("\(post.title)")
-                                            .font(.title3).bold()
+                                VStack(alignment: .leading, spacing: 7) {
+                                    Text("\(post.title)").bold()
+                                        .appFontBold(size: 20)
                                             .foregroundStyle(AppColor.white)
                                             .lineLimit(1)
-                                        
-//                                        Text("\(DateFormatter.convertDateString(post.createdAt, type: .formatted))")
-//                                            .font(.caption)
-//                                            .foregroundStyle(AppColor.gray)
-//                                    }
-                                    
                                     
                                     HStack(alignment: .center, spacing: 5) {
                                         Text("\(post.creator.nick ?? "알 수 없는 유저")")
                                             .foregroundStyle(AppColor.white)
-                                            .font(.system(size: 15))
+                                            .appFontBold(size: 14)
                                         
                                         Text("\(DateFormatter.convertDateString(post.createdAt, type: .formatted))")
-                                            .font(.caption)
+                                            .appFontBold(size: 12)
                                             .foregroundStyle(AppColor.gray)
                                     }
                                 }

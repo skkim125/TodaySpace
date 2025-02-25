@@ -70,11 +70,11 @@ struct WritePostView: View {
                                                     .overlay(
                                                         Image(systemName: "photo.badge.plus")
                                                             .foregroundStyle(AppColor.white)
-                                                            .font(.system(size: 22, weight: .medium))
+                                                            .appFontBold(size: 22)
                                                     )
                                                 
                                                 Text("사진 추가")
-                                                    .font(.system(size: 13, weight: .semibold))
+                                                    .appFontBold(size: 13)
                                                     .foregroundStyle(AppColor.subTitle)
                                             }
                                         }
@@ -127,7 +127,7 @@ struct WritePostView: View {
                                     Image(systemName: "text.alignleft")
                                         .foregroundStyle(AppColor.subTitle)
                                     Text("공간에 대해...")
-                                        .font(.system(size: 13, weight: .semibold))
+                                        .appFontBold(size: 13)
                                         .foregroundStyle(AppColor.subTitle)
                                 }
                                 
@@ -143,7 +143,7 @@ struct WritePostView: View {
                                         RoundedRectangle(cornerRadius: 6)
                                             .stroke(AppColor.grayStroke, lineWidth: 1)
                                     )
-                                    .font(.system(size: 15))
+                                    .appFontLight(size: 15)
                                     .onTapGesture {
                                         withAnimation {
                                             proxy.scrollTo(scrollSpace, anchor: .bottom)
@@ -195,7 +195,7 @@ struct WritePostView: View {
                 store.send(.uploadButtonClicked)
             } label: {
                 Text("업로드")
-                    .font(.system(size: 18, weight: .bold))
+                    .appFontBold(size: 18)
                     .foregroundStyle(AppColor.white)
                     .frame(maxWidth: .infinity)
                     .frame(height: 50)
@@ -206,7 +206,7 @@ struct WritePostView: View {
             }
         } else {
             Text("업로드")
-                .font(.system(size: 18, weight: .bold))
+                .appFontBold(size: 18)
                 .foregroundStyle(AppColor.white)
                 .frame(maxWidth: .infinity)
                 .frame(height: 50)
@@ -281,7 +281,7 @@ struct CustomForm: View {
             Image(systemName: icon)
                 .foregroundStyle(AppColor.subTitle)
             Text(title)
-                .font(.system(size: 13, weight: .medium))
+                .appFontLight(size: 15)
                 .foregroundStyle(AppColor.subTitle)
         }
     }
@@ -394,6 +394,6 @@ extension View {
                 RoundedRectangle(cornerRadius: 6)
                     .stroke(AppColor.grayStroke, lineWidth: 1)
             )
-            .font(.system(size: 15))
+            .appFontLight(size: 15)
     }
 }

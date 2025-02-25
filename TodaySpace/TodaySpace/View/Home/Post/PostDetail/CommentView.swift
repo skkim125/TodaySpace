@@ -33,27 +33,29 @@ struct CommentView: View {
                     .frame(width: 40, height: 40)
             }
             
-            VStack(alignment: .leading, spacing: 5) {
+            VStack(alignment: .leading, spacing: 7) {
                 HStack(alignment: .center, spacing: 5) {
                     Text("\(comment.creator?.nick ?? "")")
-                        .font(.system(size: 15))
+                        .appFontBold(size: 15)
                         .bold((postCreatorID == comment.creator?.user_id ?? ""))
                         .foregroundStyle((postCreatorID == comment.creator?.user_id ?? "") ? AppColor.appGold : AppColor.white)
                     
                     Text("\(DateFormatter.convertDateString(comment.createdAt ?? "", type: .relative))")
-                        .font(.system(size: 12))
+                        .appFontLight(size: 13)
                         .foregroundStyle(AppColor.gray)
                 }
                 
                 Text("\(comment.content ?? "")")
-                    .font(.system(size: 14))
+                    .appFontLight(size: 14)
                     .multilineTextAlignment(.leading)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .foregroundStyle(AppColor.white)
             }
             
             Spacer()
         }
         .padding(.horizontal, 10)
-        .padding(.vertical, 15)
+        .padding(.vertical, 10)
     }
 }
 

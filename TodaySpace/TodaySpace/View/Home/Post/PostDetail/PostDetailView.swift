@@ -21,11 +21,13 @@ struct PostDetailView: View {
                 ScrollView {
                     VStack(alignment: .leading, spacing: 20) {
                         Text(store.title)
-                            .font(.title).bold()
+                            .appFontBold(size: 28)
                             .padding(.leading)
                         Text(store.placeName)
+                            .appFontBold(size: 18)
                             .padding(.leading)
                         Text(store.placeAddress)
+                            .appFontBold(size: 18)
                             .padding(.leading)
                         
                         imageListView()
@@ -33,15 +35,17 @@ struct PostDetailView: View {
                         Text(store.content)
                             .padding(.leading)
                         
+                        Divider()
+                        
                         VStack {
-                            HStack(alignment: .bottom) {
+                            HStack(alignment: .center) {
                                 Image(systemName: "text.bubble.fill")
                                     .resizable()
                                     .scaledToFit()
                                     .frame(width: 25, height: 25)
                                 
-                                Text("댓글 \(store.comments.count)개")
-                                    .font(.title2)
+                                Text("\(store.comments.count)개")
+                                    .appFontBold(size: 20)
                                     .multilineTextAlignment(.leading)
                             }
                             .padding(.leading)
@@ -51,6 +55,7 @@ struct PostDetailView: View {
                     VStack {
                         if store.comments.isEmpty {
                             Text("첫 댓글을 작성해보세요!")
+                                .appFontBold(size: 24)
                                 .padding(.vertical, 20)
                         } else {
                             ForEach(store.comments, id: \.comment_id) { comment in
@@ -81,14 +86,10 @@ struct PostDetailView: View {
             Button {
                 store.send(.dismiss)
             } label: {
-                Label {
-                    Text("뒤로")
-                } icon: {
-                    Image(systemName: "chevron.backward")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 20, height: 20)
-                }
+                Image(systemName: "chevron.backward")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 20, height: 20)
             }
         } rightView: {
             HStack(spacing: 20) {

@@ -8,7 +8,7 @@
 import SwiftUI
 
 enum AppColor {
-    static let appBackground: Color = .appBackground
+    static let appBackground: Color = Color(uiColor: .systemGray6)
     static let appSecondary: Color = .appSecondary
     static let black: Color = .black
     static let white: Color = .white

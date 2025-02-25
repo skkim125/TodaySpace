@@ -13,40 +13,22 @@ struct LoginView: View {
     
     var body: some View {
         ZStack {
-            VStack {
-                VStack(spacing: 10) {
-                    ZStack(alignment: .leading) {
-                        TextField(
-                            "",
-                            text: $store.emailText
-                        )
-                        .textInputAutocapitalization(.never)
-                        .disableAutocorrection(true)
-                        .font(.system(size: 16))
-                        .keyboardType(.twitter)
-                        .textFieldStyle(.roundedBorder)
-                        
-                        if store.emailText.isEmpty {
-                            Text("example@example.com")
-                                .font(.system(size: 16))
-                                .fontWeight(.regular)
-                                .tint(Color(uiColor: .placeholderText))
-                                .padding(.leading, 7)
-                        }
-                    }
-                    .padding(.horizontal, 20)
+            VStack(spacing: 40) {
+                Text("Today Space")
+                    .appFontBold(size: 28).bold()
+                    .fontDesign(.serif)
+                    .foregroundStyle(AppColor.appGold)
+                    .multilineTextAlignment(.center)
+                
+                VStack(spacing: 20) {
+                    FloatingPlaceholderTextField(placeholder: "이메일", text: $store.emailText)
                     
-                    SecureField("6자리 이상 입력해주세요", text: $store.passwordText)
-                        .textFieldStyle(.roundedBorder)
-                        .font(.system(size: 16))
-                        .padding(.horizontal, 20)
-                    
-                    Spacer()
+                    FloatingPlaceholderTextField(placeholder: "비밀번호", text: $store.passwordText, isSecure: true)
                 }
+                .padding(.horizontal, 25)
                 
                 logInButton()
                     .padding(.horizontal, 20)
-                    .padding(.bottom)
             }
             .padding(.top)
             
@@ -60,25 +42,13 @@ struct LoginView: View {
                     .clipShape(RoundedRectangle(cornerRadius: 8))
             }
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(AppColor.appBackground)
         .showCustomAlert(isPresented: $store.showLoginSuccessAlert, title: store.alertTitle, buttonTitle: "확인") {
             store.send(.loginSuccessConfirmButtonClicked)
         }
         .showCustomAlert(isPresented: $store.showLoginFailureAlert, title: store.alertTitle, message: store.alertMessage, buttonTitle: "확인") {
             store.send(.loginFailureConfirmButtonClicked)
-        }
-        .navigationBarBackButtonHidden(true)
-        .toolbar {
-            ToolbarItem(placement: .topBarLeading) {
-                Button {
-                    store.send(.clickBackButton)
-                } label: {
-                    HStack(spacing: 2) {
-                        Image(systemName: "chevron.left")
-                        Text("뒤로가기")
-                    }
-                }
-                .tint(Color(uiColor: .label))
-            }
         }
     }
     

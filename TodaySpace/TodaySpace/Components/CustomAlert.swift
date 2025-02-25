@@ -37,15 +37,16 @@ struct CustomAlert: View {
                 
                 VStack(spacing: 6) {
                     Text(title)
-                        .font(.headline)
-                        .fontWeight(.bold)
+                        .appFontBold(size: 20)
                         .foregroundStyle(AppColor.white)
                         .multilineTextAlignment(.center)
                     
-                    Text(message ?? "")
-                        .font(.caption)
-                        .foregroundStyle(AppColor.white)
-                        .multilineTextAlignment(.center)
+                    if let message = message {
+                        Text(message)
+                            .appFontLight(size: 16)
+                            .foregroundStyle(AppColor.white)
+                            .multilineTextAlignment(.center)
+                    }
                 }
                 .padding(.horizontal)
                 

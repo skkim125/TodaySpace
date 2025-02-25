@@ -28,18 +28,18 @@ struct PlaceCardView: View {
 
                 VStack(alignment: .leading) {
                     Text(place.name)
-                        .font(.title2).bold()
+                        .appFontBold(size: 26)
                         .lineLimit(1)
                         .foregroundStyle(Color(.label))
                     
                     Text(place.postTitle)
-                        .font(.headline)
+                        .appFontBold(size: 20)
                         .lineLimit(1)
                         .foregroundStyle(Color(.label))
                     
                     if let distance = place.distance {
                         Text(distance.decimalString)
-                            .font(.caption)
+                            .appFontLight(size: 14)
                             .foregroundStyle(AppColor.gray)
                     }
                 }

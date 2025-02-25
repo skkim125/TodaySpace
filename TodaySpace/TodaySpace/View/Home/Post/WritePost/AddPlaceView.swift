@@ -39,17 +39,17 @@ struct AddPlaceView: View {
                             VStack(alignment: .leading) {
                                 VStack(alignment: .leading, spacing: 5) {
                                     Text(place.categoryName)
-                                        .font(.footnote).bold()
+                                        .appFontLight(size: 15)
                                         .foregroundStyle(AppColor.gray)
                                     
                                     Text(place.placeName)
                                         .lineLimit(1)
-                                        .font(.title3)
+                                        .appFontBold(size: 24)
                                         .bold()
                                 }
                                 
                                 Text(place.roadAddress.isEmpty ? place.address : place.roadAddress)
-                                    .font(.subheadline)
+                                    .appFontLight(size: 20)
                                     .foregroundColor(AppColor.lightGray)
                             }
                             .multilineTextAlignment(.leading)

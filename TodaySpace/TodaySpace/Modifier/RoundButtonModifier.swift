@@ -12,7 +12,7 @@ extension View {
                        backgroundColor: Color
     ) -> some View {
         self
-            .font(.title3)
+            .appFontBold(size: 20)
             .foregroundStyle(foregroundColor)
             .frame(maxWidth: .infinity)
             .frame(height: 44)
