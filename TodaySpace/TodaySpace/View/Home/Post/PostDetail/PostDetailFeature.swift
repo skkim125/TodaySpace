@@ -24,14 +24,18 @@ struct PostDetailFeature: Reducer {
         var placeAddress: String = ""
         var createdAt: String = ""
         var placeLink: String = ""
+        var visitedDate: String = ""
         var isLiked: Bool = false
         var likeCount: Int = 0
+        var postCreatorName: String = ""
+        var postCreatorProfile: String = ""
         var comments: [Comment] = []
         var commentText: String = ""
         var images: [String] = []
         var lat: Double = 0.0
         var lon: Double = 0.0
         var isLoading: Bool = false
+        var categoryImage: String = ""
     }
     
     enum Action: BindableAction {
@@ -104,10 +108,24 @@ struct PostDetailFeature: Reducer {
                 state.placeAddress = post.content2
                 state.placeLink = post.content3
                 state.images = post.files
+                state.visitedDate = post.content4
+                
+                if let creatorName = post.creator.nick {
+                    state.postCreatorName = creatorName
+                    print(state.postCreatorName)
+                }
+                
+                if let creatorProfile = post.creator.profileImage {
+                    state.postCreatorProfile = creatorProfile
+                    print(state.postCreatorProfile)
+                }
                 state.comments = post.comments.sorted(by: { $0.createdAt ?? "" < $1.createdAt ?? "" })
                 state.lat = post.geolocation.latitude
                 state.lon = post.geolocation.longitude
                 state.isLiked = post.likes.contains(where: { $0 == UserDefaultsManager.userID })
+                if let category = Category(rawValue: post.category), let image = category.image {
+                    state.categoryImage = image
+                }
                 state.isLoading = false
                 
                 return .none

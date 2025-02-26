@@ -20,21 +20,49 @@ struct PostDetailView: View {
             }
             ScrollViewReader { proxy in
                 ScrollView {
-                    VStack(alignment: .leading, spacing: 20) {
+                    VStack(alignment: .leading, spacing: 15) {
+                        HStack(alignment: .center, spacing: 5) {
+                            ImageView(imageURL: store.postCreatorProfile, frame: .setFrame(35, 35), errorImage: Image("exclamationmark.triangle.fill"))
+                                .clipShape(Circle())
+                            
+                            VStack(alignment: .leading, spacing: 5) {
+                                Text("\(store.postCreatorName)")
+                                    .foregroundStyle(AppColor.white)
+                                    .appFontBold(size: 14)
+                                
+                                Text("\(DateFormatter.convertDateString(store.createdAt, type: .formatted))")
+                                    .appFontBold(size: 12)
+                                    .foregroundStyle(AppColor.gray)
+                            }
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                        }
+                        
                         Text(store.title)
-                            .appFontBold(size: 28)
-                            .padding(.leading)
-                        Text(store.placeName)
-                            .appFontBold(size: 18)
-                            .padding(.leading)
-                        Text(store.placeAddress)
-                            .appFontBold(size: 18)
-                            .padding(.leading)
+                            .appFontBold(size: 20)
+                        
+                        VStack(alignment: .leading, spacing: 10) {
+                            HStack {
+                                Image(systemName: store.categoryImage)
+                                    .appFontBold(size: 18)
+                                    .foregroundColor(AppColor.appGold)
+                                
+                                Text(store.placeName)
+                                    .appFontBold(size: 18)
+                            }
+                            
+                            Text(store.placeAddress)
+                                .appFontBold(size: 14)
+                        }
+                        .padding()
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .background {
+                            RoundedRectangle(cornerRadius: 8)
+                                .fill(AppColor.appSecondary)
+                        }
                         
                         imageListView()
                         
                         Text(store.content)
-                            .padding(.leading)
                         
                         Divider()
                         
@@ -49,9 +77,10 @@ struct PostDetailView: View {
                                     .appFontBold(size: 20)
                                     .multilineTextAlignment(.leading)
                             }
-                            .padding(.leading)
+                            .frame(maxWidth: .infinity, alignment: .leading)
                         }
                     }
+                    .padding(.horizontal)
                     
                     VStack {
                         if store.comments.isEmpty {
@@ -67,6 +96,7 @@ struct PostDetailView: View {
                     }
                     .padding(.horizontal, 5)
                 }
+                .scrollIndicators(.never)
                 .onChange(of: store.comments) { oldValue, newValue in
                     if !oldValue.isEmpty {
                         if let lastComment = newValue.last {
@@ -82,7 +112,11 @@ struct PostDetailView: View {
         .toolbar(.hidden, for: .navigationBar)
         .background(AppColor.appBackground)
         .customNavigationBar {
-            EmptyView()
+            VStack {
+                Text("\(store.visitedDate)의 공간")
+                    .foregroundStyle(AppColor.white)
+                    .appFontBold(size: 16)
+            }
         } leftView: {
             Button {
                 store.send(.dismiss)
@@ -102,7 +136,7 @@ struct PostDetailView: View {
                         .resizable()
                         .scaledToFit()
                         .foregroundStyle(AppColor.appGold)
-                        .frame(width: 25, height: 25)
+                        .frame(width: 20, height: 20)
                 }
                 
                 Button {
@@ -111,7 +145,7 @@ struct PostDetailView: View {
                     Image(systemName: "info.circle.fill")
                         .resizable()
                         .scaledToFit()
-                        .frame(width: 25, height: 25)
+                        .frame(width: 20, height: 20)
                 }
                 .tint(AppColor.white)
             }
@@ -133,7 +167,7 @@ struct PostDetailView: View {
                 TextField("댓글을 입력하세요", text: $store.commentText)
                     .padding(10)
                     .background(AppColor.appSecondary)
-                    .clipShape(RoundedRectangle(cornerRadius: 6))
+                    .clipShape(RoundedRectangle(cornerRadius: 8))
                     .focused($isFocused)
                 
                 if !store.commentText.isEmpty {
@@ -162,17 +196,16 @@ struct PostDetailView: View {
     private func imageListView() -> some View {
         if store.images.count == 1 {
             ImageView(imageURL: store.images[0], frame: .auto, errorImage: Image("exclamationmark.triangle.fill"))
-                .clipShape(RoundedRectangle(cornerRadius: 6))
-                .padding(.horizontal)
+                .clipShape(RoundedRectangle(cornerRadius: 8))
         } else {
             ScrollView(.horizontal) {
                 HStack {
                     ForEach(0..<store.images.count, id: \.self) { index in
                         ImageView(imageURL: store.images[index], frame: .setFrame(UIScreen.main.bounds.width - 100, 300), errorImage: Image("exclamationmark.triangle.fill"))
-                            .clipShape(RoundedRectangle(cornerRadius: 6))
+                            .clipShape(RoundedRectangle(cornerRadius: 8))
                             .overlay {
                                 ZStack {
-                                    RoundedRectangle(cornerRadius: 6).stroke(AppColor.grayStroke, lineWidth: 1)
+                                    RoundedRectangle(cornerRadius: 8).stroke(AppColor.grayStroke, lineWidth: 1)
                                     VStack(alignment: .center) {
                                         Spacer()
                                         
@@ -180,7 +213,7 @@ struct PostDetailView: View {
                                             Spacer()
                                             
                                             Circle()
-                                                .fill(AppColor.black)
+                                                .fill(AppColor.appGold)
                                                 .overlay {
                                                     Text("\(index + 1)")
                                                         .frame(width: 25, height: 25)
@@ -193,9 +226,7 @@ struct PostDetailView: View {
                                     }
                                 }
                             }
-                            .padding(.leading, index == 0 ? 20 : 0)
                             .padding(.horizontal, index != 0 && index != 4 ? 10 : 0)
-                            .padding(.trailing, index == 4 ? 20 : 0)
                     }
                 }
                 .scrollTargetLayout()
