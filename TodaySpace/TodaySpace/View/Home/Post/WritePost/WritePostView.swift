@@ -73,11 +73,11 @@ struct WritePostView: View {
                                     .frame(minHeight: 80, maxHeight: 100)
                                     .padding(10)
                                     .background(
-                                        RoundedRectangle(cornerRadius: 6)
+                                        RoundedRectangle(cornerRadius: 8)
                                             .fill(AppColor.appSecondary)
                                     )
                                     .overlay(
-                                        RoundedRectangle(cornerRadius: 6)
+                                        RoundedRectangle(cornerRadius: 8)
                                             .stroke(AppColor.grayStroke, lineWidth: 1)
                                     )
                                     .appFontLight(size: 15)
@@ -126,6 +126,7 @@ struct WritePostView: View {
                 return AddPlaceView(store: store)
             }
         }
+        .tint(AppColor.white)
     }
     
     @ViewBuilder
@@ -155,9 +156,9 @@ struct WritePostView: View {
                         .resizable()
                         .scaledToFill()
                         .frame(width: 120, height: 150)
-                        .clipShape(RoundedRectangle(cornerRadius: 6))
+                        .clipShape(RoundedRectangle(cornerRadius: 8))
                         .overlay(
-                            RoundedRectangle(cornerRadius: 6)
+                            RoundedRectangle(cornerRadius: 8)
                                 .stroke(AppColor.grayStroke, lineWidth: 1)
                         )
                         .overlay(
@@ -185,11 +186,11 @@ struct WritePostView: View {
                         store.isPickerPresented = true
                     } label: {
                         ZStack {
-                            RoundedRectangle(cornerRadius: 6)
+                            RoundedRectangle(cornerRadius: 8)
                                 .fill(AppColor.appSecondary)
                                 .frame(width: 120, height: 150)
                                 .overlay(
-                                    RoundedRectangle(cornerRadius: 6)
+                                    RoundedRectangle(cornerRadius: 8)
                                         .stroke(AppColor.grayStroke, lineWidth: 1)
                                 )
                             

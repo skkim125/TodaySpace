@@ -137,7 +137,7 @@ struct WritePostFeature: Reducer {
                     }
                 }
             case .imageUploadSuccess(let result):
-                let body = PostBody(title: state.title, content: state.contents, category: state.category, files: result.files, content1: state.placeName, content2: state.placeAddress, content3: state.placeURL, latitude: state.latitude, longitude: state.longitude, hashTags: state.hashtags)
+                let body = PostBody(title: state.title, content: state.contents, category: state.category, files: result.files, content1: state.placeName, content2: state.placeAddress, content3: state.placeURL, content4: state.dateString, latitude: state.latitude, longitude: state.longitude, hashTags: state.hashtags)
                 
                 return .run { send in
                     do {

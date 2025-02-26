@@ -15,6 +15,7 @@ struct PostBody: Encodable {
     let content1: String // 장소 이름
     let content2: String // 장소 주소
     let content3: String // 장소 url
+    let content4: String // 장소 방문 날짜
     let latitude: Double // 위도
     let longitude: Double // 경도
     let hashTags: [String] // 검색용 해시태그
