@@ -15,6 +15,9 @@ struct HomeView: View {
         VStack {
             contentView()
         }
+        .safeAreaInset(edge: .bottom) {
+            Color.clear.frame(height: 60)
+        }
         .background(AppColor.appBackground)
         .customNavigationBar(centerView: {
             HStack(alignment: .center) {
@@ -84,7 +87,8 @@ struct HomeView: View {
                                         ZStack {
                                             ImageView(
                                                 imageURL: post.files.first,
-                                                frame: .setFrame(availableWidth, availableWidth - 150)
+                                                frame: .setFrame(availableWidth, availableWidth - 150),
+                                                errorImage: Image("exclamationmark.triangle.fill")
                                             )
                                             .clipShape(RoundedRectangle(cornerRadius: 6))
                                             
@@ -178,6 +182,7 @@ struct HomeView: View {
                 .scaledToFit()
                 .frame(width: 25, height: 25)
         }
+        .tint(AppColor.white)
     }
 }
 

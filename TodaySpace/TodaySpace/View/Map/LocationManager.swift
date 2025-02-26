@@ -35,26 +35,28 @@ final class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObje
             print("위치 거부 상태")
         case .authorizedAlways, .authorizedWhenInUse:
             print("위치 서비스 활성화")
-            if !isInitialized {
-                locationManager.requestLocation()
-            }
+            locationManager.requestLocation()
         @unknown default:
             print("위치 서비스 비활성화됨")
         }
     }
     
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-        checkLocationAuthorization()
+        let status = manager.authorizationStatus
+        print("Authorization status changed: \(status)")
+        
+        // 권한이 허용되었을 때 즉시 위치 요청
+        if status == .authorizedWhenInUse || status == .authorizedAlways {
+            locationManager.requestLocation()
+        }
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.last else { return }
         print("Location updated: \(location.coordinate)")
-        if !isInitialized {
-            DispatchQueue.main.async {
-                self.currentLocation = location
-                self.isInitialized = true
-            }
+        DispatchQueue.main.async {
+            self.currentLocation = location
+            self.isInitialized = true
         }
     }
     

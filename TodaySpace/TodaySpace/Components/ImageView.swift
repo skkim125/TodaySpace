@@ -14,6 +14,7 @@ struct ImageView: View {
     @State private var loadError = false
     @State private var didLoad = false
     let frame: SetFrame
+    let errorImage: Image
 
     var body: some View {
         ZStack {
@@ -25,7 +26,9 @@ struct ImageView: View {
                     .aspectRatio(contentMode: .fill)
                 
             } else if loadError {
-                Text("이미지를 불러올 수 없습니다.")
+                errorImage
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
             } else {
                 EmptyView()
             }

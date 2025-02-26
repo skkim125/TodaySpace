@@ -28,13 +28,18 @@ struct MapView: View {
     @Namespace var mapScope
     
     var body: some View {
-        ZStack(alignment: .center) {
+        ZStack {
             mapView()
+            
             searchButton()
             
             if let place = store.selectedItem {
                 placeCardView(place: place)
             }
+        }
+        .background(AppColor.appBackground)
+        .safeAreaInset(edge: .bottom) {
+            Color.clear.frame(height: 60)
         }
         .onAppear {
             store.send(.checkLocationAuthorization)
@@ -58,7 +63,7 @@ struct MapView: View {
                 .tag(place)
             }
         }
-        .tint(AppColor.black)
+        .tint(AppColor.appSecondary)
         .mapControlVisibility(.hidden)
         .onMapCameraChange { context in
             store.send(.fetchCurrrentRegion(context.region))

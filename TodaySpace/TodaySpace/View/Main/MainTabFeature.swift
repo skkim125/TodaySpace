@@ -10,7 +10,7 @@ import ComposableArchitecture
 
 enum TabInfo: String {
     case home = "홈"
-    case map = "지도"
+    case map = "내주변"
     case dm = "DM"
     case myPage = "마이페이지"
     

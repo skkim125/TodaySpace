@@ -17,7 +17,7 @@ struct MapMarkerView: View {
                 .fill(AppColor.appGold)
                 .frame(width: 47, height: 47)
                 .overlay {
-                    ImageView(imageURL: imageURL, frame: .auto)
+                    ImageView(imageURL: imageURL, frame: .auto, errorImage: Image(systemName: "exclamationmark.triangle.fill"))
                         .clipShape(Circle())
                         .frame(width: 40, height: 40)
                 }

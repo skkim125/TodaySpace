@@ -16,6 +16,7 @@ struct PostDetailView: View {
         ZStack {
             if store.isLoading {
                 ProgressView()
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
             ScrollViewReader { proxy in
                 ScrollView {
@@ -91,6 +92,7 @@ struct PostDetailView: View {
                     .scaledToFit()
                     .frame(width: 20, height: 20)
             }
+            .tint(AppColor.white)
         } rightView: {
             HStack(spacing: 20) {
                 Button {
@@ -111,6 +113,7 @@ struct PostDetailView: View {
                         .scaledToFit()
                         .frame(width: 25, height: 25)
                 }
+                .tint(AppColor.white)
             }
         }
         .safeAreaInset(edge: .bottom) {
@@ -129,7 +132,7 @@ struct PostDetailView: View {
             HStack {
                 TextField("댓글을 입력하세요", text: $store.commentText)
                     .padding(10)
-                    .background(Color(.systemGray6))
+                    .background(AppColor.appSecondary)
                     .clipShape(RoundedRectangle(cornerRadius: 6))
                     .focused($isFocused)
                 
@@ -158,14 +161,14 @@ struct PostDetailView: View {
     @ViewBuilder
     private func imageListView() -> some View {
         if store.images.count == 1 {
-            ImageView(imageURL: store.images[0], frame: .auto)
+            ImageView(imageURL: store.images[0], frame: .auto, errorImage: Image("exclamationmark.triangle.fill"))
                 .clipShape(RoundedRectangle(cornerRadius: 6))
                 .padding(.horizontal)
         } else {
             ScrollView(.horizontal) {
                 HStack {
                     ForEach(0..<store.images.count, id: \.self) { index in
-                        ImageView(imageURL: store.images[index], frame: .setFrame(UIScreen.main.bounds.width - 100, 300))
+                        ImageView(imageURL: store.images[index], frame: .setFrame(UIScreen.main.bounds.width - 100, 300), errorImage: Image("exclamationmark.triangle.fill"))
                             .clipShape(RoundedRectangle(cornerRadius: 6))
                             .overlay {
                                 ZStack {

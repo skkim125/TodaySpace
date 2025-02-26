@@ -15,35 +15,26 @@ struct MainTabView: View {
         NavigationStack(path: $store.scope(state: \.path, action: \.path)) {
             TabView(selection: $store.selectedTab) {
                 HomeView(store: store.scope(state: \.home, action: \.home))
-                    .tabItem {
-                        Image(systemName: TabInfo.home.image)
-                    }
                     .tag(TabInfo.home)
-                
                 MapView(store: store.scope(state: \.map, action: \.map))
-                    .tabItem {
-                        Image(systemName: TabInfo.map.image)
-                    }
                     .tag(TabInfo.map)
-                
                 ContentView()
-                    .tabItem {
-                        Image(systemName: TabInfo.dm.image)
-                    }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .tag(TabInfo.dm)
-                
                 ContentView()
-                    .tabItem {
-                        Image(systemName: TabInfo.myPage.image)
-                    }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .tag(TabInfo.myPage)
+            }
+            .tabViewStyle(DefaultTabViewStyle())
+            .toolbar(.hidden, for: .navigationBar)
+            .safeAreaInset(edge: .bottom) {
+                CustomTabBar(selectedTab: $store.selectedTab)
             }
         } destination: { store in
             switch store.case {
             case .postDetail(let store):
-                    PostDetailView(store: store)
+                PostDetailView(store: store)
             }
         }
-        .tint(Color(uiColor: .label))
     }
 }
