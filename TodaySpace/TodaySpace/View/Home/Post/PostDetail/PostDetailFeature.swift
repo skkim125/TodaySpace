@@ -36,6 +36,7 @@ struct PostDetailFeature: Reducer {
         var lon: Double = 0.0
         var isLoading: Bool = false
         var categoryImage: String = ""
+        var showSheet: Bool = false
     }
     
     enum Action: BindableAction {

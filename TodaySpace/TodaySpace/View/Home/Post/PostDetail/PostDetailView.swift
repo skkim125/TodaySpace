@@ -7,6 +7,7 @@
 
 import SwiftUI
 import ComposableArchitecture
+import MapKit
 
 struct PostDetailView: View {
     @Bindable var store: StoreOf<PostDetailFeature>
@@ -18,6 +19,7 @@ struct PostDetailView: View {
                 ProgressView()
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
+            
             ScrollViewReader { proxy in
                 ScrollView {
                     VStack(alignment: .leading, spacing: 15) {
@@ -40,24 +42,35 @@ struct PostDetailView: View {
                         Text(store.title)
                             .appFontBold(size: 20)
                         
-                        VStack(alignment: .leading, spacing: 10) {
-                            HStack {
-                                Image(systemName: store.categoryImage)
-                                    .appFontBold(size: 18)
-                                    .foregroundColor(AppColor.appGold)
+                        HStack(spacing: 10) {
+                            VStack(alignment: .leading, spacing: 10) {
+                                HStack {
+                                    Image(systemName: store.categoryImage)
+                                        .appFontBold(size: 18)
+                                        .foregroundColor(AppColor.appGold)
+                                    
+                                    Text(store.placeName)
+                                        .appFontBold(size: 18)
+                                }
                                 
-                                Text(store.placeName)
-                                    .appFontBold(size: 18)
+                                Text(store.placeAddress)
+                                    .appFontBold(size: 14)
                             }
                             
-                            Text(store.placeAddress)
+                            Spacer()
+                            
+                            Image(systemName: "chevron.right")
                                 .appFontBold(size: 14)
+                                .foregroundColor(AppColor.white)
                         }
                         .padding()
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .background {
                             RoundedRectangle(cornerRadius: 8)
                                 .fill(AppColor.appSecondary)
+                        }
+                        .onTapGesture {
+                            store.showSheet.toggle()
                         }
                         
                         imageListView()
@@ -96,6 +109,7 @@ struct PostDetailView: View {
                     }
                     .padding(.horizontal, 5)
                 }
+                .padding(.vertical, 5)
                 .scrollIndicators(.never)
                 .onChange(of: store.comments) { oldValue, newValue in
                     if !oldValue.isEmpty {
@@ -106,16 +120,34 @@ struct PostDetailView: View {
                 }
             }
         }
+        .sheet(isPresented: $store.showSheet) {
+            VStack {
+                Map(position: .constant(MapCameraPosition.camera(MapCamera(centerCoordinate: CLLocationCoordinate2D(latitude: store.lat, longitude: store.lon), distance: 300))), interactionModes: [.pan, .zoom]) {
+                    
+                    Annotation("", coordinate: CLLocationCoordinate2D(latitude: store.lat, longitude: store.lon)) {
+                        CustomMarkerView(placeName: "\(store.placeName)")
+                    }
+                }
+            }
+            .padding(.top, 5)
+            .padding(25)
+            .presentationDragIndicator(.visible)
+            .presentationDetents([.height(250)])
+        }
         .onTapGesture {
             isFocused = false
         }
         .toolbar(.hidden, for: .navigationBar)
         .background(AppColor.appBackground)
         .customNavigationBar {
-            VStack {
-                Text("\(store.visitedDate)의 공간")
+            VStack(spacing: 5) {
+                Text("\(store.visitedDate)")
                     .foregroundStyle(AppColor.white)
-                    .appFontBold(size: 16)
+                    .appFontBold(size: 14)
+                
+                Text("\(store.postCreatorName)님의 공간")
+                    .foregroundStyle(AppColor.white)
+                    .appFontBold(size: 12)
             }
         } leftView: {
             Button {
