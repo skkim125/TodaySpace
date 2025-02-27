@@ -12,11 +12,11 @@ extension View {
         self
             .padding(10)
             .background(
-                RoundedRectangle(cornerRadius: 6)
+                RoundedRectangle(cornerRadius: 8)
                     .fill(AppColor.appSecondary)
             )
             .overlay(
-                RoundedRectangle(cornerRadius: 6)
+                RoundedRectangle(cornerRadius: 8)
                     .stroke(AppColor.grayStroke, lineWidth: 1)
             )
             .appFontLight(size: 15)

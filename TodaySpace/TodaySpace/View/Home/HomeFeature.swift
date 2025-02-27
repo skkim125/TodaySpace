@@ -8,12 +8,6 @@
 import SwiftUI
 import ComposableArchitecture
 
-struct PlaceCategory: Identifiable {
-    let id: String
-    let image: String?
-    let name: String
-}
-
 enum Category: String, CaseIterable {
     case restaurant = "식당"
     case cafe = "카페"

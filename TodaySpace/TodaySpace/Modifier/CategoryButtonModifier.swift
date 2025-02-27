@@ -31,7 +31,7 @@ extension View {
         }
         .bold()
         .padding(.horizontal, 10)
-        .padding(.vertical, 7)
+        .padding(.vertical, 10)
         .foregroundStyle(foregroundColor)
         .background(
             RoundedRectangle(cornerRadius: 25, style: .continuous)

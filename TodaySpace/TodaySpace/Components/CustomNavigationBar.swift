@@ -39,7 +39,7 @@ struct CustomNavigationBar<C, L, R>: ViewModifier where C: View, L: View, R: Vie
                 }
             }
             .padding(.horizontal)
-            .frame(height: 40)
+            .frame(height: 35)
             .frame(maxWidth: .infinity)
             
             content

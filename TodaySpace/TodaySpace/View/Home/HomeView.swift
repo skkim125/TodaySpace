@@ -72,7 +72,8 @@ struct HomeView: View {
     private func listView() -> some View {
         VStack {
             categoryView()
-                .padding(.vertical, 5)
+                .padding(.top, 10)
+                .padding(.bottom, 5)
             
             GeometryReader { geometry in
                 let availableWidth = geometry.size.width - (40)
@@ -81,7 +82,7 @@ struct HomeView: View {
                     LazyVStack(alignment: .leading, spacing: 20) {
                         ForEach(store.posts, id: \.post_id) { post in
                             VStack(alignment: .leading, spacing: 10) {
-                                RoundedRectangle(cornerRadius: 6)
+                                RoundedRectangle(cornerRadius: 8)
                                     .fill(Color.clear)
                                     .background {
                                         ZStack {
@@ -90,14 +91,14 @@ struct HomeView: View {
                                                 frame: .setFrame(availableWidth, availableWidth - 150),
                                                 errorImage: Image("exclamationmark.triangle.fill")
                                             )
-                                            .clipShape(RoundedRectangle(cornerRadius: 6))
+                                            .clipShape(RoundedRectangle(cornerRadius: 8))
                                             
                                             LinearGradient(
                                                 gradient: Gradient(colors: [Color.clear, AppColor.black.opacity(0.4), AppColor.black.opacity(0.8)]),
                                                 startPoint: .top,
                                                 endPoint: .bottom
                                             )
-                                            .clipShape(RoundedRectangle(cornerRadius: 6))
+                                            .clipShape(RoundedRectangle(cornerRadius: 8))
                                             
                                             VStack {
                                                 roundCategoryView(title: post.category, foregroundColor: AppColor.white, backgroundColor: AppColor.appGold, strokeColor: AppColor.gray)
@@ -105,7 +106,7 @@ struct HomeView: View {
                                                 
                                                 Spacer()
                                                 
-                                                VStack(spacing: 8) {
+                                                VStack(spacing: 10) {
                                                     Text("\(post.content1)")
                                                         .appFontBold(size: 24).bold()
                                                         .multilineTextAlignment(.trailing)
@@ -150,6 +151,7 @@ struct HomeView: View {
                     .padding(.horizontal, 20)
                     .padding(.vertical, 10)
                 }
+                .scrollIndicators(.never)
             }
         }
     }

@@ -12,10 +12,9 @@ struct ImageView: View {
     @State private var image: UIImage?
     @State private var isLoading = false
     @State private var loadError = false
-    @State private var didLoad = false
     let frame: SetFrame
     let errorImage: Image
-
+    
     var body: some View {
         ZStack {
             if isLoading {
@@ -35,12 +34,16 @@ struct ImageView: View {
         }
         .setFrame(setFrame: frame)
         .shadow(radius: 2)
-        .onAppear {
-            if !didLoad {
-                didLoad = true
+        .onChange(of: imageURL) { _, newValue in
+            if let image = newValue, !image.isEmpty {
                 Task {
                     await loadImage()
                 }
+            }
+        }
+        .onAppear {
+            Task {
+                await loadImage()
             }
         }
     }
