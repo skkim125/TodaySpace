@@ -61,13 +61,13 @@ struct CustomAlert: View {
             .frame(maxWidth: 270)
             .padding(10)
             .background(
-                RoundedRectangle(cornerRadius: 6)
-                    .fill(AppColor.black)
+                RoundedRectangle(cornerRadius: 8)
+                    .fill(AppColor.appSecondary)
                     .overlay(
-                        RoundedRectangle(cornerRadius: 6)
-                            .stroke(AppColor.black, lineWidth: 1)
+                        RoundedRectangle(cornerRadius: 8)
+                            .stroke(AppColor.appGold, lineWidth: 1)
                     )
-                    .shadow(color: AppColor.black.opacity(0.1), radius: 20, x: 10, y: 10)
+                    .shadow(color: AppColor.appSecondary, radius: 20, x: 10, y: 10)
             )
             .opacity(opacity)
             .onAppear {

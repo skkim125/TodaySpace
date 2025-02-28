@@ -19,34 +19,40 @@ struct PlaceCardView: View {
                 ImageView(
                     imageURL: place.image,
                     frame: .setFrame(
-                        height - 30,
-                        height - 30
+                        height - 40,
+                        height - 40
                     ),
                     errorImage: Image("exclamationmark.triangle.fill")
                 )
                 .clipShape(RoundedRectangle(cornerRadius: 8))
                 .padding(.leading, 15)
 
-                VStack(alignment: .leading) {
+                VStack(alignment: .leading, spacing: 10) {
                     Text(place.name)
-                        .appFontBold(size: 26)
-                        .lineLimit(1)
-                        .foregroundStyle(Color(.label))
-                    
-                    Text(place.postTitle)
                         .appFontBold(size: 20)
                         .lineLimit(1)
                         .foregroundStyle(Color(.label))
                     
+                    Text(place.postTitle)
+                        .appFontBold(size: 18)
+                        .lineLimit(1)
+                        .foregroundStyle(Color(.label))
+                    
                     if let distance = place.distance {
-                        Text(distance.decimalString + "m")
-                            .appFontLight(size: 14)
-                            .foregroundStyle(AppColor.gray)
+                        VStack(alignment: .leading, spacing: 5) {
+                            Text("현재 위치로부터")
+                                .appFontLight(size: 14)
+                                .foregroundStyle(AppColor.gray)
+                            
+                            Text("\(distance.decimalString)m")
+                                .appFontLight(size: 14)
+                                .foregroundStyle(AppColor.gray)
+                        }
                     }
                 }
-                .padding(.horizontal, 10)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.horizontal, 5)
                 
-                Spacer()
             }
             .padding(.vertical, 20)
 
