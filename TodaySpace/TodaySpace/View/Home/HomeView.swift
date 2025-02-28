@@ -44,37 +44,38 @@ struct HomeView: View {
     
     @ViewBuilder
     func contentView() -> some View {
-        ZStack {
+        VStack {
+            categoryView()
+                .padding(.top, 10)
+                .padding(.bottom, 5)
+            
             switch store.state.viewState {
             case .loading:
-                ProgressView()
+                CustomProgressView()
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
             case .empty:
                 ContentUnavailableView {
                     VStack(alignment: .center, spacing: 20) {
                         Image(systemName: "square.and.pencil")
                             .resizable()
                             .aspectRatio(contentMode: .fit)
-                            .frame(width: 80, height: 80)
+                            .frame(width: 60, height: 60)
                         
                         Text("첫 게시물의 주인공이 되어보세요!")
                             .appFontBold(size: 20)
                     }
                     .foregroundStyle(AppColor.gray)
                 }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
             case .content:
                 listView()
             }
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
     
     @ViewBuilder
     private func listView() -> some View {
         VStack {
-            categoryView()
-                .padding(.top, 10)
-                .padding(.bottom, 5)
-            
             GeometryReader { geometry in
                 let availableWidth = geometry.size.width - (40)
                 
@@ -126,21 +127,54 @@ struct HomeView: View {
                                 VStack(alignment: .leading, spacing: 7) {
                                     Text("\(post.title)").bold()
                                         .appFontBold(size: 20)
-                                            .foregroundStyle(AppColor.white)
-                                            .lineLimit(1)
+                                        .foregroundStyle(AppColor.white)
+                                        .lineLimit(1)
                                     
-                                    HStack(alignment: .center, spacing: 5) {
-                                        Text("\(post.creator.nick ?? "알 수 없는 유저")")
-                                            .foregroundStyle(AppColor.white)
-                                            .appFontBold(size: 14)
+                                    HStack(alignment: .center, spacing: 10) {
+                                        HStack(alignment: .center, spacing: 5) {
+                                            Text("\(post.creator.nick ?? "알 수 없는 유저")")
+                                                .foregroundStyle(AppColor.white)
+                                                .appFontBold(size: 14)
+                                            
+                                            Text("\(DateFormatter.convertDateString(post.createdAt, type: .formatted))")
+                                                .appFontBold(size: 12)
+                                                .foregroundStyle(AppColor.gray)
+                                        }
                                         
-                                        Text("\(DateFormatter.convertDateString(post.createdAt, type: .formatted))")
-                                            .appFontBold(size: 12)
-                                            .foregroundStyle(AppColor.gray)
+                                        Spacer()
+                                        
+                                        HStack(alignment: .bottom, spacing: 10) {
+                                            HStack(alignment: .center, spacing: 5) {
+                                                    Image(systemName: "star.fill")
+                                                        .resizable()
+                                                        .scaledToFit()
+                                                        .foregroundStyle(AppColor.gray)
+                                                        .frame(width: 15, height: 15)
+                                                        .bold()
+                                                
+                                                Text("\(post.likes.count.decimalString)")
+                                                    .appFontBold(size: 12)
+                                                    .foregroundStyle(AppColor.gray)
+                                                    .multilineTextAlignment(.leading)
+                                            }
+                                            
+                                            HStack(alignment: .center, spacing: 5) {
+                                                Image(systemName: "text.bubble.fill")
+                                                    .resizable()
+                                                    .scaledToFit()
+                                                    .foregroundStyle(AppColor.gray)
+                                                    .frame(width: 15, height: 15)
+                                                    .bold()
+                                                
+                                                Text("\(post.comments.count.decimalString)")
+                                                    .appFontBold(size: 12)
+                                                    .foregroundStyle(AppColor.gray)
+                                                    .multilineTextAlignment(.leading)
+                                            }
+                                        }
                                     }
                                 }
                             }
-
                             .contentShape(Rectangle())
                             .padding(.bottom, 5)
                             .onTapGesture {

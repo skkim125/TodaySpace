@@ -16,8 +16,7 @@ struct PostDetailView: View {
     var body: some View {
         ZStack {
             if store.isLoading {
-                ProgressView()
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                CustomProgressView()
             }
             
             ScrollViewReader { proxy in
@@ -80,15 +79,35 @@ struct PostDetailView: View {
                         Divider()
                         
                         VStack {
-                            HStack(alignment: .center) {
-                                Image(systemName: "text.bubble.fill")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 25, height: 25)
+                            HStack(alignment: .bottom, spacing: 20) {
+                                HStack(alignment: .center, spacing: 5) {
+                                    Button {
+                                        store.send(.toggleLiked)
+                                    } label: {
+                                        Image(systemName: store.isLiked ? "star.fill" : "star")
+                                            .resizable()
+                                            .scaledToFit()
+                                            .foregroundStyle(AppColor.appGold)
+                                            .frame(width: 25, height: 25)
+                                            .bold()
+                                    }
+                                    
+                                    Text("\(store.likeCount.decimalString)")
+                                        .appFontBold(size: 16)
+                                        .multilineTextAlignment(.leading)
+                                }
                                 
-                                Text("\(store.comments.count)개")
-                                    .appFontBold(size: 20)
-                                    .multilineTextAlignment(.leading)
+                                HStack(alignment: .center, spacing: 5) {
+                                    Image(systemName: "text.bubble.fill")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 25, height: 25)
+                                        .bold()
+                                    
+                                    Text("\(store.comments.count)개")
+                                        .appFontBold(size: 16)
+                                        .multilineTextAlignment(.leading)
+                                }
                             }
                             .frame(maxWidth: .infinity, alignment: .leading)
                         }
@@ -120,6 +139,7 @@ struct PostDetailView: View {
                 }
             }
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
         .sheet(isPresented: $store.showPlaceLocationSheet) {
             VStack {
                 Map(position: .constant(MapCameraPosition.camera(MapCamera(centerCoordinate: CLLocationCoordinate2D(latitude: store.lat, longitude: store.lon), distance: 300))), interactionModes: [.pan, .zoom]) {
@@ -180,27 +200,15 @@ struct PostDetailView: View {
             }
             .tint(AppColor.white)
         } rightView: {
-            HStack(spacing: 20) {
-                Button {
-                    store.send(.toggleLiked)
-                } label: {
-                    Image(systemName: store.isLiked ? "star.fill" : "star")
-                        .resizable()
-                        .scaledToFit()
-                        .foregroundStyle(AppColor.appGold)
-                        .frame(width: 20, height: 20)
-                }
-                
-                Button {
-                    store.send(.showPlaceWebView)
-                } label: {
-                    Image(systemName: "info.circle.fill")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 20, height: 20)
-                }
-                .tint(AppColor.white)
+            Button {
+                store.send(.showPlaceWebView)
+            } label: {
+                Image(systemName: "info.circle.fill")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 20, height: 20)
             }
+            .tint(AppColor.white)
         }
         .safeAreaInset(edge: .bottom) {
             commentInputView()

@@ -18,7 +18,7 @@ struct ImageView: View {
     var body: some View {
         ZStack {
             if isLoading {
-                ProgressView()
+                CustomProgressView()
             } else if let image = image {
                 Image(uiImage: image)
                     .resizable()

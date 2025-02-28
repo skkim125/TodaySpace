@@ -109,25 +109,28 @@ struct HomeFeature: Reducer {
             case .writePost:
                 return .none
             case .setCategory(let categoryType):
-                
-                switch categoryType {
-                case .all:
-                    state.categoryFilter = .all
+                if state.categoryFilter != categoryType {
+                    state.viewState = .loading
                     
-                case .selected(let categoryId):
-                    if state.categoryFilter == .selected(categoryId) {
+                    switch categoryType {
+                    case .all:
                         state.categoryFilter = .all
-                    } else {
+                        return .send(.fetchPost(FetchPostQuery(next: "0", limit: "20", category: [])))
+                        
+                    case .selected(let categoryId):
                         state.categoryFilter = .selected(categoryId)
+                        return .send(.fetchPost(FetchPostQuery(next: "0", limit: "20", category: [categoryId])))
                     }
+                } else {
+                    return .none
                 }
-                
-                return .none
                 
             case .fetchPost(let body):
                 return .run { send in
                     do {
                         let result = try await postClient.fetchPost(body)
+                        try await Task.sleep(for: .milliseconds(150))
+                        
                         return await send(.fetchSuccess(result))
                     } catch {
                         return await send(.requestError(error))

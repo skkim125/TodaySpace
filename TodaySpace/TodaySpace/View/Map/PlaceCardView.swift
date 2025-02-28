@@ -24,7 +24,7 @@ struct PlaceCardView: View {
                     ),
                     errorImage: Image("exclamationmark.triangle.fill")
                 )
-                .clipShape(RoundedRectangle(cornerRadius: 6))
+                .clipShape(RoundedRectangle(cornerRadius: 8))
                 .padding(.leading, 15)
 
                 VStack(alignment: .leading) {
@@ -39,7 +39,7 @@ struct PlaceCardView: View {
                         .foregroundStyle(Color(.label))
                     
                     if let distance = place.distance {
-                        Text(distance.decimalString)
+                        Text(distance.decimalString + "m")
                             .appFontLight(size: 14)
                             .foregroundStyle(AppColor.gray)
                     }
@@ -64,7 +64,7 @@ struct PlaceCardView: View {
         }
         .frame(width: width, height: height)
         .background(AppColor.appBackground)
-        .clipShape(RoundedRectangle(cornerRadius: 6))
+        .clipShape(RoundedRectangle(cornerRadius: 8))
         .shadow(radius: 5)
     }
 }

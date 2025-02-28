@@ -47,13 +47,7 @@ struct LoginView: View {
             .padding(.top)
             
             if store.showProgressView {
-                RoundedRectangle(cornerRadius: 8)
-                    .fill(AppColor.grayStroke)
-                    .frame(width: 50, height: 50)
-                    .overlay {
-                        ProgressView()
-                    }
-                    .clipShape(RoundedRectangle(cornerRadius: 8))
+                CustomProgressView()
             }
         }
         .showCustomAlert(isPresented: $store.showLoginSuccessAlert, title: store.alertTitle, buttonTitle: "확인") {

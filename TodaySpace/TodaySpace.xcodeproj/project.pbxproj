@@ -16,9 +16,12 @@
 		0421B29B2D718579002FFD18 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0421B29A2D718579002FFD18 /* WebView.swift */; };
 		0421B29D2D718E3B002FFD18 /* StarStatusBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0421B29C2D718E3B002FFD18 /* StarStatusBody.swift */; };
 		0421B29F2D718E59002FFD18 /* StarStatusResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0421B29E2D718E59002FFD18 /* StarStatusResponse.swift */; };
+		0421B2A12D71A337002FFD18 /* CustomProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0421B2A02D71A337002FFD18 /* CustomProgressView.swift */; };
+		0421B2A52D71B26F002FFD18 /* DecimalString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0421B2A42D71B26F002FFD18 /* DecimalString.swift */; };
+		0421B2A72D71B296002FFD18 /* Int+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0421B2A62D71B296002FFD18 /* Int+.swift */; };
+		0421B2A92D71B2A0002FFD18 /* Double+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0421B2A82D71B2A0002FFD18 /* Double+.swift */; };
 		042C4F402D687C090013BA86 /* CommentBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042C4F3F2D687C090013BA86 /* CommentBody.swift */; };
 		042C4F442D68B9340013BA86 /* DateFormatter+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042C4F432D68B9340013BA86 /* DateFormatter+.swift */; };
-		043A5C592D69DAC800E2C084 /* Double+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043A5C582D69DAC800E2C084 /* Double+.swift */; };
 		043A5C5B2D6B040900E2C084 /* ImageCacher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043A5C5A2D6B040900E2C084 /* ImageCacher.swift */; };
 		044710FD2D4B4A660084B26E /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044710FC2D4B4A660084B26E /* Color.swift */; };
 		044711002D4B5C6C0084B26E /* KakaoLocalManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044710FF2D4B5C6C0084B26E /* KakaoLocalManager.swift */; };
@@ -102,9 +105,12 @@
 		0421B29A2D718579002FFD18 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		0421B29C2D718E3B002FFD18 /* StarStatusBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarStatusBody.swift; sourceTree = "<group>"; };
 		0421B29E2D718E59002FFD18 /* StarStatusResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarStatusResponse.swift; sourceTree = "<group>"; };
+		0421B2A02D71A337002FFD18 /* CustomProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomProgressView.swift; sourceTree = "<group>"; };
+		0421B2A42D71B26F002FFD18 /* DecimalString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecimalString.swift; sourceTree = "<group>"; };
+		0421B2A62D71B296002FFD18 /* Int+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+.swift"; sourceTree = "<group>"; };
+		0421B2A82D71B2A0002FFD18 /* Double+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+.swift"; sourceTree = "<group>"; };
 		042C4F3F2D687C090013BA86 /* CommentBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentBody.swift; sourceTree = "<group>"; };
 		042C4F432D68B9340013BA86 /* DateFormatter+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+.swift"; sourceTree = "<group>"; };
-		043A5C582D69DAC800E2C084 /* Double+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+.swift"; sourceTree = "<group>"; };
 		043A5C5A2D6B040900E2C084 /* ImageCacher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCacher.swift; sourceTree = "<group>"; };
 		044710FC2D4B4A660084B26E /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		044710FF2D4B5C6C0084B26E /* KakaoLocalManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoLocalManager.swift; sourceTree = "<group>"; };
@@ -229,7 +235,9 @@
 				04E9FF8F2D6D953A000F2439 /* Font.swift */,
 				041BFFEC2D5DCF9900266BFB /* LazyInitView.swift */,
 				042C4F432D68B9340013BA86 /* DateFormatter+.swift */,
-				043A5C582D69DAC800E2C084 /* Double+.swift */,
+				0421B2A42D71B26F002FFD18 /* DecimalString.swift */,
+				0421B2A62D71B296002FFD18 /* Int+.swift */,
+				0421B2A82D71B2A0002FFD18 /* Double+.swift */,
 				043A5C5A2D6B040900E2C084 /* ImageCacher.swift */,
 				04E9FF862D6D924F000F2439 /* Font */,
 			);
@@ -349,6 +357,7 @@
 				04B9FF382D67133C00D3983F /* CustomNavigationBar.swift */,
 				04E9FF932D6DB94F000F2439 /* FloatingPlaceholderTextField.swift */,
 				04E9FF952D6DD64B000F2439 /* BasicTextField.swift */,
+				0421B2A02D71A337002FFD18 /* CustomProgressView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -579,7 +588,6 @@
 				041BFFED2D5DCF9900266BFB /* LazyInitView.swift in Sources */,
 				041BFFE32D5C9DA700266BFB /* ImageView.swift in Sources */,
 				0459AEC72D4D1DD4009307DE /* PostBody.swift in Sources */,
-				043A5C592D69DAC800E2C084 /* Double+.swift in Sources */,
 				045705912D476374000C4CBA /* AppFeature.swift in Sources */,
 				042C4F442D68B9340013BA86 /* DateFormatter+.swift in Sources */,
 				044711092D4B63F90084B26E /* KakaoTarget.swift in Sources */,
@@ -590,6 +598,7 @@
 				041BFFF62D5DDFBB00266BFB /* PostDetailView.swift in Sources */,
 				04E9FF942D6DB94F000F2439 /* FloatingPlaceholderTextField.swift in Sources */,
 				04984D922D5106400053DE54 /* CustomAlert.swift in Sources */,
+				0421B2A52D71B26F002FFD18 /* DecimalString.swift in Sources */,
 				0421B29F2D718E59002FFD18 /* StarStatusResponse.swift in Sources */,
 				04F1A7572D4E54F100471965 /* PostResponse.swift in Sources */,
 				045705702D467C6E000C4CBA /* PostTarget.swift in Sources */,
@@ -597,6 +606,7 @@
 				04E9FF9A2D6DD90B000F2439 /* CustomForm.swift in Sources */,
 				046550972D6091FC0087248D /* FetchPostResponse.swift in Sources */,
 				04FBE0382D48A993004CCCE6 /* TokenResponse.swift in Sources */,
+				0421B2A72D71B296002FFD18 /* Int+.swift in Sources */,
 				0421B29D2D718E3B002FFD18 /* StarStatusBody.swift in Sources */,
 				04F1A7592D4E550000471965 /* ImageUploadResponse.swift in Sources */,
 				045705872D4753FD000C4CBA /* RoundButton.swift in Sources */,
@@ -625,6 +635,7 @@
 				0459AEC42D4CBFCE009307DE /* AddPlaceFeature.swift in Sources */,
 				044710FD2D4B4A660084B26E /* Color.swift in Sources */,
 				044711032D4B63140084B26E /* KakaoLocalModel.swift in Sources */,
+				0421B2A12D71A337002FFD18 /* CustomProgressView.swift in Sources */,
 				042C4F402D687C090013BA86 /* CommentBody.swift in Sources */,
 				045705582D466E85000C4CBA /* NetworkError.swift in Sources */,
 				04FBE0412D493B5F004CCCE6 /* WritePostFeature.swift in Sources */,
@@ -632,6 +643,7 @@
 				046550992D61D28C0087248D /* PlaceCardView.swift in Sources */,
 				0457058D2D47561A000C4CBA /* EmailLoginResponse.swift in Sources */,
 				04E9FFA02D6DE9CA000F2439 /* ContentView.swift in Sources */,
+				0421B2A92D71B2A0002FFD18 /* Double+.swift in Sources */,
 				04B9FF392D67133C00D3983F /* CustomNavigationBar.swift in Sources */,
 				045705802D475397000C4CBA /* LoginFeature.swift in Sources */,
 				04FBE0322D48A4CD004CCCE6 /* UserDefaultsManager.swift in Sources */,
