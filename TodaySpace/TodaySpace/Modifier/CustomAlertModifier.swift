@@ -25,5 +25,6 @@ extension View {
                 .transition(.opacity)
             }
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }

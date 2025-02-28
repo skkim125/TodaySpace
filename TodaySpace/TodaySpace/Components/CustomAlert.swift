@@ -25,7 +25,9 @@ struct CustomAlert: View {
                     .transition(.opacity)
             }
             
-            VStack(spacing: 16) {
+            VStack(spacing: 0) {
+                Spacer()
+                
                 if let image = image {
                     Image(systemName: image)
                         .resizable()
@@ -33,9 +35,10 @@ struct CustomAlert: View {
                         .frame(width: 48, height: 48)
                         .foregroundStyle(AppColor.white)
                         .opacity(0.8)
+                        .padding(.top, 10)
                 }
                 
-                VStack(spacing: 6) {
+                VStack(spacing: 10) {
                     Text(title)
                         .appFontBold(size: 20)
                         .foregroundStyle(AppColor.white)
@@ -57,18 +60,19 @@ struct CustomAlert: View {
                         .asRoundButton(foregroundColor: AppColor.black, backgroundColor: AppColor.white)
                 }
                 .padding(.horizontal)
+                .padding(.top, 5)
+                .padding(.bottom, 10)
             }
-            .frame(maxWidth: 270)
-            .padding(10)
-            .background(
+            .frame(maxWidth: 250, maxHeight: 120)
+            .background {
                 RoundedRectangle(cornerRadius: 8)
                     .fill(AppColor.appSecondary)
                     .overlay(
                         RoundedRectangle(cornerRadius: 8)
-                            .stroke(AppColor.appGold, lineWidth: 1)
+                            .stroke(AppColor.appGold, lineWidth: 0.5)
                     )
                     .shadow(color: AppColor.appSecondary, radius: 20, x: 10, y: 10)
-            )
+            }
             .opacity(opacity)
             .onAppear {
                 withAnimation(.easeInOut(duration: 0.3)) {
@@ -78,6 +82,8 @@ struct CustomAlert: View {
         }
         .zIndex(10)
     }
+
+
     
     private func dismissAlert() {
         

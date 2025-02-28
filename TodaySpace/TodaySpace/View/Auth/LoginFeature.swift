@@ -30,7 +30,7 @@ struct LoginFeature {
         var showLoginSuccessAlert: Bool = false
         var showLoginFailureAlert: Bool = false
         var alertTitle: String = ""
-        var alertMessage: String = ""
+        var alertMessage: String?
     }
     
     enum Action: BindableAction {

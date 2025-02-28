@@ -30,15 +30,15 @@ extension View {
                 .appFontLight(size: titleFontSize)
         }
         .bold()
-        .padding(.horizontal, 10)
-        .padding(.vertical, 10)
+        .padding(.horizontal, 7)
+        .padding(.vertical, 7)
         .foregroundStyle(foregroundColor)
         .background(
-            RoundedRectangle(cornerRadius: 25, style: .continuous)
+            RoundedRectangle(cornerRadius: 8, style: .continuous)
                 .fill(backgroundColor)
         )
         .overlay(
-            RoundedRectangle(cornerRadius: 25, style: .continuous)
+            RoundedRectangle(cornerRadius: 8, style: .continuous)
                 .stroke(strokeColor, lineWidth: strokeLineWidth)
         )
         .onTapGesture {

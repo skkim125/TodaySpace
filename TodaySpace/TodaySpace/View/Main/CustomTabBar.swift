@@ -36,7 +36,7 @@ struct CustomTabBar: View {
         .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
         .overlay {
             RoundedRectangle(cornerRadius: 20, style: .continuous)
-                .stroke(AppColor.appGold, lineWidth: 1)
+                .stroke(AppColor.appGold, lineWidth: 0.5)
         }
         .shadow(radius: 5)
         .padding(.horizontal)
