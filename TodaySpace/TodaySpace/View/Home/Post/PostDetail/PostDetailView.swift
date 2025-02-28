@@ -70,7 +70,7 @@ struct PostDetailView: View {
                                 .fill(AppColor.appSecondary)
                         }
                         .onTapGesture {
-                            store.showSheet.toggle()
+                            store.showPlaceLocationSheet.toggle()
                         }
                         
                         imageListView()
@@ -120,7 +120,7 @@ struct PostDetailView: View {
                 }
             }
         }
-        .sheet(isPresented: $store.showSheet) {
+        .sheet(isPresented: $store.showPlaceLocationSheet) {
             VStack {
                 Map(position: .constant(MapCameraPosition.camera(MapCamera(centerCoordinate: CLLocationCoordinate2D(latitude: store.lat, longitude: store.lon), distance: 300))), interactionModes: [.pan, .zoom]) {
                     
@@ -133,6 +133,26 @@ struct PostDetailView: View {
             .padding(25)
             .presentationDragIndicator(.visible)
             .presentationDetents([.height(250)])
+        }
+        .fullScreenCover(isPresented: $store.showPlaceWebView) {
+            WebView(urlString: store.placeLink)
+                .ignoresSafeArea(edges: .bottom)
+                .customNavigationBar {
+                    EmptyView()
+                } leftView: {
+                    VStack {
+                        Button {
+                            store.showPlaceWebView = false
+                        } label: {
+                            Text("닫기")
+                                .appFontBold(size: 18)
+                        }
+                        .tint(AppColor.white)
+                    }
+                } rightView: {
+                    EmptyView()
+                }
+            
         }
         .onTapGesture {
             isFocused = false
@@ -172,7 +192,7 @@ struct PostDetailView: View {
                 }
                 
                 Button {
-                    print("info.circle.fill")
+                    store.send(.showPlaceWebView)
                 } label: {
                     Image(systemName: "info.circle.fill")
                         .resizable()

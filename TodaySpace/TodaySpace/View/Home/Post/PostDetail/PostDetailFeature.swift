@@ -36,7 +36,8 @@ struct PostDetailFeature: Reducer {
         var lon: Double = 0.0
         var isLoading: Bool = false
         var categoryImage: String = ""
-        var showSheet: Bool = false
+        var showPlaceLocationSheet: Bool = false
+        var showPlaceWebView: Bool = false
     }
     
     enum Action: BindableAction {
@@ -49,6 +50,7 @@ struct PostDetailFeature: Reducer {
         case dismiss
         case dismissAction(PostResponse)
         case toggleLiked
+        case showPlaceWebView
     }
     
     var body: some ReducerOf<Self> {
@@ -153,6 +155,10 @@ struct PostDetailFeature: Reducer {
                 }
                 
             case .dismissAction:
+                return .none
+                
+            case .showPlaceWebView:
+                state.showPlaceWebView = true
                 return .none
             }
         }
