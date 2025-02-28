@@ -184,7 +184,7 @@ struct PostDetailView: View {
                 Button {
                     store.send(.toggleLiked)
                 } label: {
-                    Image(systemName: store.isLiked ? "heart.fill" : "heart")
+                    Image(systemName: store.isLiked ? "star.fill" : "star")
                         .resizable()
                         .scaledToFit()
                         .foregroundStyle(AppColor.appGold)

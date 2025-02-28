@@ -26,6 +26,7 @@ struct PostDetailFeature: Reducer {
         var placeLink: String = ""
         var visitedDate: String = ""
         var isLiked: Bool = false
+        var beforeLiked: Bool = false
         var likeCount: Int = 0
         var postCreatorName: String = ""
         var postCreatorProfile: String = ""
@@ -126,6 +127,7 @@ struct PostDetailFeature: Reducer {
                 state.lat = post.geolocation.latitude
                 state.lon = post.geolocation.longitude
                 state.isLiked = post.likes.contains(where: { $0 == UserDefaultsManager.userID })
+                state.beforeLiked = state.isLiked
                 if let category = Category(rawValue: post.category), let image = category.image {
                     state.categoryImage = image
                 }
@@ -144,8 +146,15 @@ struct PostDetailFeature: Reducer {
                 
             case .dismiss:
                 let postID = state.postID
+                let isLiked = state.isLiked
+                let beforeLiked = state.beforeLiked
+                
                 return .run { send in
                     do {
+                        if isLiked != beforeLiked {
+                            let body = StarStatusBody(like_status: isLiked)
+                            let _ = try await postClient.starToggle(postID, body)
+                        }
                         let result = try await postClient.fetchCurrentPost(postID)
                         await send(.dismissAction(result))
                         await self.dismiss()

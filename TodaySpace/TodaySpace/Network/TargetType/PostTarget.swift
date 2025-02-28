@@ -14,6 +14,7 @@ enum PostTarget {
     case fetchAreaPost(FetchAreaPostQuery)
     case fetchCurrentPost(String)
     case comment(String, CommentBody)
+    case starToggle(String, StarStatusBody)
 }
 
 extension PostTarget: TargetType {
@@ -65,6 +66,13 @@ extension PostTarget: TargetType {
                 Header.authorization: UserDefaultsManager.accessToken,
                 Header.sesacKey: API.apiKey,
             ]
+        case .starToggle:
+            return [
+                Header.contentType: ContentType.json,
+                Header.productId: API.productId,
+                Header.authorization: UserDefaultsManager.accessToken,
+                Header.sesacKey: API.apiKey,
+            ]
         }
     }
     
@@ -82,12 +90,14 @@ extension PostTarget: TargetType {
             return "posts/\(postID)/comments"
         case .fetchCurrentPost(let postID):
             return "posts/\(postID)"
+        case .starToggle(let postID, _):
+            return "posts/\(postID)/like"
         }
     }
     
     var method: HTTPMethod {
         switch self {
-        case .uploadImage, .postUpload, .comment:
+        case .uploadImage, .postUpload, .comment, .starToggle:
             return .post
         case .fetchPost, .fetchAreaPost, .fetchCurrentPost:
             return .get
@@ -139,6 +149,14 @@ extension PostTarget: TargetType {
         case .comment(_, let body):
             do {
                 let data = try encoder.encode(body)
+                return data
+            } catch {
+                print("Body to JSON Encode Error", error)
+                return nil
+            }
+        case .starToggle(_, let status):
+            do {
+                let data = try encoder.encode(status)
                 return data
             } catch {
                 print("Body to JSON Encode Error", error)
