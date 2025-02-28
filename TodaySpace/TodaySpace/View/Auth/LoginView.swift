@@ -39,12 +39,11 @@ struct LoginView: View {
                     
                     FloatingPlaceholderTextField(placeholder: "비밀번호", text: $store.passwordText, isSecure: true, focusField: $focusField, field: .password)
                 }
-                .padding(.horizontal, 25)
                 
                 logInButton()
-                    .padding(.horizontal, 20)
             }
             .padding(.top)
+            .padding(.horizontal, 25)
             
             if store.showProgressView {
                 CustomProgressView()

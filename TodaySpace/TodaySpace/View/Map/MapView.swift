@@ -33,6 +33,11 @@ struct MapView: View {
             
             searchButton()
             
+            if store.mapState == .searching {
+                CustomProgressView()
+                    .transition(.opacity)
+            }
+            
             if let place = store.selectedItem {
                 placeCardView(place: place)
             }

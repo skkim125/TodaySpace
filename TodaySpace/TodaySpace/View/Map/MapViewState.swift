@@ -27,6 +27,9 @@ struct MapViewFeature {
         )
         var showInfoSheet = false
         var selectedItem: Place?
+        var hasCompletedInitialCameraMove: Bool = false
+        var shouldShowSearchButton: Bool = false
+        
         var places: [Place] {
             posts.map {
                 Place(
@@ -43,7 +46,8 @@ struct MapViewFeature {
         }
         
         var showSearchButton: Bool {
-            self.mapState == .regionChanged && self.selectedItem == nil
+            if self.mapState == .viewAppear || self.mapState == .searching { return false }
+            return self.shouldShowSearchButton
         }
     }
     
@@ -68,15 +72,17 @@ struct MapViewFeature {
             switch action {
             case .binding:
                 return .none
+                
             case .checkLocationAuthorization:
                 if !state.locationManager.isInitialized {
                     state.locationManager.startLocationServices()
                 }
                 return .none
+                
             case .setInitialPosition(let initialized):
                 if initialized,
                    state.mapState == .viewAppear,
-                   let location = state.locationManager.currentLocation {
+                   let location = state.locationManager.currentUserLocation {
                     state.position = .camera(MapCamera(
                         centerCoordinate: location.coordinate,
                         distance: 1500
@@ -103,35 +109,38 @@ struct MapViewFeature {
             case .searchSuccess(let posts):
                 state.posts = posts
                 state.mapState = .loaded
+                state.shouldShowSearchButton = false
+                state.selectedItem = nil
                 return .none
                 
             case .searchFailure(let error):
                 state.mapState = .loaded
                 print(error)
+                state.shouldShowSearchButton = false
                 return .none
                 
             case .searchButtonTapped:
                 let region = state.currentRegion.center
-                
+                state.mapState = .searching
+                state.shouldShowSearchButton = false
                 return .run { send in
+                    try await Task.sleep(for: .milliseconds(500))
                     return await send(.searchPost(region))
                 }
                 
             case .selectedPlace(let place):
-                if let place = place {
-                    state.selectedItem = place
-                    state.mapState = .regionChanged
-                    return .none
-                } else {
-                    state.selectedItem = nil
-                    state.mapState = .loaded
-                    return .none
-                }
+                state.selectedItem = place
+                return .none
                 
             case .fetchCurrrentRegion(let region):
                 state.currentRegion = region
-                if !state.position.followsUserLocation && state.mapState == .loaded {
-                    state.mapState = .regionChanged
+                if !state.position.followsUserLocation && state.mapState != .searching {
+                    if !state.hasCompletedInitialCameraMove {
+                        state.hasCompletedInitialCameraMove = true
+                    } else {
+                        state.mapState = .regionChanged
+                        state.shouldShowSearchButton = true
+                    }
                 }
                 return .none
                 

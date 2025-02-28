@@ -11,7 +11,7 @@ import CoreLocation
 final class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObject {
     private let locationManager = CLLocationManager()
     @Published var isInitialized: Bool = false
-    @Published var currentLocation: CLLocation?
+    @Published var currentUserLocation: CLLocation?
 
     override init() {
         super.init()
@@ -55,7 +55,7 @@ final class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObje
         guard let location = locations.last else { return }
         print("Location updated: \(location.coordinate)")
         DispatchQueue.main.async {
-            self.currentLocation = location
+            self.currentUserLocation = location
             self.isInitialized = true
         }
     }
