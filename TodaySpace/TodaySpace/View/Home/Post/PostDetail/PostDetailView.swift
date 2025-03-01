@@ -200,15 +200,42 @@ struct PostDetailView: View {
             }
             .tint(AppColor.white)
         } rightView: {
-            Button {
-                store.send(.showPlaceWebView)
+            Menu {
+                if store.postCreatorID == UserDefaultsManager.userID {
+                    Button(role: .destructive, action: {
+                        
+                    }) {
+                        HStack {
+                            Text("게시물 삭제")
+                            
+                            Image(systemName: "trash.fill")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 20, height: 20)
+                        }
+                    }
+                }
+                
+                Button {
+                    store.send(.showPlaceWebView)
+                } label: {
+                    HStack {
+                        Text("공간 알아보기")
+                        
+                        Image(systemName: "info.circle.fill")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 20, height: 20)
+                    }
+                }
+                
             } label: {
-                Image(systemName: "info.circle.fill")
+                Image(systemName: "ellipsis")
                     .resizable()
                     .scaledToFit()
                     .frame(width: 20, height: 20)
+                    .tint(AppColor.white)
             }
-            .tint(AppColor.white)
         }
         .safeAreaInset(edge: .bottom) {
             commentInputView()
