@@ -149,7 +149,11 @@ struct WritePostFeature: Reducer {
                 }
                 
             case .requestError(let error):
-                print(error)
+                if let error = error as? ErrorType {
+                    print(error.message)
+                } else if let error = error as? NetworkError {
+                    print(error.errorDescription)
+                }
                 return .none
             case .postUploadSuccess:
                 print("포스트 업로드 성공!")

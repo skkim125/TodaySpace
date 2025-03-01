@@ -77,6 +77,7 @@ struct HomeFeature: Reducer {
         case fetchSuccess(FetchPostResponse)
         case requestError(Error)
         case postDetail(String)
+        case dismissAfterFetch
     }
     
     var body: some ReducerOf<Self> {
@@ -96,7 +97,11 @@ struct HomeFeature: Reducer {
                 }
                 
             case .requestError(let error):
-                print(error)
+                if let error = error as? ErrorType {
+                    print(error.message)
+                } else if let error = error as? NetworkError {
+                    print(error.errorDescription)
+                }
                 state.viewState = .empty
                 return .none
                 
@@ -141,6 +146,11 @@ struct HomeFeature: Reducer {
                 state.posts = result.data
                 state.viewState = result.data.isEmpty ? .empty : .content
                 
+                return .run { send in
+                    await send(.dismissAfterFetch)
+                }
+                
+            case .dismissAfterFetch:
                 return .none
                 
             case .postDetail:

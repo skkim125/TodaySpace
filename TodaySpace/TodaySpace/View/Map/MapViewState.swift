@@ -63,6 +63,7 @@ struct MapViewFeature {
         case searchFailure(Error)
         case goPostDetail
         case postDetail(String)
+        case dismissAfterFetch
     }
     
     var body: some ReducerOf<Self> {
@@ -111,12 +112,20 @@ struct MapViewFeature {
                 state.mapState = .loaded
                 state.shouldShowSearchButton = false
                 state.selectedItem = nil
-                return .none
+                return .run { send in
+                    await send(.dismissAfterFetch)
+                }
                 
             case .searchFailure(let error):
                 state.mapState = .loaded
-                print(error)
                 state.shouldShowSearchButton = false
+                
+                if let error = error as? ErrorType {
+                    print(error.message)
+                } else if let error = error as? NetworkError {
+                    print(error.errorDescription)
+                }
+                
                 return .none
                 
             case .searchButtonTapped:
@@ -150,6 +159,9 @@ struct MapViewFeature {
                 } else {
                     return .none
                 }
+                
+            case .dismissAfterFetch:
+                return .none
                 
             case .postDetail:
                 return .none

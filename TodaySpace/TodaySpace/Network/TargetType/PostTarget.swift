@@ -15,6 +15,7 @@ enum PostTarget {
     case fetchCurrentPost(String)
     case comment(String, CommentBody)
     case starToggle(String, StarStatusBody)
+    case deletePost(String)
 }
 
 extension PostTarget: TargetType {
@@ -73,6 +74,14 @@ extension PostTarget: TargetType {
                 Header.authorization: UserDefaultsManager.accessToken,
                 Header.sesacKey: API.apiKey,
             ]
+            
+        case .deletePost:
+            return [
+                Header.contentType: ContentType.json,
+                Header.productId: API.productId,
+                Header.authorization: UserDefaultsManager.accessToken,
+                Header.sesacKey: API.apiKey,
+            ]
         }
     }
     
@@ -92,6 +101,8 @@ extension PostTarget: TargetType {
             return "posts/\(postID)"
         case .starToggle(let postID, _):
             return "posts/\(postID)/like"
+        case .deletePost(let postID):
+            return "posts/\(postID)"
         }
     }
     
@@ -101,6 +112,8 @@ extension PostTarget: TargetType {
             return .post
         case .fetchPost, .fetchAreaPost, .fetchCurrentPost:
             return .get
+        case .deletePost:
+            return .delete
         }
     }
     

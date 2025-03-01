@@ -18,7 +18,7 @@ extension UserClient: DependencyKey {
         emailLogin: { body in
             do {
                 return try await NetworkManager.shared.callRequest(targetType: UserTarget.emailLogin(body))
-            } catch let error as NetworkError {
+            } catch {
                 throw error
             }
         }

@@ -39,6 +39,9 @@ struct PostDetailFeature: Reducer {
         var categoryImage: String = ""
         var showPlaceLocationSheet: Bool = false
         var showPlaceWebView: Bool = false
+        var showAlert: Bool = false
+        var alertTitle: String = ""
+        var alertMessage: String = ""
     }
     
     enum Action: BindableAction {
@@ -48,10 +51,12 @@ struct PostDetailFeature: Reducer {
         case commentSuccess(Comment)
         case fetchCurrentPostSuccess(PostResponse)
         case fetchError(Error)
-        case dismiss
-        case dismissAction(PostResponse)
+        case defaultDismiss
+        case dismissAction(DismissType)
         case toggleLiked
         case showPlaceWebView
+        case showAlert
+        case deletePost
     }
     
     var body: some ReducerOf<Self> {
@@ -137,14 +142,18 @@ struct PostDetailFeature: Reducer {
                 
             case .fetchError(let error):
                 state.isLoading = false
-                print(error)
+                if let error = error as? ErrorType {
+                    print(error.message)
+                } else if let error = error as? NetworkError {
+                    print(error.errorDescription)
+                }
                 return .none
                 
             case .toggleLiked:
                 state.isLiked.toggle()
                 return .none
                 
-            case .dismiss:
+            case .defaultDismiss:
                 let postID = state.postID
                 let isLiked = state.isLiked
                 let beforeLiked = state.beforeLiked
@@ -156,10 +165,10 @@ struct PostDetailFeature: Reducer {
                             let _ = try await postClient.starToggle(postID, body)
                         }
                         let result = try await postClient.fetchCurrentPost(postID)
-                        await send(.dismissAction(result))
+                        await send(.dismissAction(.dismiss(result)))
                         await self.dismiss()
                     } catch {
-                        print(error)
+                        await send(.fetchError(error))
                     }
                 }
                 
@@ -169,7 +178,30 @@ struct PostDetailFeature: Reducer {
             case .showPlaceWebView:
                 state.showPlaceWebView = true
                 return .none
+                
+            case .showAlert:
+                state.alertTitle = "게시물을 삭제하시겠습니까?"
+                state.alertMessage = "삭제 후 되돌릴 수 없습니다."
+                state.showAlert = true
+                return .none
+                
+            case .deletePost:
+                let postID = state.postID
+                
+                return .run { send in
+                    do {
+                        let _ = try await postClient.deletePost(postID)
+                        await send(.dismissAction(.afterDelete))
+                    } catch {
+                        await send(.fetchError(error))
+                    }
+                }
             }
         }
+    }
+    
+    enum DismissType {
+        case dismiss(PostResponse)
+        case afterDelete
     }
 }

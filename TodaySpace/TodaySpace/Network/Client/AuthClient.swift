@@ -18,7 +18,7 @@ extension AuthClient: DependencyKey {
         tokenRefresh: {
             do {
                 return try await NetworkManager.shared.callRequest(targetType: AuthTarget.refresh)
-            } catch let error as NetworkError {
+            } catch {
                 throw error
             }
         }

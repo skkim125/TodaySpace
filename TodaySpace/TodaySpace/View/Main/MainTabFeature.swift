@@ -54,6 +54,7 @@ struct MainTabFeature {
         case map(MapViewFeature.Action)
         case path(StackAction<Path.State, Path.Action>)
         case updatePost(PostResponse)
+        case fetchPost
     }
     
     var body: some ReducerOf<Self> {
@@ -73,16 +74,33 @@ struct MainTabFeature {
             case .home(.postDetail(let postID)):
                 state.path.append(.postDetail(PostDetailFeature.State(postID: postID)))
                 return .none
-            case .home:
-                return .none
             case .map(.postDetail(let postID)):
                 state.path.append(.postDetail(PostDetailFeature.State(postID: postID)))
                 return .none
-            case .map:
-                return .none
                 
-            case .path(.element(id: _, action: .postDetail(.dismissAction(let post)))):
-                return .send(.updatePost(post))
+            case .path(.element(id: _, action: .postDetail(.dismissAction(let action)))):
+                switch action {
+                case .dismiss(let post):
+                    return .send(.updatePost(post))
+                case .afterDelete:
+                    return .send(.fetchPost)
+                }
+                
+            case .fetchPost:
+                switch state.selectedTab {
+                case .home:
+                    let category = state.home.selectedCategory
+                    return .run { send in
+                        await send(.home(.fetchPost(FetchPostQuery(next: "0", limit: "20", category: category))))
+                    }
+                case .map:
+                    let coodinate = state.map.currentRegion.center
+                    return .run { send in
+                        await send(.map(.searchPost(coodinate)))
+                    }
+                default:
+                    return .none
+                }
                 
             case .updatePost(let post):
                 switch state.selectedTab {
@@ -97,6 +115,24 @@ struct MainTabFeature {
                 default:
                     break
                 }
+                return .none
+                
+            case .home(.dismissAfterFetch):
+                if !state.path.isEmpty {
+                    state.path.removeLast()
+                }
+                return .none
+                
+            case .home:
+                return .none
+                
+            case .map(.dismissAfterFetch):
+                if !state.path.isEmpty {
+                    state.path.removeLast()
+                }
+                return .none
+                
+            case .map:
                 return .none
                 
             case .path:

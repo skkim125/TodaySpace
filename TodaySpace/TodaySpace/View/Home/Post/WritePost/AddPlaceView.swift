@@ -57,7 +57,7 @@ struct AddPlaceView: View {
                         }
                         .padding()
                         .background(AppColor.appSecondary)
-                        .clipShape(RoundedRectangle(cornerRadius: 6))
+                        .clipShape(RoundedRectangle(cornerRadius: 8))
                     }
                 }
                 .padding()

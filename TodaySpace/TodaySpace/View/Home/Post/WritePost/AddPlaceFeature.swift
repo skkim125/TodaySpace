@@ -47,7 +47,11 @@ struct AddPlaceFeature: Reducer {
                 state.results = results
                 return .none
             case .searchError(let error):
-                print(error)
+                if let error = error as? ErrorType {
+                    print(error.message)
+                } else if let error = error as? NetworkError {
+                    print(error.errorDescription)
+                }
                 return .none
             case .selectPlace:
                 return .none

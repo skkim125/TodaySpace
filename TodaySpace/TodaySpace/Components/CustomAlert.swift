@@ -40,13 +40,13 @@ struct CustomAlert: View {
                 
                 VStack(spacing: 10) {
                     Text(title)
-                        .appFontBold(size: 20)
+                        .appFontBold(size: 18)
                         .foregroundStyle(AppColor.white)
                         .multilineTextAlignment(.center)
                     
                     if let message = message {
                         Text(message)
-                            .appFontLight(size: 16)
+                            .appFontLight(size: 14)
                             .foregroundStyle(AppColor.white)
                             .multilineTextAlignment(.center)
                     }
@@ -60,10 +60,9 @@ struct CustomAlert: View {
                         .asRoundButton(foregroundColor: AppColor.black, backgroundColor: AppColor.white)
                 }
                 .padding(.horizontal)
-                .padding(.top, 5)
-                .padding(.bottom, 10)
+                .padding(.vertical, 10)
             }
-            .frame(maxWidth: 250, maxHeight: 120)
+            .frame(maxWidth: 300, maxHeight: 120)
             .background {
                 RoundedRectangle(cornerRadius: 8)
                     .fill(AppColor.appSecondary)
@@ -82,8 +81,6 @@ struct CustomAlert: View {
         }
         .zIndex(10)
     }
-
-
     
     private func dismissAlert() {
         

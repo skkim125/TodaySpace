@@ -191,7 +191,7 @@ struct PostDetailView: View {
             }
         } leftView: {
             Button {
-                store.send(.dismiss)
+                store.send(.defaultDismiss)
             } label: {
                 Image(systemName: "chevron.backward")
                     .resizable()
@@ -201,21 +201,6 @@ struct PostDetailView: View {
             .tint(AppColor.white)
         } rightView: {
             Menu {
-                if store.postCreatorID == UserDefaultsManager.userID {
-                    Button(role: .destructive, action: {
-                        
-                    }) {
-                        HStack {
-                            Text("게시물 삭제")
-                            
-                            Image(systemName: "trash.fill")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 20, height: 20)
-                        }
-                    }
-                }
-                
                 Button {
                     store.send(.showPlaceWebView)
                 } label: {
@@ -229,6 +214,21 @@ struct PostDetailView: View {
                     }
                 }
                 
+                if store.postCreatorID == UserDefaultsManager.userID {
+                    Button(role: .destructive, action: {
+                        store.send(.showAlert)
+                    }) {
+                        HStack {
+                            Text("게시물 삭제")
+                            
+                            Image(systemName: "trash.fill")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 20, height: 20)
+                        }
+                    }
+                }
+                
             } label: {
                 Image(systemName: "ellipsis")
                     .resizable()
@@ -236,6 +236,9 @@ struct PostDetailView: View {
                     .frame(width: 20, height: 20)
                     .tint(AppColor.white)
             }
+        }
+        .showCustomAlert(isPresented: $store.showAlert, title: store.alertTitle, message: store.alertMessage, buttonTitle: "삭제") {
+            store.send(.deletePost)
         }
         .safeAreaInset(edge: .bottom) {
             commentInputView()

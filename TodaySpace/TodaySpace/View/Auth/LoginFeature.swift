@@ -83,12 +83,13 @@ struct LoginFeature {
                 if let error = error as? ErrorType {
                     print(error.message)
                     state.alertTitle = "로그인에 실패했습니다."
-                    state.alertMessage = "다시 시도해주세요"
-                } else {
+                    state.alertMessage = "이메일 및 비밀번호를 다시 입력하세요"
+                } else if let error = error as? NetworkError {
                     state.alertTitle = "서버에 연결할 수 없습니다."
                     state.alertMessage = "잠시후 다시 시도해주세요"
-                    print(error)
+                    print(error.errorDescription)
                 }
+                
                 state.showProgressView = false
                 state.showLoginFailureAlert = true
                 

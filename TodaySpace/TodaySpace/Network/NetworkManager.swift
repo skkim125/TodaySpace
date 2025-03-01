@@ -26,19 +26,25 @@ final class NetworkManager {
                         return try await callRequest(targetType: targetType)
                     }
                 } else {
-                    do {
-                        let errorResponse = try JSONDecoder().decode(ErrorType.self, from: data)
+                    if let errorResponse = try? JSONDecoder().decode(ErrorType.self, from: data) {
                         throw errorResponse
-                    } catch {
+                    } else {
                         throw NetworkError.checkNetworkError(errorCode: httpResponse.statusCode)
                     }
                 }
             }
             
             do {
-                let decodedData = try JSONDecoder().decode(T.self, from: data)
-                return decodedData
-                
+                if T.self == EmptyResponse.self {
+                    guard let void = EmptyResponse() as? T else {
+                        throw NetworkError.decodingError
+                    }
+                    return void
+                    
+                } else {
+                    let decodedData = try JSONDecoder().decode(T.self, from: data)
+                    return decodedData
+                }
             } catch {
                 throw NetworkError.decodingError
             }

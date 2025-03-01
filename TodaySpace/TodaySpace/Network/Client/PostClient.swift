@@ -16,6 +16,7 @@ struct PostClient {
     var comments: (String, CommentBody) async throws -> Comment
     var fetchCurrentPost: (String) async throws -> PostResponse
     var starToggle: (String, StarStatusBody) async throws -> StarStatusResponse
+    var deletePost: (String) async throws -> EmptyResponse
 }
 
 extension PostClient: DependencyKey {
@@ -24,7 +25,7 @@ extension PostClient: DependencyKey {
         uploadImage: { body in
             do {
                 return try await NetworkManager.shared.callRequest(targetType: PostTarget.uploadImage(body))
-            } catch let error as NetworkError {
+            } catch {
                 throw error
             }
         },
@@ -32,7 +33,7 @@ extension PostClient: DependencyKey {
         postUpload: { body in
             do {
                 return try await NetworkManager.shared.callRequest(targetType: PostTarget.postUpload(body))
-            } catch let error as NetworkError {
+            } catch {
                 throw error
             }
         },
@@ -40,7 +41,7 @@ extension PostClient: DependencyKey {
         fetchPost: { body in
             do {
                 return try await NetworkManager.shared.callRequest(targetType: PostTarget.fetchPost(body))
-            } catch let error as NetworkError {
+            } catch {
                 throw error
             }
         },
@@ -48,7 +49,7 @@ extension PostClient: DependencyKey {
         fetchAreaPost: { body in
             do {
                 return try await NetworkManager.shared.callRequest(targetType: PostTarget.fetchAreaPost(body))
-            } catch let error as NetworkError {
+            } catch {
                 throw error
             }
         },
@@ -56,7 +57,7 @@ extension PostClient: DependencyKey {
         comments: { postID, body  in
             do {
                 return try await NetworkManager.shared.callRequest(targetType: PostTarget.comment(postID, body))
-            } catch let error as NetworkError {
+            } catch {
                 throw error
             }
         },
@@ -64,7 +65,7 @@ extension PostClient: DependencyKey {
         fetchCurrentPost: { postID in
             do {
                 return try await NetworkManager.shared.callRequest(targetType: PostTarget.fetchCurrentPost(postID))
-            } catch let error as NetworkError {
+            } catch {
                 throw error
             }
         },
@@ -72,7 +73,15 @@ extension PostClient: DependencyKey {
         starToggle: { postID, body in
             do {
                 return try await NetworkManager.shared.callRequest(targetType: PostTarget.starToggle(postID, body))
-            } catch let error as NetworkError {
+            } catch {
+                throw error
+            }
+        },
+        
+        deletePost: { postID in
+            do {
+                return try await NetworkManager.shared.callRequest(targetType: PostTarget.deletePost(postID))
+            } catch {
                 throw error
             }
         }
