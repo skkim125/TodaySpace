@@ -92,10 +92,10 @@ struct CustomForm: View {
             
             Menu {
                 ForEach(categories, id: \.self) { category in
-                    Button(action: {
+                    Button {
                         store.category = category
                         text = category
-                    }) {
+                    } label: {
                         Text(category)
                     }
                 }

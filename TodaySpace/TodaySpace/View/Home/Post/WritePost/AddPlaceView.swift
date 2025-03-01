@@ -36,20 +36,20 @@ struct AddPlaceView: View {
                             store.send(.selectPlace(place))
                             dismiss()
                         } label: {
-                            VStack(alignment: .leading) {
-                                VStack(alignment: .leading, spacing: 5) {
-                                    Text(place.categoryName)
-                                        .appFontLight(size: 15)
+                            VStack(alignment: .leading, spacing: 10) {
+                                VStack(alignment: .leading, spacing: 8) {
+                                    Text(place.customCategory)
+                                        .appFontLight(size: 14)
                                         .foregroundStyle(AppColor.gray)
                                     
                                     Text(place.placeName)
                                         .lineLimit(1)
-                                        .appFontBold(size: 24)
+                                        .appFontBold(size: 20)
                                         .bold()
                                 }
                                 
                                 Text(place.roadAddress.isEmpty ? place.address : place.roadAddress)
-                                    .appFontLight(size: 20)
+                                    .appFontLight(size: 16)
                                     .foregroundColor(AppColor.lightGray)
                             }
                             .multilineTextAlignment(.leading)

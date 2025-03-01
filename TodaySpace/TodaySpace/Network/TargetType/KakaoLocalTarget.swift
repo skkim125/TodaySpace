@@ -1,17 +1,17 @@
 //
-//  KakaoTarget.swift
+//  KakaoLocalTarget.swift
 //  TodaySpace
 //
-//  Created by 김상규 on 1/30/25.
+//  Created by 김상규 on 3/1/25.
 //
 
 import Foundation
 
-enum KakaoTarget {
+enum KakaoLocalTarget {
     case search(KakaoLocalQuery)
 }
 
-extension KakaoTarget: TargetType {
+extension KakaoLocalTarget: TargetType {
     var baseURL: String {
         return API.kakaoLocalURL + "/v2"
     }

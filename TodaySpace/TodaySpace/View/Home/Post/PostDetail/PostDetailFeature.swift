@@ -151,6 +151,7 @@ struct PostDetailFeature: Reducer {
                 
             case .toggleLiked:
                 state.isLiked.toggle()
+                state.likeCount += state.isLiked ? 1 : -1
                 return .none
                 
             case .defaultDismiss:

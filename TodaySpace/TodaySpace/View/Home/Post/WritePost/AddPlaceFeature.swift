@@ -10,8 +10,9 @@ import ComposableArchitecture
 
 @Reducer
 struct AddPlaceFeature: Reducer {
-    @ObservedObject private var kakaoLocalManager = KakaoLocalManager.shared
 
+    @Dependency(\.kakaoLocalClient) var kakaoLocalClient
+    
     @ObservableState
     struct State {
         var searchText = ""
@@ -34,10 +35,11 @@ struct AddPlaceFeature: Reducer {
             case .binding:
                 return .none
             case .searchButtonTapped:
-                return .run { [state] send in
+                let query = state.searchText
+                return .run { send in
                     do {
-                        try await kakaoLocalManager.searchPlace(query: state.searchText)
-                        let results = await kakaoLocalManager.results
+                        let data = try await kakaoLocalClient.searchPlace(query)
+                        let results = data.results
                         await send(.searchSuccess(results))
                     } catch {
                         await send(.searchError(error))
