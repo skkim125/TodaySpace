@@ -1,5 +1,5 @@
 //
-//  MapViewState.swift
+//  MapListFeature.swift
 //  TodaySpace
 //
 //  Created by 김상규 on 2/19/25.
@@ -10,7 +10,7 @@ import MapKit
 import ComposableArchitecture
 
 @Reducer
-struct MapViewFeature {
+struct MapListFeature {
     
     @Dependency(\.postClient) var postClient
     

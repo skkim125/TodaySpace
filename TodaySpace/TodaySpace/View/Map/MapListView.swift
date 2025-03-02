@@ -1,5 +1,5 @@
 //
-//  MapView.swift
+//  MapListView.swift
 //  TodaySpace
 //
 //  Created by 김상규 on 1/27/25.
@@ -23,8 +23,8 @@ struct Place: Identifiable, Hashable {
     }
 }
 
-struct MapView: View {
-    @Bindable var store: StoreOf<MapViewFeature>
+struct MapListView: View {
+    @Bindable var store: StoreOf<MapListFeature>
     @Namespace var mapScope
     
     var body: some View {
