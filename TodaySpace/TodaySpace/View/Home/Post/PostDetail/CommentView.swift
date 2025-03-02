@@ -16,19 +16,19 @@ struct CommentView: View {
             if let imageURL = comment.creator?.profileImage, !imageURL.isEmpty {
                 ImageView(imageURL: imageURL, frame: .setFrame(40, 40), errorImage: Image("exclamationmark.triangle.fill"))
                     .overlay(
-                        Circle().stroke(AppColor.grayStroke, lineWidth: 1)
+                        Circle().stroke(AppColor.appGold, lineWidth: 0.5)
                     )
                     .clipShape(Circle())
             } else {
                 Circle()
-                    .fill(AppColor.subTitle)
-                    .strokeBorder(AppColor.grayStroke, lineWidth: 1)
+                    .fill(AppColor.appSecondary)
+                    .strokeBorder(AppColor.appGold, lineWidth: 0.5)
                     .overlay(alignment: .center) {
                         Image(systemName: "person")
                             .resizable()
                             .scaledToFit()
                             .frame(width: 25, height: 25)
-                            .foregroundStyle(AppColor.black)
+                            .foregroundStyle(AppColor.gray)
                     }
                     .frame(width: 40, height: 40)
             }

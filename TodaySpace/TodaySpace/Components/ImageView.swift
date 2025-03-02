@@ -11,7 +11,6 @@ struct ImageView: View {
     let imageURL: String?
     @State private var image: UIImage?
     @State private var isLoading = false
-    @State private var loadError = false
     let frame: SetFrame
     let errorImage: Image
     
@@ -24,12 +23,10 @@ struct ImageView: View {
                     .resizable()
                     .aspectRatio(contentMode: .fill)
                 
-            } else if loadError {
+            } else {
                 errorImage
                     .resizable()
                     .aspectRatio(contentMode: .fill)
-            } else {
-                EmptyView()
             }
         }
         .setFrame(setFrame: frame)
@@ -52,7 +49,6 @@ struct ImageView: View {
 extension ImageView {
     private func loadImage() async {
         guard let postImage = imageURL, !postImage.isEmpty else {
-            loadError = true
             return
         }
         
@@ -62,7 +58,7 @@ extension ImageView {
             image = try await NetworkManager.shared.fetchImage(imageURL: postImage)
         } catch {
             print("이미지 로드 실패: \(error)")
-            loadError = true
+            return
         }
         
         isLoading = false
