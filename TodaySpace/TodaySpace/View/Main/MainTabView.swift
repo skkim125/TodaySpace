@@ -16,7 +16,7 @@ struct MainTabView: View {
             TabView(selection: $store.selectedTab) {
                 HomeView(store: store.scope(state: \.home, action: \.home))
                     .tag(TabInfo.home)
-                MapListView(store: store.scope(state: \.map, action: \.map))
+                MapListView(store: store.scope(state: \.mapList, action: \.mapList))
                     .tag(TabInfo.map)
                 ContentView()
                     .frame(maxWidth: .infinity, maxHeight: .infinity)

@@ -35,7 +35,7 @@ struct MainTabFeature {
     struct State {
         var selectedTab: TabInfo = .home
         var home = HomeFeature.State()
-        var map = MapViewFeature.State()
+        var mapList = MapListFeature.State()
         var showDetailView: Bool = false
         var path = StackState<Path.State>()
     }
@@ -51,7 +51,7 @@ struct MainTabFeature {
     enum Action: BindableAction {
         case binding(BindingAction<State>)
         case home(HomeFeature.Action)
-        case map(MapViewFeature.Action)
+        case mapList(MapListFeature.Action)
         case path(StackAction<Path.State, Path.Action>)
         case updatePost(PostResponse)
         case fetchPost
@@ -62,8 +62,8 @@ struct MainTabFeature {
             HomeFeature()
         }
         
-        Scope(state: \.map, action: \.map) {
-            MapViewFeature()
+        Scope(state: \.mapList, action: \.mapList) {
+            MapListFeature()
         }
         
         BindingReducer()
@@ -74,7 +74,7 @@ struct MainTabFeature {
             case .home(.postDetail(let postID)):
                 state.path.append(.postDetail(PostDetailFeature.State(postID: postID)))
                 return .none
-            case .map(.postDetail(let postID)):
+            case .mapList(.postDetail(let postID)):
                 state.path.append(.postDetail(PostDetailFeature.State(postID: postID)))
                 return .none
                 
@@ -94,9 +94,9 @@ struct MainTabFeature {
                         await send(.home(.fetchPost(FetchPostQuery(next: "0", limit: "20", category: category))))
                     }
                 case .map:
-                    let coodinate = state.map.currentRegion.center
+                    let coodinate = state.mapList.currentRegion.center
                     return .run { send in
-                        await send(.map(.searchPost(coodinate)))
+                        await send(.mapList(.searchPost(coodinate)))
                     }
                 default:
                     return .none
@@ -109,8 +109,8 @@ struct MainTabFeature {
                         state.home.posts[index] = post
                     }
                 case .map:
-                    if let index = state.map.posts.firstIndex(where: { $0.post_id == post.post_id }) {
-                        state.map.posts[index] = post
+                    if let index = state.mapList.posts.firstIndex(where: { $0.post_id == post.post_id }) {
+                        state.mapList.posts[index] = post
                     }
                 default:
                     break
@@ -126,13 +126,13 @@ struct MainTabFeature {
             case .home:
                 return .none
                 
-            case .map(.dismissAfterFetch):
+            case .mapList(.dismissAfterFetch):
                 if !state.path.isEmpty {
                     state.path.removeLast()
                 }
                 return .none
                 
-            case .map:
+            case .mapList:
                 return .none
                 
             case .path:
