@@ -14,6 +14,10 @@ struct PostDetailFeature: Reducer {
     @Dependency(\.dismiss) var dismiss
     @Dependency(\.postClient) var postClient
     
+    private enum Debounce {
+        case toggleLike
+    }
+    
     @ObservableState
     struct State {
         var postID: String
@@ -26,6 +30,7 @@ struct PostDetailFeature: Reducer {
         var placeLink: String = ""
         var visitedDate: String = ""
         var isLiked: Bool = false
+        var firstLikeState: Bool = false
         var beforeLiked: Bool = false
         var likeCount: Int = 0
         var postCreatorName: String = ""
@@ -57,6 +62,7 @@ struct PostDetailFeature: Reducer {
         case showPlaceWebView
         case showAlert
         case deletePost
+        case fetchLiked(Bool)
     }
     
     var body: some ReducerOf<Self> {
@@ -131,6 +137,7 @@ struct PostDetailFeature: Reducer {
                 state.lat = post.geolocation.latitude
                 state.lon = post.geolocation.longitude
                 state.isLiked = post.likes.contains(where: { $0 == UserDefaultsManager.userID })
+                state.firstLikeState = state.isLiked
                 state.beforeLiked = state.isLiked
                 if let category = Category(rawValue: post.category), let image = category.image {
                     state.categoryImage = image
@@ -151,6 +158,20 @@ struct PostDetailFeature: Reducer {
             case .toggleLiked:
                 state.isLiked.toggle()
                 state.likeCount += state.isLiked ? 1 : -1
+                
+                return .run { [state = state] send in
+                    if state.isLiked != state.firstLikeState {
+                        let body = StarStatusBody(like_status: state.isLiked)
+                        let result = try await postClient.starToggle(state.postID, body)
+                        await send(.fetchLiked(result.like_status))
+                    }
+                }
+                .debounce(id: Debounce.toggleLike, for: 1, scheduler: DispatchQueue.main)
+                
+            case .fetchLiked(let isLiked):
+                state.isLiked = isLiked
+                state.firstLikeState = isLiked
+                
                 return .none
                 
             case .defaultDismiss:
