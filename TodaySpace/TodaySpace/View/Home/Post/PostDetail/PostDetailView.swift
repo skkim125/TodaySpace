@@ -303,38 +303,40 @@ struct PostDetailView: View {
     @ViewBuilder
     private func imageListView() -> some View {
         if store.images.count == 1 {
-            ImageView(imageURL: store.images[0], frame: .auto, errorImage: Image(systemName: "exclamationmark.triangle.fill"))
+            ImageView(imageURL: store.images[0], frame: .setFrame(UIScreen.main.bounds.width - 20, UIScreen.main.bounds.width - 20), errorImage: Image(systemName: "exclamationmark.triangle.fill"))
                 .clipShape(RoundedRectangle(cornerRadius: 8))
         } else {
-            ScrollView(.horizontal) {
-                HStack {
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 20) {
                     ForEach(0..<store.images.count, id: \.self) { index in
-                        ImageView(imageURL: store.images[index], frame: .setFrame(UIScreen.main.bounds.width - 100, 300), errorImage: Image(systemName: "exclamationmark.triangle.fill"))
-                            .clipShape(RoundedRectangle(cornerRadius: 8))
-                            .overlay {
-                                ZStack {
-                                    RoundedRectangle(cornerRadius: 8).stroke(AppColor.grayStroke, lineWidth: 1)
-                                    VStack(alignment: .center) {
+                        ImageView(
+                            imageURL: store.images[index],
+                            frame: .setFrame(UIScreen.main.bounds.width - 100, 300),
+                            errorImage: Image(systemName: "exclamationmark.triangle.fill")
+                        )
+                        .clipShape(RoundedRectangle(cornerRadius: 8))
+                        .overlay {
+                            ZStack {
+                                RoundedRectangle(cornerRadius: 8)
+                                    .stroke(AppColor.grayStroke, lineWidth: 1)
+                                VStack {
+                                    Spacer()
+                                    HStack {
                                         Spacer()
-                                        
-                                        HStack {
-                                            Spacer()
-                                            
-                                            Circle()
-                                                .fill(AppColor.appGold)
-                                                .overlay {
-                                                    Text("\(index + 1)")
-                                                        .frame(width: 25, height: 25)
-                                                        .foregroundStyle(AppColor.white)
-                                                        .multilineTextAlignment(.center)
-                                                }
-                                                .frame(width: 25, height: 25)
-                                        }
-                                        .padding(10)
+                                        Circle()
+                                            .fill(AppColor.appGold)
+                                            .overlay {
+                                                Text("\(index + 1)")
+                                                    .frame(width: 25, height: 25)
+                                                    .foregroundStyle(AppColor.white)
+                                                    .multilineTextAlignment(.center)
+                                            }
+                                            .frame(width: 25, height: 25)
                                     }
+                                    .padding(10)
                                 }
                             }
-                            .padding(.horizontal, index != 0 && index != 4 ? 10 : 0)
+                        }
                     }
                 }
                 .scrollTargetLayout()
