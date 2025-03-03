@@ -22,7 +22,7 @@ struct PlaceCardView: View {
                         height - 40,
                         height - 40
                     ),
-                    errorImage: Image("exclamationmark.triangle.fill")
+                    errorImage: Image(systemName: "exclamationmark.triangle.fill")
                 )
                 .clipShape(RoundedRectangle(cornerRadius: 8))
                 .padding(.leading, 15)

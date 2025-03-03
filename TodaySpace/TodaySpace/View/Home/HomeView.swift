@@ -90,7 +90,7 @@ struct HomeView: View {
                                             ImageView(
                                                 imageURL: post.files.first,
                                                 frame: .setFrame(availableWidth, availableWidth - 150),
-                                                errorImage: Image("exclamationmark.triangle.fill")
+                                                errorImage: Image(systemName: "exclamationmark.triangle.fill")
                                             )
                                             .clipShape(RoundedRectangle(cornerRadius: 8))
                                             

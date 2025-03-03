@@ -14,7 +14,7 @@ struct CommentView: View {
     var body: some View {
         HStack(alignment: .top, spacing: 10) {
             if let imageURL = comment.creator?.profileImage, !imageURL.isEmpty {
-                ImageView(imageURL: imageURL, frame: .setFrame(40, 40), errorImage: Image("exclamationmark.triangle.fill"))
+                ImageView(imageURL: imageURL, frame: .setFrame(40, 40), errorImage: Image(systemName: "exclamationmark.triangle.fill"))
                     .overlay(
                         Circle().stroke(AppColor.appGold, lineWidth: 0.5)
                     )

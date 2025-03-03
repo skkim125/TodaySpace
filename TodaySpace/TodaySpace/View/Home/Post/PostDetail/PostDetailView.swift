@@ -17,14 +17,29 @@ struct PostDetailView: View {
         ZStack {
             if store.isLoading {
                 CustomProgressView()
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
             
             ScrollViewReader { proxy in
                 ScrollView {
                     VStack(alignment: .leading, spacing: 15) {
                         HStack(alignment: .center, spacing: 5) {
-                            ImageView(imageURL: store.postCreatorProfile, frame: .setFrame(35, 35), errorImage: Image("exclamationmark.triangle.fill"))
-                                .clipShape(Circle())
+                            if let profileImage = store.postCreatorProfile {
+                                ImageView(imageURL: store.postCreatorProfile, frame: .setFrame(35, 35), errorImage: Image(systemName: "exclamationmark.triangle.fill"))
+                                    .clipShape(Circle())
+                            } else {
+                                Circle()
+                                    .fill(AppColor.appSecondary)
+                                    .strokeBorder(AppColor.appGold, lineWidth: 0.5)
+                                    .overlay(alignment: .center) {
+                                        Image(systemName: "person")
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(width: 20, height: 20)
+                                            .foregroundStyle(AppColor.gray)
+                                    }
+                                    .frame(width: 35, height: 35)
+                            }
                             
                             VStack(alignment: .leading, spacing: 5) {
                                 Text("\(store.postCreatorName)")
@@ -139,7 +154,6 @@ struct PostDetailView: View {
                 }
             }
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
         .sheet(isPresented: $store.showPlaceLocationSheet) {
             VStack {
                 Map(position: .constant(MapCameraPosition.camera(MapCamera(centerCoordinate: CLLocationCoordinate2D(latitude: store.lat, longitude: store.lon), distance: 300))), interactionModes: [.pan, .zoom]) {
@@ -254,11 +268,15 @@ struct PostDetailView: View {
             Divider()
             
             HStack {
-                TextField("댓글을 입력하세요", text: $store.commentText)
+                TextField("댓글을 입력하세요", text: $store.commentText, axis: .vertical)
+                    .lineLimit(1...3)
                     .padding(10)
                     .background(AppColor.appSecondary)
                     .clipShape(RoundedRectangle(cornerRadius: 8))
                     .focused($isFocused)
+                    .transaction { transaction in
+                        transaction.animation = nil
+                    }
                 
                 if !store.commentText.isEmpty {
                     Button {
@@ -285,13 +303,13 @@ struct PostDetailView: View {
     @ViewBuilder
     private func imageListView() -> some View {
         if store.images.count == 1 {
-            ImageView(imageURL: store.images[0], frame: .auto, errorImage: Image("exclamationmark.triangle.fill"))
+            ImageView(imageURL: store.images[0], frame: .auto, errorImage: Image(systemName: "exclamationmark.triangle.fill"))
                 .clipShape(RoundedRectangle(cornerRadius: 8))
         } else {
             ScrollView(.horizontal) {
                 HStack {
                     ForEach(0..<store.images.count, id: \.self) { index in
-                        ImageView(imageURL: store.images[index], frame: .setFrame(UIScreen.main.bounds.width - 100, 300), errorImage: Image("exclamationmark.triangle.fill"))
+                        ImageView(imageURL: store.images[index], frame: .setFrame(UIScreen.main.bounds.width - 100, 300), errorImage: Image(systemName: "exclamationmark.triangle.fill"))
                             .clipShape(RoundedRectangle(cornerRadius: 8))
                             .overlay {
                                 ZStack {

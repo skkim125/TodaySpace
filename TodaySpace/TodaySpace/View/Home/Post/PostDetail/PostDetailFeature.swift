@@ -29,7 +29,7 @@ struct PostDetailFeature: Reducer {
         var beforeLiked: Bool = false
         var likeCount: Int = 0
         var postCreatorName: String = ""
-        var postCreatorProfile: String = ""
+        var postCreatorProfile: String?
         var comments: [Comment] = []
         var commentText: String = ""
         var images: [String] = []
@@ -126,7 +126,6 @@ struct PostDetailFeature: Reducer {
                 
                 if let creatorProfile = post.creator.profileImage {
                     state.postCreatorProfile = creatorProfile
-                    print(state.postCreatorProfile)
                 }
                 state.comments = post.comments.sorted(by: { $0.createdAt ?? "" < $1.createdAt ?? "" })
                 state.lat = post.geolocation.latitude
