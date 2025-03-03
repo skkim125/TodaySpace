@@ -57,6 +57,8 @@ struct HomeFeature: Reducer {
         @Presents var writePost: WritePostFeature.State?
         var categoryFilter: CategoryFilter = .all
         var selectedPost: PostResponse?
+        var newFetch: Bool = false
+        var nextCursor: String = "0"
         var selectedCategory: [String] {
             switch categoryFilter {
             case .all:
@@ -78,6 +80,9 @@ struct HomeFeature: Reducer {
         case requestError(Error)
         case postDetail(String)
         case dismissAfterFetch
+        case refreshing
+        case pagination
+        case deletePost(String)
     }
     
     var body: some ReducerOf<Self> {
@@ -87,10 +92,17 @@ struct HomeFeature: Reducer {
             switch action {
             case .binding:
                 return .none
+            case .refreshing:
+                state.newFetch = true
+                state.nextCursor = "0"
+                return .run { [nextCursor = state.nextCursor, selectedCategory = state.selectedCategory] send in
+                    await send(.fetchPost(FetchPostQuery(next: nextCursor, category: selectedCategory)))
+                }
+
             case .viewAppear:
                 if state.viewState == .loading {
-                    return .run { send in
-                        await send(.fetchPost(FetchPostQuery(next: "0", limit: "20", category: [])))
+                    return .run { [nextCursor = state.nextCursor, selectedCategory = state.selectedCategory] send in
+                        await send(.fetchPost(FetchPostQuery(next: nextCursor, category: selectedCategory)))
                     }
                 } else {
                     return .none
@@ -110,32 +122,42 @@ struct HomeFeature: Reducer {
                 return .none
             case .writePost(.presented(.dismiss)):
                 state.writePost = nil
-                return .send(.fetchPost(FetchPostQuery(next: "0", limit: "20", category: [])))
+                state.nextCursor = "0"
+                state.newFetch = true
+                return .send(.fetchPost(FetchPostQuery(next: state.nextCursor, category: state.selectedCategory)))
             case .writePost:
                 return .none
             case .setCategory(let categoryType):
                 if state.categoryFilter != categoryType {
                     state.viewState = .loading
+                    state.nextCursor = "0"
+                    state.newFetch = true
                     
                     switch categoryType {
                     case .all:
                         state.categoryFilter = .all
-                        return .send(.fetchPost(FetchPostQuery(next: "0", limit: "20", category: [])))
+                        return .send(.fetchPost(FetchPostQuery(next: state.nextCursor, category: state.selectedCategory)))
                         
                     case .selected(let categoryId):
                         state.categoryFilter = .selected(categoryId)
-                        return .send(.fetchPost(FetchPostQuery(next: "0", limit: "20", category: [categoryId])))
+                        return .send(.fetchPost(FetchPostQuery(next: state.nextCursor, category: state.selectedCategory)))
                     }
                 } else {
                     return .none
                 }
                 
+            case .pagination:
+                return .send(.fetchPost(FetchPostQuery(next: state.nextCursor, category: state.selectedCategory)))
+                
             case .fetchPost(let body):
+                if !state.newFetch, !state.posts.isEmpty && state.nextCursor == "0" {
+                    return .none
+                }
+                
                 return .run { send in
                     do {
                         let result = try await postClient.fetchPost(body)
                         try await Task.sleep(for: .milliseconds(150))
-                        
                         return await send(.fetchSuccess(result))
                     } catch {
                         return await send(.requestError(error))
@@ -143,8 +165,20 @@ struct HomeFeature: Reducer {
                 }
                 
             case .fetchSuccess(let result):
-                state.posts = result.data
+                if state.newFetch {
+                    state.posts = result.data
+                    state.newFetch = false
+                } else {
+                    state.posts.append(contentsOf: result.data)
+                }
+                state.nextCursor = result.next_cursor
+                print(state.nextCursor)
                 state.viewState = result.data.isEmpty ? .empty : .content
+                
+                return .none
+                
+            case .deletePost(let id):
+                state.posts.removeAll(where: { $0.post_id == id })
                 
                 return .run { send in
                     await send(.dismissAfterFetch)

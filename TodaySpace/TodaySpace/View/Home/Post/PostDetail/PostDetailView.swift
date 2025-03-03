@@ -25,7 +25,7 @@ struct PostDetailView: View {
                     VStack(alignment: .leading, spacing: 15) {
                         HStack(alignment: .center, spacing: 5) {
                             if let profileImage = store.postCreatorProfile {
-                                ImageView(imageURL: store.postCreatorProfile, frame: .setFrame(35, 35), errorImage: Image(systemName: "exclamationmark.triangle.fill"))
+                                ImageView(imageURL: profileImage, frame: .setFrame(35, 35), errorImage: Image(systemName: "exclamationmark.triangle.fill"))
                                     .clipShape(Circle())
                             } else {
                                 Circle()

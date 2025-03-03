@@ -64,6 +64,7 @@ struct MapListFeature {
         case goPostDetail
         case postDetail(String)
         case dismissAfterFetch
+        case deletePost(String)
     }
     
     var body: some ReducerOf<Self> {
@@ -161,6 +162,10 @@ struct MapListFeature {
                 }
                 
             case .dismissAfterFetch:
+                return .none
+                
+            case .deletePost(let id):
+                state.posts.removeAll(where: { $0.post_id == id })
                 return .none
                 
             case .postDetail:

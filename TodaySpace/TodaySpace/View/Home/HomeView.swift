@@ -81,7 +81,7 @@ struct HomeView: View {
                 
                 ScrollView {
                     LazyVStack(alignment: .leading, spacing: 20) {
-                        ForEach(store.posts, id: \.post_id) { post in
+                        ForEach(Array(store.posts.enumerated()), id: \.element.post_id) { index, post in
                             VStack(alignment: .leading, spacing: 10) {
                                 RoundedRectangle(cornerRadius: 8)
                                     .fill(Color.clear)
@@ -180,12 +180,21 @@ struct HomeView: View {
                             .onTapGesture {
                                 store.send(.postDetail(post.post_id))
                             }
+                            .onAppear {
+                                if index == store.posts.count - 1, store.state.nextCursor != "0" {
+                                    store.send(.pagination)
+                                }
+                            }
                         }
                     }
                     .padding(.horizontal, 20)
                     .padding(.vertical, 10)
                 }
                 .scrollIndicators(.never)
+                .refreshable {
+                    try? await Task.sleep(for: .seconds(1))
+                    store.send(.refreshing)
+                }
             }
         }
     }

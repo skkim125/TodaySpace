@@ -191,7 +191,7 @@ struct PostDetailFeature: Reducer {
                 return .run { send in
                     do {
                         let _ = try await postClient.deletePost(postID)
-                        await send(.dismissAction(.afterDelete))
+                        await send(.dismissAction(.afterDelete(postID)))
                     } catch {
                         await send(.fetchError(error))
                     }
@@ -202,6 +202,6 @@ struct PostDetailFeature: Reducer {
     
     enum DismissType {
         case dismiss(PostResponse)
-        case afterDelete
+        case afterDelete(String)
     }
 }

@@ -54,7 +54,7 @@ struct MainTabFeature {
         case mapList(MapListFeature.Action)
         case path(StackAction<Path.State, Path.Action>)
         case updatePost(PostResponse)
-        case fetchPost
+        case deletePost(String)
     }
     
     var body: some ReducerOf<Self> {
@@ -82,21 +82,19 @@ struct MainTabFeature {
                 switch action {
                 case .dismiss(let post):
                     return .send(.updatePost(post))
-                case .afterDelete:
-                    return .send(.fetchPost)
+                case .afterDelete(let id):
+                    return .send(.deletePost(id))
                 }
                 
-            case .fetchPost:
+            case .deletePost(let id):
                 switch state.selectedTab {
                 case .home:
-                    let category = state.home.selectedCategory
                     return .run { send in
-                        await send(.home(.fetchPost(FetchPostQuery(next: "0", limit: "20", category: category))))
+                        await send(.home(.deletePost(id)))
                     }
                 case .map:
-                    let coodinate = state.mapList.currentRegion.center
                     return .run { send in
-                        await send(.mapList(.searchPost(coodinate)))
+                        await send(.mapList(.deletePost(id)))
                     }
                 default:
                     return .none

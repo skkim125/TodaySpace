@@ -29,6 +29,7 @@ struct MainTabView: View {
             .toolbar(.hidden, for: .navigationBar)
             .safeAreaInset(edge: .bottom) {
                 CustomTabBar(selectedTab: $store.selectedTab)
+                    .padding(.bottom, -5)
             }
         } destination: { store in
             switch store.case {

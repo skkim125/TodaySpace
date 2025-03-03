@@ -12,7 +12,7 @@ struct FetchPostQuery: Encodable {
     let limit: String
     let category: [String]
     
-    init(next: String = "", limit: String = "10", category: [String] = []) {
+    init(next: String = "", limit: String = "5", category: [String] = []) {
         self.next = next
         self.limit = limit
         self.category = category
