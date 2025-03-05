@@ -41,7 +41,7 @@
   - Sheet, Alert 등의 pop-up 방식의 화면 전환에 트리 기반 Navigation 활용
   - NavigationStack을 통한 push-pop 방식의 화면 전환에 스택 기반의 Navigation 활용
 - Access Token과 Refresh Token을 활용한 로그인 및 관련 기능 구현
-  - 자동 로그인 기능 구현을 위해 UserDefaults를 활용하여 유저의 고유 id, Access Token, Refresh Token 등 저장
+  - UserDefaults를 활용하여 유저의 고유 id, Access & Refresh Token 등 저장
   - 재귀 함수를 통해 토큰 갱신 성공 시 기존 네트워크 재호출
 - 게시물 상세뷰
   - ScrollViewReader를 활용하여 댓글 전송 시 자동 하단 스크롤 구현
@@ -60,6 +60,102 @@
 <br>
 
 ## 🏞️ 트러블 슈팅
+****1. SwiftUI에서의 MapKit과 TabBar**** 
 
+#### `문제 발생`
+   - SwiftUI의 MapKit을 활용하여 내주변 기능 개발을 진행하던 중 탭바의 배경색이 다르게 적용되어 있음을 확인
+   - View Hierarchy로 확인한 결과 SwiftUI의 Map에 uivisualeffectbackdropview가 존재하여 TabView의 TabBar를 덮고 있음을 확인
 
+#### `해결 방법`
+   - TabView 숨기기, 앱 실행시 TabBar의 Appearance를 지정해주어도 현상이 해결되지 않음
+   - Custom TabBar를 생성하여, 기존의 TabView의 TabBar 대신 사용하도록 구현
+
+<img src="https://github.com/user-attachments/assets/e5574137-6818-4c18-8732-9ed1c10c3abf" width="19%" height="400"/>
+<img src="https://github.com/user-attachments/assets/cc1ff3e1-9793-433e-bbd2-c92abb9c3275" width="19%" height="400"/>
+<img src="https://github.com/user-attachments/assets/b4055542-3220-45c8-9ca3-af5991560540" width="35%" height="400"/>
+<img src="https://github.com/user-attachments/assets/d40415ca-a9cd-4476-b157-1a3056002922" width="19%" height="400"/>
+
+<br><br>
+
+****2. Navigation Push 방식**** 
+#### `문제 발생`
+   - 내주변 탭에서 Navigation Push 진행 시 내주변 뷰에서 Navigation Push가 되어 탭바가 표시된 채로 게시물 상세뷰가 표시되어지는 문제 발생
+   - NavigationStack을 내주변 탭의 MapListView가 가지고 있어 MapListView에서 Navigation Push가 진행되었음을 확인
+
+#### `해결 방법`
+   - NavigationStack에서 최상위뷰를 MainTabView가 담당하도록 수정
+   - 게시물 상세뷰로 이동시 MainTabFeature에서 이벤트를 인지하여 MainTabView가 Navigation Push를 진행하도록 구현
+
+<details><summary> 구현한 코드
+</summary>
+
+<br>
+  
+****- MainTabFeature**** 
+ ```swift
+@Reducer
+struct MainTabFeature {
+
+     @ObservableState
+     struct State {
+                ...
+        var home = HomeFeature.State()
+        var mapList = MapListFeature.State()
+                ...
+        var path = StackState<Path.State>()
+     }
+
+     enum Action: BindableAction {
+        case binding(BindingAction<State>)
+        case home(HomeFeature.Action)
+        case mapList(MapListFeature.Action)
+                ...
+     }
+        
+     Reduce { state, action in
+               ...
+        case .home(.postDetail(let postID)):
+                state.path.append(.postDetail(PostDetailFeature.State(postID: postID)))
+                return .none
+        case .mapList(.postDetail(let postID)):
+                state.path.append(.postDetail(PostDetailFeature.State(postID: postID)))
+                return .none
+          ...
+    }
+    .forEach(\.path, action: \.path)
+}
+```
+
+<br>
+
+****- MainTabView**** 
+
+```swift
+struct MainTabView: View {
+    @Bindable var store: StoreOf<MainTabFeature>
+    
+    var body: some View {
+        NavigationStack(path: $store.scope(state: \.path, action: \.path)) {
+            TabView(selection: $store.selectedTab) {
+                HomeView(store: store.scope(state: \.home, action: \.home))
+                    .tag(TabInfo.home)
+                MapListView(store: store.scope(state: \.mapList, action: \.mapList))
+                    .tag(TabInfo.map)
+
+                ...
+
+            }
+                ...
+        } destination: { store in
+            switch store.case {
+            case .postDetail(let store):
+                PostDetailView(store: store)
+            }
+        }
+    }
+}
+```
+</details>
+<br>
+  
 ## 🏞️ 회고
