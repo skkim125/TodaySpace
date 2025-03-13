@@ -54,6 +54,12 @@
 - NSCache를 사용한 메모리 캐싱 구현
   - 메모리 캐시의 최대 용량을 50MB 제한
   - 이미지 API 통신 시 저장하도록 구현
+- Mapkit for SwiftUI
+  - iOS17 SwiftUI에서 지원하는 MapKit을 활용하여 직관적인 지도 관련 코드 작성
+  - onMapCameraChange를 활용하여 현재 지도상의 카메라 위치 확인 및 이 주변 검색하기 기능 구현
+- HomeView의 게시물 리스트뷰 기능
+  - Refreshable과 Task.sleep을 활용한 새로고침 애니메이션 기능 구현
+  - ForEach와 enumerated 메서드를 활용하여 확인한 index 기반의 Pagination 구현
 - Custom NavigationBar
   - Apple에서 제공하는 NavigationBar의 제한적인 기능을 개선한 Custom NavigationBar component를 생성하여 개발 유연성 및 재사용성 증가
 
